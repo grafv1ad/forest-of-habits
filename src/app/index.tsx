@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="app" style={{ height: 500 }}>
       <header className="pt-3 pb-3">
-        <Button>Зарегистрироваться</Button>
+        <Button type="submit">Зарегистрироваться</Button>
         <Title level="2">Регистрация</Title>
         <div className="mb-5">
           <Paragraph color="light">Уже зарегистрированы?</Paragraph>
