@@ -1,0 +1,15 @@
+.title {
+    @apply text-beige-second font-bold text-center mb-10;
+}
+
+.title_1 {
+    @apply text-5xl;
+}
+
+.title_2 {
+    @apply text-3xl;
+}
+
+.title_3 {
+    @apply text-xl;
+}

@@ -1,0 +1,11 @@
+.text {
+    @apply text-base m-0 p-0;
+}
+
+.light {
+    @apply text-beige-second;
+}
+
+.dark {
+    @apply text-gray;
+}

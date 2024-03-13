@@ -1,0 +1,3 @@
+.link {
+    @apply text-main underline hover:text-beige-light active:text-beige-dark p-2;
+}

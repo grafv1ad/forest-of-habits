@@ -6,6 +6,13 @@ module.exports = {
     "unit-allowed-list": null,
     "selector-max-id": [2],
     "selector-class-pattern": null,
+    'at-rule-allowed-list': null,
+    'at-rule-no-unknown': [
+      true,
+      {
+          'ignoreAtRules': ['tailwind']
+      }
+  ],
   },
   ignoreFiles: ["dist/*"],
 };
