@@ -9,7 +9,11 @@ module.exports = {
       gray: "#605954",
       background: "#172e26",
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        footer: "url('/src/images/bg.svg')",
+      },
+    },
   },
   plugins: [],
 };
