@@ -3,10 +3,15 @@ import React from "react";
 import { ButtonProps } from "../../types/index.ts";
 import styles from "./styles.module.css";
 
-const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
+const Button: React.FC<ButtonProps> = ({
+  type,
+  children,
+  onClick,
+  extraClass,
+}) => {
   return (
     <button
-      className={`${styles.button} group bg-main`}
+      className={`${styles.button} group bg-main ${extraClass}`}
       onClick={onClick}
       type={type}
     >
