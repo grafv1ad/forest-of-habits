@@ -3,8 +3,12 @@ const Footer = () => {
     <>
       <footer className="flex justify-center p-3">
         <div className="container">
-          <div className="text-gray">
-            <a href="https://school.hh.ru/" target="_blank">
+          <div className="text-gray font-stick">
+            <a
+              href="https://school.hh.ru/"
+              target="_blank"
+              className="hover:underline"
+            >
               school.hh.ru
             </a>
             &nbsp;©&nbsp;2024

@@ -10,6 +10,10 @@ module.exports = {
       background: "#172e26",
     },
     extend: {
+      fontFamily: {
+        main: ["Montserrat", "sans-serif"],
+        stick: ["Stick", "serif"],
+      },
       backgroundImage: {
         footer: "url('/src/images/bg.svg')",
       },
