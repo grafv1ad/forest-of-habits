@@ -1,13 +1,15 @@
-import logo from "../images/logo.svg";
+import Content from "../components/content/index.tsx";
+import Footer from "../components/footer/index.tsx";
+import Header from "../components/header/index.tsx";
 import "./index.css";
 
 function App() {
   return (
-    <div className="app">
-      <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
-      </header>
-    </div>
+    <>
+      <Header />
+      <Content />
+      <Footer />
+    </>
   );
 }
 
