@@ -1,16 +1,8 @@
-import Content from "../components/Content/index.tsx";
-import Footer from "../components/Footer/index.tsx";
-import Header from "../components/Header/index.tsx";
+import PageLayout from "../components/PageLayout/index.tsx";
 import "./index.css";
 
 function App() {
-  return (
-    <>
-      <Header />
-      <Content />
-      <Footer />
-    </>
-  );
+  return <PageLayout>main content</PageLayout>;
 }
 
 export default App;
