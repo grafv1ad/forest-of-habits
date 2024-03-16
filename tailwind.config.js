@@ -13,6 +13,7 @@ module.exports = {
         dark: "#af7959",
       },
       gray: "#605954",
+      disabled: "#b5b0ad",
     },
     extend: {
       content: {

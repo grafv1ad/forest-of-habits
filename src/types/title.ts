@@ -1,7 +1,8 @@
 import React from "react";
 
 export interface TitleProps {
-  level: string;
+  level: number;
+  color: string;
   children: React.ReactNode;
   extraClass?: string;
 }

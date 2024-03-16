@@ -1,7 +1,6 @@
 import React from "react";
 
 import { ButtonProps } from "../../types/index.ts";
-import styles from "./styles.module.css";
 
 const Button: React.FC<ButtonProps> = ({
   type,
@@ -11,7 +10,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`${styles.button} group bg-main ${extraClass}`}
+      className={`p-6 rounded-lg font-bold text-3xl w-full max-w-2xl mb-10 hover:bg-beige-light active:bg-beige-dark group bg-main disabled:bg-disabled ${extraClass}`}
       onClick={onClick}
       type={type}
     >

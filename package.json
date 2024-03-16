@@ -10,6 +10,7 @@
     "@types/node": "^16.18.87",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.21",
+    "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
