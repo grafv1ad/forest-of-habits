@@ -1,9 +1,8 @@
 import React from "react";
-
-import { PageLayoutProps } from "../../types/index.ts";
-import Content from "../Content/index.tsx";
-import Footer from "../Footer/index.tsx";
-import Header from "../Header/index.tsx";
+import Content from "components/Content";
+import Footer from "components/Footer";
+import Header from "components/Header";
+import { PageLayoutProps } from "types";
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   return (

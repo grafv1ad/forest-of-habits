@@ -1,6 +1,5 @@
 import React from "react";
-
-import { LinkProps } from "../../types/index.ts";
+import { LinkProps } from "types";
 
 const Link: React.FC<LinkProps> = ({ url, children, extraClass }) => {
   return (
