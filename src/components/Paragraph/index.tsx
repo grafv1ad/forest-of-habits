@@ -1,8 +1,7 @@
 import React from "react";
+import classNames from "classnames";
 
 import { TextProps } from "../../types/index.ts";
-
-const classNames = require("classnames");
 
 const Paragraph: React.FC<TextProps> = ({ children, color, extraClass }) => {
   const classes = classNames(

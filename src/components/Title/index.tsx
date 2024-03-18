@@ -1,8 +1,7 @@
 import React from "react";
+import classNames from "classnames";
 
 import { TitleProps } from "../../types/index.ts";
-
-const classNames = require("classnames");
 
 const Title: React.FC<TitleProps> = ({
   children,
