@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       type={type}
     >
-      <p className="group-hover:text-gray group-active:text-beige-600">
+      <p className="text-black group-hover:text-gray group-active:text-beige-600">
         {children}
       </p>
     </button>
