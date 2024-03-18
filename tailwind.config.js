@@ -23,7 +23,7 @@ module.exports = {
         footer: "url('/src/images/bg.svg')",
       },
       content: {
-        checkbox: 'url("/src/images/checkbox.svg")',
+        checkbox: "url('/src/images/checkbox.svg')",
       },
     },
   },
