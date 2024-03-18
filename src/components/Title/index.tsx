@@ -17,7 +17,7 @@ const Title: React.FC<TitleProps> = ({
       "text-xl": level === 3,
     },
     {
-      "text-beige-second": color === "light",
+      "text-beige-600": color === "light",
       "text-black": color === "dark",
     },
     extraClass
