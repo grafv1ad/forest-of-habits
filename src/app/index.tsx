@@ -1,14 +1,8 @@
-import logo from "../images/logo.svg";
+import PageLayout from "../components/PageLayout/index.tsx";
 import "./index.css";
 
 function App() {
-  return (
-    <div className="app">
-      <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
-      </header>
-    </div>
-  );
+  return <PageLayout>main content</PageLayout>;
 }
 
 export default App;
