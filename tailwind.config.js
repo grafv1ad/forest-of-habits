@@ -10,7 +10,6 @@ module.exports = {
         600: "#fee8d4",
         900: "#af7959",
       },
-      second: "#fee8d4",
       black: "#050505",
       gray: "#605954",
       background: "#172e26",
