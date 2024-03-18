@@ -1,6 +1,5 @@
 import React from "react";
-
-import { ContentProps } from "../../../src/types/index.ts";
+import { ContentProps } from "types";
 
 const Content: React.FC<ContentProps> = ({ children }) => {
   return (

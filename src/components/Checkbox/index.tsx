@@ -1,6 +1,5 @@
 import React from "react";
-
-import { CheckboxProps } from "../../types/index.ts";
+import { CheckboxProps } from "types";
 
 const Checkbox: React.FC<CheckboxProps> = ({ extraClass, children }) => {
   return (

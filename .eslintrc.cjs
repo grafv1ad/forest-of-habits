@@ -8,7 +8,7 @@ module.exports = {
   overrides: [{
     files: "./src*.{ts,tsx}",
     extends: "@hh.ru/eslint-config/typescript",
-  }, ],
+  },],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   plugins: ["@hh.ru/import-rules", "react-refresh", "prettier"],
@@ -22,5 +22,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "no-use-before-define": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
   },
 };

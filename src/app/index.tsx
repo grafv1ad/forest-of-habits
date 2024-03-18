@@ -1,4 +1,5 @@
-import PageLayout from "../components/PageLayout/index.tsx";
+import PageLayout from "components/PageLayout";
+
 import "./index.css";
 
 function App() {
