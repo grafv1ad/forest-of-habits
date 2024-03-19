@@ -1,21 +1,26 @@
 import React from "react";
+import classNames from "classnames";
 import { ButtonProps } from "types";
 
 const Button: React.FC<ButtonProps> = ({
-  type,
+  type = "button",
+  disabled = false,
   children,
   onClick,
   extraClass,
 }) => {
+  const classes = classNames(
+    "bg-main rounded-lg p-2 font-bold text-black transition-colors duration-150 sm:py-2.5 sm:px-4 md:py-3.5 md:px-5 md:text-lg hover:bg-beige-300 active:bg-beige-900 group disabled:bg-disabled",
+    extraClass
+  );
   return (
     <button
-      className={`p-6 rounded-lg font-bold text-3xl w-full max-w-2xl mb-10 hover:bg-beige-300 active:bg-beige-900 group bg-main disabled:bg-disabled ${extraClass}`}
+      className={classes}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
-      <p className="text-black group-hover:text-gray group-active:text-beige-600">
-        {children}
-      </p>
+      <span>{children}</span>
     </button>
   );
 };
