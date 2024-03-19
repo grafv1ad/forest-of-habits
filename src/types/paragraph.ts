@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface TextProps {
-  color: "light" | "dark" | "gray";
   children: React.ReactNode;
+  color?: "light" | "black" | "gray";
   extraClass?: string;
 }
