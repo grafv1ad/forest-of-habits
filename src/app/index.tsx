@@ -8,14 +8,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<PageLayout>main content</PageLayout>} />
-      <Route
-        path="/styled"
-        element={
-          <PageLayout>
-            <StyledComponents />
-          </PageLayout>
-        }
-      />
+      <Route path="/styled" element={<StyledComponents />} />
     </Routes>
   );
 }
