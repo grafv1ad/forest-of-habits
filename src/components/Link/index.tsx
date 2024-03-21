@@ -10,7 +10,7 @@ const Link: React.FC<LinkProps> = ({
   extraClass,
 }) => {
   const classes = classNames(
-    "text-main underline hover:no-underline active:text-beige-300 group",
+    "text-main underline hover:no-underline active:text-beige-900 group",
     extraClass
   );
 

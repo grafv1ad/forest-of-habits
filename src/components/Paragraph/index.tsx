@@ -14,8 +14,10 @@ const Paragraph: React.FC<TextProps> = ({
       "text-beige-600": color === "light",
       "text-gray": color === "gray",
       "text-black": color === "black",
+      "text-left": align === "left",
+      "text-center": align === "center",
+      "text-right": align === "right",
     },
-    `text-${align}`,
     extraClass
   );
 

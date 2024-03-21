@@ -10,7 +10,7 @@ const Button: React.FC<ButtonProps> = ({
   extraClass,
 }) => {
   const classes = classNames(
-    "bg-main rounded-lg p-2 font-bold text-black transition-colors duration-150 sm:py-2.5 sm:px-4 md:py-3.5 md:px-5 md:text-lg hover:bg-beige-300 active:bg-beige-900 group disabled:bg-disabled",
+    "bg-main rounded-lg font-bold text-black transition-colors duration-150 py-3 px-3.5 sm:py-3.5 sm:px-4.5 md:py-4 md:px-5.5 md:text-lg hover:bg-beige-300 active:bg-beige-900 group",
     extraClass
   );
   return (
