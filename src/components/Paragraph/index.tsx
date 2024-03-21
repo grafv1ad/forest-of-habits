@@ -5,6 +5,7 @@ import { TextProps } from "types";
 const Paragraph: React.FC<TextProps> = ({
   children,
   color = "black",
+  align = "start",
   extraClass,
 }) => {
   const classes = classNames(
@@ -14,6 +15,7 @@ const Paragraph: React.FC<TextProps> = ({
       "text-gray": color === "gray",
       "text-black": color === "black",
     },
+    `text-${align}`,
     extraClass
   );
 
