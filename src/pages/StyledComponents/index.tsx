@@ -7,14 +7,14 @@ import Title from "components/Title";
 
 const StyledComponents = () => {
   return (
-    <PageLayout>
+    <PageLayout verticalCentered>
       <div className="flex flex-col items-center">
-        <Title level={2} color="light" extraClass="mb-12">
+        <Title level="2" color="light">
           Регистрация
         </Title>
-        <Checkbox extraClass="mb-7">
+        <Checkbox name="test" extraClass="mb-7">
           <Paragraph color="gray">
-            Согласен на обработку <Link url="/">чего-нибудь</Link>
+            Согласен на обработку <Link href="/">чего-нибудь</Link>
           </Paragraph>
         </Checkbox>
         <Button type="submit" extraClass="mb-12">
@@ -22,7 +22,7 @@ const StyledComponents = () => {
         </Button>
         <div className="flex justify-center items-center">
           <Paragraph color="light">Уже зарегистрированы?</Paragraph>
-          <Link url="/" extraClass="ml-6">
+          <Link href="/" extraClass="ml-6">
             Войти
           </Link>
         </div>
