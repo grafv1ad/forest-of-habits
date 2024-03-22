@@ -18,7 +18,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
     extraClass
   );
   const checkboxClasses = classNames(
-    "flex shrink-0 items-center justify-center w-10 h-10 mr-3 bg-beige-600 left-0 rounded-lg border-2 border-transparent before:flex before:content-checkbox before:opacity-0 before:transition-opacity before:duration-150 peer-checked:before:opacity-100 transition-colors duration-150",
+    "flex shrink-0 items-center justify-center w-10 h-10 mr-3 bg-beige-600 left-0 rounded-lg border-2 border-transparent transition-colors duration-150",
+    "before:flex before:w-9/12 before:h-3/4 before:bg-checkbox before:bg-contain before:bg-center before:bg-no-repeat before:opacity-0 before:transition-opacity before:duration-150 peer-checked:before:opacity-100",
     {
       "peer-hover:border-main peer-active:border-beige-900 peer-focus:border-beige-900": !disabled,
       "disabled": disabled,

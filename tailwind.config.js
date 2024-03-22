@@ -23,8 +23,6 @@ module.exports = {
       },
       backgroundImage: {
         footer: "url('/src/images/bg.svg')",
-      },
-      content: {
         checkbox: "url('/src/images/checkbox.svg')",
       },
     },
