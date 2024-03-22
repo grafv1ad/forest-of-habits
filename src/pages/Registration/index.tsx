@@ -7,35 +7,32 @@ import Link from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
+import { FormValues, FormErrors } from "types";
 
-// todo: убрать any
-const onSubmit = (values: any) => {
+const onSubmit = (values: FormValues) => {
   console.debug(values);
 };
 
-const validate = (values: any) => {
-  const errors = {};
+const validate = (values: FormValues) => {
+  const errors: FormErrors = {};
   if (!values.name) {
-    // @ts-ignore
     errors.name = "Укажите ваше имя";
   }
   if (!values.email) {
-    // @ts-ignore
-    errors.email = "Укажите ваш email";
-  } else if (!/^\S+@\S+\.\S{2,}/i.test(values.email)) {
-    // @ts-ignore
-    errors.email = "Укажите корректный email адрес";
+    errors.email = "Укажите вашу электронную почту";
+  } else if (!/^\S+@\S+\.\S{2,}/i.test(values.email as string)) {
+    errors.email = "Укажите корректный адрес электронной почты";
   }
   if (!values.password) {
-    // @ts-ignore
     errors.password = "Придумайте пароль";
   }
   if (!values.passwordConfirm) {
-    // @ts-ignore
     errors.passwordConfirm = "Повторите пароль";
   } else if (values.passwordConfirm !== values.password) {
-    // @ts-ignore
     errors.passwordConfirm = "Пароли не совпадают";
+  }
+  if (!values.agreementConfirmation) {
+    errors.agreementConfirmation = "Необходимо согласиться с условиями";
   }
   return errors;
 };
@@ -53,76 +50,67 @@ const Registration = () => (
           <FormWrapper>
             <Field
               name="name"
+              type="text"
               render={({ input, meta }) => (
                 <Input
-                  name={input.name}
-                  value={input.value}
-                  type="text"
                   placeholder="Имя"
                   autocomplete="name"
-                  touched={meta.touched}
-                  error={meta.error}
-                  onChange={input.onChange}
+                  {...input}
+                  {...meta}
                 />
               )}
             />
 
             <Field
               name="email"
+              type="text"
               render={({ input, meta }) => (
                 <Input
-                  name={input.name}
-                  value={input.value}
-                  type="text"
                   placeholder="E-mail"
                   autocomplete="email"
-                  touched={meta.touched}
-                  error={meta.error}
-                  onChange={input.onChange}
+                  {...input}
+                  {...meta}
                 />
               )}
             />
 
             <Field
               name="password"
+              type="password"
               render={({ input, meta }) => (
                 <Input
-                  name={input.name}
-                  value={input.value}
-                  type="password"
                   placeholder="Пароль"
                   autocomplete="new-password"
-                  touched={meta.touched}
-                  error={meta.error}
-                  onChange={input.onChange}
+                  {...input}
+                  {...meta}
                 />
               )}
             />
 
             <Field
               name="passwordConfirm"
+              type="password"
               render={({ input, meta }) => (
                 <Input
-                  name={input.name}
-                  value={input.value}
-                  type="password"
                   placeholder="Повторите пароль"
                   autocomplete="new-password"
-                  touched={meta.touched}
-                  error={meta.error}
-                  onChange={input.onChange}
+                  {...input}
+                  {...meta}
                 />
               )}
             />
 
             <Field
               name="agreementConfirmation"
-              render={({ input }) => (
-                <Checkbox name={input.name} checked>
-                  Согласен с&nbsp;условиями{" "}
-                  <Link href="/">обработки&nbsp;данных</Link>
-                </Checkbox>
-              )}
+              type="checkbox"
+              render={({ input, meta }) => {
+                return (
+                  <Checkbox {...input} {...meta}>
+                    Согласен с&nbsp;условиями{" "}
+                    <Link href="/">обработки&nbsp;данных</Link>
+                  </Checkbox>
+                );
+              }}
             />
 
             <Button type="submit">Зарегистрироваться</Button>

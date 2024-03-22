@@ -22,7 +22,7 @@ const Input: React.FC<InputProps> = ({
     extraClass
   );
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-y-1">
       <input
         name={name}
         type={type}

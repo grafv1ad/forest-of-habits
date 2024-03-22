@@ -6,23 +6,20 @@ import Link from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
+import { FormValues, FormErrors } from "types";
 
-// todo: убрать any
-const onSubmit = (values: any) => {
+const onSubmit = (values: FormValues) => {
   console.debug(values);
 };
 
-const validate = (values: any) => {
-  const errors = {};
+const validate = (values: FormValues) => {
+  const errors: FormErrors = {};
   if (!values.email) {
-    // @ts-ignore
-    errors.email = "Укажите ваш email";
-  } else if (!/^\S+@\S+\.\S{2,}/i.test(values.email)) {
-    // @ts-ignore
-    errors.email = "Укажите корректный email адрес";
+    errors.email = "Укажите вашу электронную почту";
+  } else if (!/^\S+@\S+\.\S{2,}/i.test(values.email as string)) {
+    errors.email = "Укажите корректный адрес электронной почты";
   }
   if (!values.password) {
-    // @ts-ignore
     errors.password = "Укажите ваш пароль";
   }
   return errors;
@@ -41,32 +38,26 @@ const Login = () => (
           <FormWrapper>
             <Field
               name="email"
+              type="text"
               render={({ input, meta }) => (
                 <Input
-                  name={input.name}
-                  value={input.value}
-                  type="text"
                   placeholder="E-mail"
                   autocomplete="email"
-                  touched={meta.touched}
-                  error={meta.error}
-                  onChange={input.onChange}
+                  {...input}
+                  {...meta}
                 />
               )}
             />
 
             <Field
               name="password"
+              type="password"
               render={({ input, meta }) => (
                 <Input
-                  name={input.name}
-                  value={input.value}
-                  type="password"
                   placeholder="Пароль"
-                  autocomplete="new-password"
-                  touched={meta.touched}
-                  error={meta.error}
-                  onChange={input.onChange}
+                  autocomplete="current-password"
+                  {...input}
+                  {...meta}
                 />
               )}
             />

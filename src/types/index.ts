@@ -3,6 +3,7 @@ export * from "./content";
 export * from "./title";
 export * from "./paragraph";
 export * from "./link";
+export * from "./form";
 export * from "./formWrapper";
 export * from "./button";
 export * from "./input";
