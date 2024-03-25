@@ -20,7 +20,9 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       disabled={disabled}
     >
-      <span>{children}</span>
+      <span className="text-black group-active:text-beige-600 transition-colors duration-150">
+        {children}
+      </span>
     </button>
   );
 };
