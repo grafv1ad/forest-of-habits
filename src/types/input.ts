@@ -1,11 +1,13 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 
-export interface CheckboxProps {
+export interface InputProps {
   name: string;
+  type?: string;
+  placeholder?: string;
   value?: string;
-  disabled?: boolean;
-  children: React.ReactNode;
+  autocomplete?: string;
   extraClass?: string;
+  disabled?: boolean;
   touched?: boolean;
   error?: string;
   // eslint-disable-next-line no-unused-vars

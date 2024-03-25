@@ -5,24 +5,30 @@ import { TitleProps } from "types";
 const Title: React.FC<TitleProps> = ({
   children,
   level,
-  color,
+  color = "black",
+  align = "center",
   extraClass,
 }) => {
   const classes = classNames(
-    "font-bold text-center",
+    "font-semibold",
     {
-      "text-5xl": level === 1,
-      "text-3xl": level === 2,
-      "text-xl": level === 3,
+      "text-3xl mb-10": level === "1",
+      "text-2xl mb-8": level === "2",
+      "text-xl mb-6": level === "3",
+      "text-lg mb-4": level === "4",
+      "text-base mb-4": level === "5" || level === "6",
     },
     {
       "text-beige-600": color === "light",
-      "text-black": color === "dark",
+      "text-black": color === "black",
+      "text-left": align === "left",
+      "text-center": align === "center",
+      "text-right": align === "right",
     },
     extraClass
   );
 
-  return <h2 className={classes}>{children}</h2>;
+  return React.createElement(`h${level}`, { className: classes }, children);
 };
 
 export default Title;

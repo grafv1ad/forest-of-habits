@@ -1,7 +1,11 @@
 import logo from "images/logo.svg";
 
 const Logo = () => {
-  return <img width="533" height="55" src={logo} alt="logo" />;
+  return (
+    <a href="/">
+      <img src={logo} alt="Forest of habits" title="Forest of habits" />
+    </a>
+  );
 };
 
 export default Logo;

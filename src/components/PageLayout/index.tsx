@@ -4,11 +4,14 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import { PageLayoutProps } from "types";
 
-const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({
+  verticalCentered = false,
+  children,
+}) => {
   return (
     <>
       <Header />
-      <Content>{children}</Content>
+      <Content verticalCentered={verticalCentered}>{children}</Content>
       <Footer />
     </>
   );

@@ -13,3 +13,8 @@
   src: url('../fonts/stick/Stick-Regular.ttf');
   font-display: swap;
 }
+
+[disabled],
+.disabled {
+  @apply opacity-70 pointer-events-none;
+}
