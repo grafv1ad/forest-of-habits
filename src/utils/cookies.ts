@@ -1,19 +1,14 @@
 export function setCookie(
   name: string,
   value: string,
-  props: { [key: string]: any } & { expires?: number | Date | string } = {}
+  props: Record<string, unknown> & { expires?: Date | string } = {}
 ) {
   props = {
     path: "/",
     ...props,
   };
 
-  let exp = props.expires;
-  if (typeof exp === "number" && exp) {
-    const d = new Date();
-    d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
-  }
+  const exp = props.expires;
   if (exp && (exp as Date).toUTCString) {
     props.expires = (exp as Date).toUTCString();
   }
