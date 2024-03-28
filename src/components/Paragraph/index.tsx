@@ -17,6 +17,7 @@ const Paragraph: React.FC<TextProps> = ({
       "text-left": align === "left",
       "text-center": align === "center",
       "text-right": align === "right",
+      "text-justify": align === "justify",
     },
     extraClass
   );
