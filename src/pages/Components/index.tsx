@@ -49,10 +49,19 @@ const Components = () => {
             <Input name="test-input" placeholder="Красивый инпут"></Input>
             <Input
               name="test-input"
+              placeholder="Красивый инпут с ошибкой"
+              touched
+              error="Что-то пошло не так"
+            ></Input>
+            <Input
+              name="test-input"
               placeholder="Выключенный красивый инпут"
               disabled
             ></Input>
             <Checkbox name="test-checkbox">Модный чекбокс</Checkbox>
+            <Checkbox name="test-checkbox" touched error="Что-то пошло не так">
+              Модный чекбокс с ошибкой
+            </Checkbox>
             <Checkbox name="test-checkbox" disabled>
               Выключенный модный чекбокс
             </Checkbox>

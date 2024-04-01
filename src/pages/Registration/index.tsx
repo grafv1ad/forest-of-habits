@@ -107,7 +107,7 @@ const Registration = () => (
                 return (
                   <Checkbox {...input} {...meta}>
                     Согласен с&nbsp;условиями{" "}
-                    <Link href="/">обработки&nbsp;данных</Link>
+                    <Link href="/agreement">обработки&nbsp;данных</Link>
                   </Checkbox>
                 );
               }}
