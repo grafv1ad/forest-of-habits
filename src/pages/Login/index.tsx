@@ -1,4 +1,6 @@
 import { Form, Field } from "react-final-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import Button from "components/Button";
 import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
@@ -16,10 +18,16 @@ const onSubmit = (values: FormValues) => {
     .post("/auth/login", values)
     .then((response) => {
       console.debug(response.data);
-      setCookie("jwt-token", response.data?.token);
+      if (response.data?.token) {
+        setCookie("jwt-token", response.data.token);
+        toast.success("Вы успешно авторизировались");
+      } else {
+        toast.error("Ошибка при получении токена");
+      }
     })
     .catch((error) => {
       console.error(error);
+      toast.error(error?.response?.data?.message || "Что-то пошло не так");
     });
 };
 

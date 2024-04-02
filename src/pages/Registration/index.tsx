@@ -1,4 +1,6 @@
 import { Form, Field } from "react-final-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import Button from "components/Button";
 import Checkbox from "components/Checkbox";
 import FormWrapper from "components/FormWrapper";
@@ -17,10 +19,16 @@ const onSubmit = (values: FormValues) => {
     .post("/auth/registration", values)
     .then((response) => {
       console.debug(response.data);
-      setCookie("jwt-token", response.data?.token);
+      if (response.data?.token) {
+        setCookie("jwt-token", response.data.token);
+        toast.success("Вы успешно зарегистрировались");
+      } else {
+        toast.error("Ошибка при получении токена");
+      }
     })
     .catch((error) => {
       console.error(error);
+      toast.error(error?.response?.data?.message || "Что-то пошло не так");
     });
 };
 
@@ -119,7 +127,7 @@ const Registration = () => (
                   <Checkbox {...input} {...meta}>
                     Согласен с&nbsp;условиями{" "}
                     <Link href="/agreement" target="_blank">
-                      обработки&nbsp;данных
+                      соглашения
                     </Link>
                   </Checkbox>
                 );

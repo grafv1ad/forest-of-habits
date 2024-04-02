@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import Button from "components/Button";
 import Checkbox from "components/Checkbox";
 import FormWrapper from "components/FormWrapper";
@@ -87,6 +88,19 @@ const Components = () => {
             планирование играет определяющее значение для первоочередных
             требований.
           </Paragraph>
+        </div>
+
+        <div className="py-5">
+          <Title level="2" color="light">
+            Тосты
+          </Title>
+
+          <div className="flex justify-center gap-5">
+            <Button onClick={() => toast.info("Info")}>Info</Button>
+            <Button onClick={() => toast.success("Success")}>Success</Button>
+            <Button onClick={() => toast.warning("Warning")}>Warning</Button>
+            <Button onClick={() => toast.error("Error")}>Error</Button>
+          </div>
         </div>
       </div>
     </PageLayout>

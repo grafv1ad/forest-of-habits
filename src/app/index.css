@@ -14,6 +14,21 @@
   font-display: swap;
 }
 
+:root {
+  --toastify-color-light: #fee8d4;
+  --toastify-color-dark: #050505;
+  --toastify-color-info: #6fa3c2;
+  --toastify-color-success: #5fae56;
+  --toastify-color-warning: #d2b525;
+  --toastify-color-error: #d14f50;
+
+  --toastify-font-family: 'Montserrat', sans-serif;
+  --toastify-toast-width: 375px;
+
+  --toastify-text-color-light: #605954;
+  --toastify-text-color-dark: #fee8d4;
+}
+
 [disabled],
 .disabled {
   @apply opacity-70 pointer-events-none;
