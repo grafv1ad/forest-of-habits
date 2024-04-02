@@ -7,17 +7,26 @@ import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
 import { FormValues, FormErrors } from "types";
+import { axiosInstance } from "utils/api";
+import { setCookie } from "utils/cookies";
 
 const onSubmit = (values: FormValues) => {
   console.debug(values);
+  axiosInstance
+    .post("/auth/login", values)
+    .then((response) => {
+      console.debug(response.data);
+      setCookie("jwt-token", response.data?.token);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 const validate = (values: FormValues) => {
   const errors: FormErrors = {};
-  if (!values.email) {
-    errors.email = "Укажите вашу электронную почту";
-  } else if (!/^\S+@\S+\.\S{2,}/i.test(values.email as string)) {
-    errors.email = "Укажите корректный адрес электронной почты";
+  if (!values.username) {
+    errors.username = "Укажите ваш логин";
   }
   if (!values.password) {
     errors.password = "Укажите ваш пароль";
@@ -33,16 +42,16 @@ const Login = () => (
     <Form
       onSubmit={onSubmit}
       validate={validate}
-      render={({ handleSubmit }) => (
+      render={({ handleSubmit, submitting, validating }) => (
         <form onSubmit={handleSubmit}>
           <FormWrapper>
             <Field
-              name="email"
+              name="username"
               type="text"
               render={({ input, meta }) => (
                 <Input
-                  placeholder="E-mail"
-                  autocomplete="email"
+                  placeholder="Логин"
+                  autocomplete="username"
                   {...input}
                   {...meta}
                 />
@@ -62,7 +71,9 @@ const Login = () => (
               )}
             />
 
-            <Button type="submit">Войти</Button>
+            <Button type="submit" disabled={submitting || validating}>
+              Войти
+            </Button>
 
             <Paragraph color="light" align="center">
               Впервые здесь?{" "}
