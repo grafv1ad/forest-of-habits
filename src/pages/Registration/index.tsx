@@ -1,4 +1,6 @@
 import { Form, Field } from "react-final-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import Button from "components/Button";
 import Checkbox from "components/Checkbox";
 import FormWrapper from "components/FormWrapper";
@@ -8,15 +10,32 @@ import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
 import { FormValues, FormErrors } from "types";
+import { axiosInstance } from "utils/api";
+import { setCookie } from "utils/cookies";
 
 const onSubmit = (values: FormValues) => {
   console.debug(values);
+  axiosInstance
+    .post("/auth/registration", values)
+    .then((response) => {
+      console.debug(response.data);
+      if (response.data?.token) {
+        setCookie("jwt-token", response.data.token);
+        toast.success("Вы успешно зарегистрировались");
+      } else {
+        toast.error("Ошибка при получении токена");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error(error?.response?.data?.message || "Что-то пошло не так");
+    });
 };
 
 const validate = (values: FormValues) => {
   const errors: FormErrors = {};
-  if (!values.name) {
-    errors.name = "Укажите ваше имя";
+  if (!values.username) {
+    errors.username = "Укажите ваш логин";
   }
   if (!values.email) {
     errors.email = "Укажите вашу электронную почту";
@@ -26,10 +45,10 @@ const validate = (values: FormValues) => {
   if (!values.password) {
     errors.password = "Придумайте пароль";
   }
-  if (!values.passwordConfirm) {
-    errors.passwordConfirm = "Повторите пароль";
-  } else if (values.passwordConfirm !== values.password) {
-    errors.passwordConfirm = "Пароли не совпадают";
+  if (!values.passwordConfirmation) {
+    errors.passwordConfirmation = "Повторите пароль";
+  } else if (values.passwordConfirmation !== values.password) {
+    errors.passwordConfirmation = "Пароли не совпадают";
   }
   if (!values.agreementConfirmation) {
     errors.agreementConfirmation = "Необходимо согласиться с условиями";
@@ -49,12 +68,12 @@ const Registration = () => (
         <form onSubmit={handleSubmit}>
           <FormWrapper>
             <Field
-              name="name"
+              name="username"
               type="text"
               render={({ input, meta }) => (
                 <Input
-                  placeholder="Имя"
-                  autocomplete="name"
+                  placeholder="Логин"
+                  autocomplete="username"
                   {...input}
                   {...meta}
                 />
@@ -88,7 +107,7 @@ const Registration = () => (
             />
 
             <Field
-              name="passwordConfirm"
+              name="passwordConfirmation"
               type="password"
               render={({ input, meta }) => (
                 <Input
@@ -107,7 +126,9 @@ const Registration = () => (
                 return (
                   <Checkbox {...input} {...meta}>
                     Согласен с&nbsp;условиями{" "}
-                    <Link href="/">обработки&nbsp;данных</Link>
+                    <Link href="/agreement" target="_blank">
+                      соглашения
+                    </Link>
                   </Checkbox>
                 );
               }}

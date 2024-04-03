@@ -1,41 +1,19 @@
-# forest-of-habits
+# Forest of habits
 
-## Как запустить проект
-
-1. Выполнить в директории проекта
-
-```bash
-yarn install
-```
-
-2. Для запуска в режиме разработки выполнить
+Запустить локальный сервер:
 
 ```bash
 yarn start
 ```
 
-## Available Scripts
-
-Для запуска в режиме разработки:
+Собрать приложение для прода:
 
 ```bash
-yarn start
+yarn build
 ```
 
-Для запуска в режиме сборки:
+Запустить линтеры вручную:
 
 ```bash
-yarn run build
-```
-
-Для запуска тестов:
-
-```bash
-yarn run test
-```
-
-Для запуска линтеров:
-
-```bash
-yarn run lint
+yarn lint
 ```

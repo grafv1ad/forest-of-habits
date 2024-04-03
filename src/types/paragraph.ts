@@ -3,6 +3,6 @@ import React from "react";
 export interface TextProps {
   children: React.ReactNode;
   color?: "light" | "black" | "gray";
-  align?: "left" | "center" | "right";
+  align?: "left" | "center" | "right" | "justify";
   extraClass?: string;
 }
