@@ -25,6 +25,11 @@ module.exports = {
         footer: "url('/src/images/bg.svg')",
         checkbox: "url('/src/images/checkbox.svg')",
       },
+      content: {
+        cone: "url('/src/images/pine_cone.svg')",
+        marker: "url('/src/images/marker-tree.svg')",
+        user: "url('/src/images/user.svg')",
+      },
     },
   },
   plugins: [],
