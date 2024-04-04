@@ -1,4 +1,4 @@
-import Link from "components/Link";
+import OurLink from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
@@ -13,7 +13,7 @@ const NotFound = () => (
     </div>
     <Paragraph align="center" color="light">
       Кажется вы забрели не&nbsp;в&nbsp;тот лес.{" "}
-      <Link href="/">Вернуться на&nbsp;главную</Link>
+      <OurLink href="/">Вернуться на&nbsp;главную</OurLink>
     </Paragraph>
   </PageLayout>
 );

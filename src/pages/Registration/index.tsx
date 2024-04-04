@@ -5,7 +5,7 @@ import Button from "components/Button";
 import Checkbox from "components/Checkbox";
 import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
-import Link from "components/Link";
+import OurLink from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
@@ -126,9 +126,9 @@ const Registration = () => (
                 return (
                   <Checkbox {...input} {...meta}>
                     Согласен с&nbsp;условиями{" "}
-                    <Link href="/agreement" target="_blank">
+                    <OurLink href="/agreement" target="_blank">
                       соглашения
-                    </Link>
+                    </OurLink>
                   </Checkbox>
                 );
               }}
@@ -137,7 +137,7 @@ const Registration = () => (
             <Button type="submit">Зарегистрироваться</Button>
 
             <Paragraph color="light" align="center">
-              Уже зарегистрированы? <Link href="/login">Войти</Link>
+              Уже зарегистрированы? <OurLink href="/login">Войти</OurLink>
             </Paragraph>
           </FormWrapper>
         </form>
