@@ -3,7 +3,7 @@ import Button from "components/Button";
 import Checkbox from "components/Checkbox";
 import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
-import OurLink from "components/Link";
+import Link from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
@@ -81,12 +81,12 @@ const Components = () => {
           <Paragraph color="light">
             Разнообразный и богатый опыт говорит нам, что сложившаяся структура
             организации обеспечивает актуальность{" "}
-            <OurLink href="#">глубокомысленных рассуждений</OurLink>! Безусловно
+            <Link href="#">глубокомысленных рассуждений</Link>! Безусловно
             разбавленное изрядной долей эмпатии, рациональное мышление позволяет{" "}
-            <OurLink href="#">выполнить важные задания</OurLink> по
-            своевременного выполнения сверхзадачи. Следует отметить, что
-            перспективное планирование играет определяющее значение для
-            первоочередных требований.
+            <Link href="#">выполнить важные задания</Link> по своевременного
+            выполнения сверхзадачи. Следует отметить, что перспективное
+            планирование играет определяющее значение для первоочередных
+            требований.
           </Paragraph>
         </div>
 

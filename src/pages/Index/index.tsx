@@ -1,4 +1,4 @@
-import OurLink from "components/Link";
+import Link from "components/Link";
 import PageLayout from "components/PageLayout";
 import Title from "components/Title";
 
@@ -12,18 +12,18 @@ const Index = () => (
       Основные страницы
     </Title>
     <div className="flex flex-col align gap-3 mb-10">
-      <OurLink href="/registration">Регистрация</OurLink>
-      <OurLink href="/login">Авторизация</OurLink>
-      <OurLink href="/agreement">Соглашение</OurLink>
-      <OurLink href="/woods">Леса</OurLink>
+      <Link href="/registration">Регистрация</Link>
+      <Link href="/login">Авторизация</Link>
+      <Link href="/agreement">Соглашение</Link>
+      <Link href="/woods">Леса</Link>
     </div>
 
     <Title level="3" color="light" align="left">
       Технические страницы
     </Title>
     <div className="flex flex-col align gap-3 mb-10">
-      <OurLink href="/components">Компоненты</OurLink>
-      <OurLink href="/404">404</OurLink>
+      <Link href="/components">Компоненты</Link>
+      <Link href="/404">404</Link>
     </div>
   </PageLayout>
 );

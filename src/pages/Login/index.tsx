@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import Button from "components/Button";
 import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
-import OurLink from "components/Link";
+import Link from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
@@ -85,7 +85,7 @@ const Login = () => (
 
             <Paragraph color="light" align="center">
               Впервые здесь?{" "}
-              <OurLink href="/registration">Зарегистрироваться</OurLink>
+              <Link href="/registration">Зарегистрироваться</Link>
             </Paragraph>
           </FormWrapper>
         </form>
