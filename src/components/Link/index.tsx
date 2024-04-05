@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { LinkProps } from "types";
 
-const Link: React.FC<LinkProps> = ({
+const OurLink: React.FC<LinkProps> = ({
   href,
   target,
   rel,
@@ -15,10 +16,10 @@ const Link: React.FC<LinkProps> = ({
   );
 
   return (
-    <a className={classes} href={href} target={target} rel={rel}>
+    <Link className={classes} to={href} target={target} rel={rel}>
       {children}
-    </a>
+    </Link>
   );
 };
 
-export default Link;
+export default OurLink;

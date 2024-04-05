@@ -15,6 +15,7 @@ const Index = () => (
       <Link href="/registration">Регистрация</Link>
       <Link href="/login">Авторизация</Link>
       <Link href="/agreement">Соглашение</Link>
+      <Link href="/woods">Леса</Link>
     </div>
 
     <Title level="3" color="light" align="left">
