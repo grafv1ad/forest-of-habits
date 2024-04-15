@@ -41,7 +41,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.error(error?.response?.data);
+        console.error(error?.response);
         toast.error(error?.response?.data?.message || "Что-то пошло не так");
       });
   };

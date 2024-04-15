@@ -17,8 +17,8 @@ export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
   try {
     const { data } = await axiosInstance.get("/ping");
     return data;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error?.response);
   }
 
   return initialState;
