@@ -11,7 +11,7 @@ const initialState: UserState = {
 export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
   const token = getCookie("token");
   if (!token) {
-    console.debug("Токена нет");
+    return initialState;
   }
 
   try {
