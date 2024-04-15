@@ -32,7 +32,6 @@ const Login = () => {
           dispatch(
             setUser({
               username: values.username,
-              token: response.data.token,
             })
           );
           navigate("/account");
@@ -42,7 +41,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error?.response?.data);
         toast.error(error?.response?.data?.message || "Что-то пошло не так");
       });
   };

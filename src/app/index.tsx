@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Account from "pages/Account";
@@ -8,10 +9,16 @@ import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import Registration from "pages/Registration";
 import Woods from "pages/Woods";
+import { store } from "store";
+import { getUserInfo } from "store/slices/user";
 
 import "./index.css";
 
 function App() {
+  useEffect(() => {
+    store.dispatch(getUserInfo());
+  }, []);
+
   return (
     <>
       <Routes>
