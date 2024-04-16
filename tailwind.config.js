@@ -10,6 +10,8 @@ module.exports = {
         600: "#fee8d4",
         900: "#af7959",
       },
+      overlay: "rgba(254, 232, 212, 0.75)",
+      modal: "#59321f",
       black: "#050505",
       gray: "#605954",
       red: "#d14f50",
