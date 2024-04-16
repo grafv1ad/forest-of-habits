@@ -10,13 +10,14 @@ const overlayClasses = "fixed top-0 right-0 left-0 bottom-0 bg-overlay";
 const modalClasses =
   "absolute p-4 md:p-8 bg-modal top-2/4 inset-x-3 md:left-2/4 md:w-2/4 border-none transform md:-translate-x-2/4 -translate-y-2/4 rounded-3xl";
 
+ReactModal.setAppElement("#react-modals");
+
 const Modal: React.FC<Modalrops> = ({
   open,
   onHangleModal,
   children,
   title,
 }) => {
-  ReactModal.setAppElement("#root");
   return (
     <ReactModal
       isOpen={open}
