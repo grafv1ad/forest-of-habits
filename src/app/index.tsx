@@ -9,15 +9,17 @@ import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import Registration from "pages/Registration";
 import Woods from "pages/Woods";
-import { store } from "store";
+import { useAppDispatch } from "store";
 import { getUserInfo } from "store/slices/user";
 
 import "./index.css";
 
 function App() {
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    store.dispatch(getUserInfo());
-  }, []);
+    dispatch(getUserInfo());
+  }, [dispatch]);
 
   return (
     <>

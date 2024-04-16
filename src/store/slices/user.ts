@@ -18,6 +18,7 @@ export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
     const { data } = await axiosInstance.get("/ping");
     return data;
   } catch (error: any) {
+    removeCookie("token");
     console.error(error?.response);
   }
 
@@ -33,7 +34,6 @@ const userSlice = createSlice({
     },
     removeUser(state: UserState) {
       state.username = null;
-      removeCookie("token");
     },
   },
   extraReducers: (builder) => {
@@ -42,7 +42,7 @@ const userSlice = createSlice({
 
       // todo: переделать когда на бэке будет эндпоинт для получения данных пользователя
       if (action.payload === "pong") {
-        state.username = "test";
+        state.username = "username";
       }
     });
   },
