@@ -5,5 +5,6 @@ export interface LinkProps {
   href: string;
   target?: string;
   rel?: string;
+  onClick?: () => void;
   extraClass?: string;
 }

@@ -14,6 +14,7 @@ const Index = () => (
     <div className="flex flex-col align gap-3 mb-10">
       <Link href="/registration">Регистрация</Link>
       <Link href="/login">Авторизация</Link>
+      <Link href="/account">Личный кабинет</Link>
       <Link href="/agreement">Соглашение</Link>
       <Link href="/woods">Леса</Link>
     </div>

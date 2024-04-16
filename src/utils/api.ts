@@ -8,7 +8,7 @@ const axiosConfig = {
   headers: {},
 };
 
-const token = getCookie("jwt-token");
+const token = getCookie("token");
 if (token) {
   axiosConfig.headers = {
     Authorization: `Bearer ${token}`,
