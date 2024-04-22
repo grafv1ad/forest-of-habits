@@ -10,3 +10,4 @@ export * from "./input";
 export * from "./checkbox";
 export * from "./user";
 export * from "./modal";
+export * from "./woods";
