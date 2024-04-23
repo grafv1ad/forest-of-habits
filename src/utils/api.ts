@@ -2,17 +2,22 @@ import axios from "axios";
 
 import { getCookie } from "./cookies";
 
-const axiosConfig = {
-  baseURL: "http://127.0.0.1:8097",
+const API = axios.create({
+  baseURL: "http://185.50.202.250:8097",
   timeout: 3000,
-  headers: {},
-};
+});
 
-const token = getCookie("token");
-if (token) {
-  axiosConfig.headers = {
-    Authorization: `Bearer ${token}`,
-  };
-}
+API.interceptors.request.use(
+  (config) => {
+    const token = getCookie("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      delete API.defaults.headers.common.Authorization;
+    }
+    return config;
+  },
+  (error: any) => Promise.reject(error)
+);
 
-export const axiosInstance = axios.create(axiosConfig);
+export const axiosInstance = API;
