@@ -3,7 +3,7 @@ import axios from "axios";
 import { getCookie } from "./cookies";
 
 const axiosConfig = {
-  baseURL: "http://127.0.0.1:8097",
+  baseURL: "http://185.50.202.250:8097",
   timeout: 3000,
   headers: {},
 };
