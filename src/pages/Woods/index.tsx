@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Form, Field } from "react-final-form";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Button from "components/Button";
 import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
-import Paragraph from "components/Paragraph";
 import WoodsList from "components/WoodsList";
 import { useAppDispatch } from "store";
 import { addWood, getWoods } from "store/slices/woods";
@@ -15,8 +13,6 @@ import { FormValues, FormErrors } from "types";
 import { axiosInstance } from "utils/api";
 
 const Woods = () => {
-  // @ts-ignore
-  const isError = useSelector((state) => state.woods.isError);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
@@ -56,11 +52,6 @@ const Woods = () => {
         <Button onClick={onHangleModal}>+ Добавить новый лес</Button>
       </div>
       <WoodsList />
-      {isError && (
-        <Paragraph color="light" align="center">
-          Что-то пошло не так
-        </Paragraph>
-      )}
       <Modal open={open} onHangleModal={onHangleModal} title="Новый лес">
         <Form
           onSubmit={onSubmit}

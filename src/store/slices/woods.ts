@@ -1,10 +1,10 @@
+import { toast } from "react-toastify";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { WoodsState } from "types";
 import { axiosInstance } from "utils/api";
 
 const initialState: WoodsState = {
   woods: [],
-  isError: false,
 };
 
 export const getWoods = createAsyncThunk("woods/getWood", async () => {
@@ -13,6 +13,7 @@ export const getWoods = createAsyncThunk("woods/getWood", async () => {
     return data;
   } catch (error: any) {
     console.error(error?.response);
+    toast.error(error?.response?.data?.message || "Что-то пошло не так");
   }
 
   return initialState;
@@ -29,10 +30,6 @@ const woodsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getWoods.fulfilled, (state: WoodsState, action) => {
       state.woods = action.payload;
-      state.isError = false;
-    });
-    builder.addCase(getWoods.rejected, (state: WoodsState) => {
-      state.isError = true;
     });
   },
 });

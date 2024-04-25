@@ -1,6 +1,5 @@
 export interface WoodsState {
   woods: Wood[];
-  isError: boolean;
 }
 
 export interface Wood {
