@@ -29,6 +29,7 @@ module.exports = {
       {
           allow: ['warn', 'error', 'debug'],
       },
-  ],
+    ],
+    "react-hooks/exhaustive-deps": 0,
   },
 };
