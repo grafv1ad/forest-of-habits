@@ -15,7 +15,7 @@ export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
   }
 
   try {
-    const { data } = await axiosInstance.get("/ping");
+    const { data } = await axiosInstance.get("/me");
     return data;
   } catch (error: any) {
     removeCookie("token");
@@ -39,11 +39,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.fulfilled, (state: UserState, action) => {
       state.isLoaded = true;
-
-      // todo: переделать когда на бэке будет эндпоинт для получения данных пользователя
-      if (action.payload === "pong") {
-        state.username = "username";
-      }
+      state.username = action.payload?.username;
     });
   },
 });
