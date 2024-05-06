@@ -8,6 +8,7 @@ const OurLink: React.FC<LinkProps> = ({
   target,
   rel,
   children,
+  onClick,
   extraClass,
 }) => {
   const classes = classNames(
@@ -16,7 +17,13 @@ const OurLink: React.FC<LinkProps> = ({
   );
 
   return (
-    <Link className={classes} to={href} target={target} rel={rel}>
+    <Link
+      className={classes}
+      to={href}
+      target={target}
+      rel={rel}
+      onClick={onClick}
+    >
       {children}
     </Link>
   );

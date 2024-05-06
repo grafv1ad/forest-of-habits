@@ -33,3 +33,7 @@ export function getCookie(name: string) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
+export function removeCookie(name: string) {
+  setCookie(name, "", { expires: new Date(0) });
+}
