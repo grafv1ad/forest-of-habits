@@ -10,6 +10,7 @@ const OurLink: React.FC<LinkProps> = ({
   children,
   onClick,
   extraClass,
+  title,
 }) => {
   const classes = classNames(
     "text-main underline hover:no-underline active:text-beige-900 group",
@@ -23,6 +24,7 @@ const OurLink: React.FC<LinkProps> = ({
       target={target}
       rel={rel}
       onClick={onClick}
+      title={title}
     >
       {children}
     </Link>
