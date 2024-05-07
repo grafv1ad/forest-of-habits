@@ -6,6 +6,7 @@ import classNames from "classnames";
 import Button from "components/Button";
 import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
+import Loader from "components/Loader";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
 import Title from "components/Title";
@@ -298,7 +299,7 @@ const Forest = () => {
           </Modal>
         </>
       ) : (
-        <div>loader</div>
+        <Loader />
       )}
     </PageLayout>
   );
