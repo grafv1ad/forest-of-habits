@@ -33,3 +33,7 @@
 .disabled {
   @apply opacity-70 pointer-events-none;
 }
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}

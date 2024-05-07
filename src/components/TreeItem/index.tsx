@@ -54,14 +54,14 @@ const TreeItem: React.FC<TreeItemProps> = ({
   return (
     tree && (
       <tr>
-        <td className="text-left align-middle border border-gray py-1 px-3">
+        <th className="text-left align-middle font-normal border border-gray py-1 px-3">
           <OurLink
             href={`/forest/${forestId}/tree/${tree.id}`}
             title={tree.description}
           >
             {tree.name}
           </OurLink>
-        </td>
+        </th>
         {days.map((day) => {
           const dateString =
             `${year}-` +

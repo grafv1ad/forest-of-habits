@@ -141,10 +141,6 @@ const Forest = () => {
             {forest.name}
           </Title>
 
-          {/* <div className="mb-12 flex justify-end">
-            <Button onClick={onHangleModal}>+ Добавить новое дерево</Button>
-          </div> */}
-
           <Title level="2" color="light" extraClass="flex gap-3 justify-center">
             <div
               onClick={() => setPrevMonth(date)}
@@ -244,6 +240,18 @@ const Forest = () => {
                 </tr>
               </thead>
               <tbody>{treesList}</tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={2 + days.length + 2} className="min-h-9 h-9">
+                    <div
+                      className="cursor-pointer py-1 px-3 w-fit transition-colors duration-150 hover:text-main"
+                      onClick={onHangleModal}
+                    >
+                      + Добавить новое дерево
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
 

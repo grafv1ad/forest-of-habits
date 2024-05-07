@@ -1,3 +1,7 @@
+.calendar tbody:empty {
+  display: none;
+}
+
 .calendar th,
 .calendar td {
   position: relative;
@@ -18,5 +22,5 @@
 .calendar tr:nth-child(even) th::before,
 .calendar tr:nth-child(even) td::before {
   opacity: 0.15;
-  background: #050505;
+  background-color: #050505;
 }
