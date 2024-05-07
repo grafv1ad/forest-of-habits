@@ -27,10 +27,16 @@ module.exports = {
         footer: "url('/src/images/bg.svg')",
         checkbox: "url('/src/images/checkbox.svg')",
         user: "url('/src/images/user.svg')",
+        cross: "url('/src/images/cross.svg')",
       },
       content: {
         cone: "url('/src/images/pine_cone.svg')",
         marker: "url('/src/images/marker-tree.svg')",
+      },
+      backgroundSize: {
+        "100%": "100%",
+        "100%-auto": "100% auto",
+        "auto-100%": "auto 100%",
       },
     },
   },

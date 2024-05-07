@@ -1,3 +1,9 @@
+export interface ITreeIncrement {
+  id: number;
+  date: string;
+  value: number;
+}
+
 export interface ITree {
   id: number;
   name: string;
@@ -7,9 +13,14 @@ export interface ITree {
   limit: number;
   period: string;
   type: string;
+  increments: ITreeIncrement[];
 }
 
 export interface TreeItemProps {
   treeId: number;
   forestId: number;
+  today: Date;
+  month: number;
+  year: number;
+  days: number[];
 }
