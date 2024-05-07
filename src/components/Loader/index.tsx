@@ -1,16 +1,25 @@
 import classNames from "classnames";
-import loader from "images/loader.svg";
+import PageLayout from "components/PageLayout";
+import { ReactComponent as LoaderIcon } from "images/loader.svg";
 
 import styles from "./style.module.css";
 
-const imgClasses = classNames(styles.loader, "w-24 md:w-36");
+const iconClasses = classNames(
+  "flex justify-center items-center w-24 h-24 md:w-36 md:h-36",
+  "svg-wrapper",
+  styles.loader
+);
 
 const Loader = () => {
   return (
-    <div className="fixed left-0 top-0 w-full h-full bg-background z-30 flex flex-col justify-center items-center gap-4">
-      <img src={loader} alt="loader" className={imgClasses} />
-      <div className="opacity-75">Loading…</div>
-    </div>
+    <PageLayout>
+      <div className="fixed left-0 top-0 w-full h-full bg-background z-30 flex flex-col justify-center items-center gap-4">
+        <div className={iconClasses}>
+          <LoaderIcon />
+        </div>
+        <div className="text-beige-600 opacity-75">Loading…</div>
+      </div>
+    </PageLayout>
   );
 };
 

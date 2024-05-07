@@ -7,7 +7,7 @@ const Content: React.FC<ContentProps> = ({
   children,
 }) => {
   const mainClasses = classNames("grow flex justify-center p-3 md:px-6", {
-    "flex flex-col justify-center": verticalCentered,
+    "flex flex-col items-center": verticalCentered,
   });
   return (
     <main className={mainClasses}>
