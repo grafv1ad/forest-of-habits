@@ -28,13 +28,14 @@ const Forest = () => {
 
   const { forestid } = useParams();
 
+  const [forest, setForest] = useState<IForest | null>(null);
+  const [trees, setTrees] = useState<ITree[] | null>(null);
+
   const [date, setDate] = useState<Date>(() => {
     const date = new Date();
     date.setDate(1);
     return date;
   });
-  const [forest, setForest] = useState<IForest | null>(null);
-  const [trees, setTrees] = useState<ITree[] | null>(null);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -51,62 +52,47 @@ const Forest = () => {
     setDate(copiedDate);
   };
 
-  useEffect(() => {
-    const getForest = async () => {
-      try {
-        const { data } = await axiosInstance.get(`forest/${forestid}`);
-        setForest(data);
-      } catch (error: any) {
-        console.error(error?.response);
-        if (error?.response?.status === 401) {
-          navigate("/login");
-        } else {
-          navigate("/404");
-        }
+  const getForest = async () => {
+    try {
+      const { data } = await axiosInstance.get(`forest/${forestid}`);
+      setForest(data);
+    } catch (error: any) {
+      console.error(error?.response);
+      if (error?.response?.status === 401) {
+        navigate("/login");
+      } else {
+        navigate("/404");
       }
-    };
+    }
+  };
 
+  const getTrees = async () => {
+    try {
+      const { data } = await axiosInstance.get(`tree/by_forest/${forestid}`);
+      setTrees(data);
+    } catch (error: any) {
+      console.error(error?.response);
+      if (error?.response?.status === 401) {
+        navigate("/login");
+      } else {
+        navigate("/404");
+      }
+    }
+  };
+
+  useEffect(() => {
     if (!forest) {
       getForest();
     }
 
-    const getForestTrees = async () => {
-      try {
-        const { data } = await axiosInstance.get(`tree/by_forest/${forestid}`);
-        setTrees(data);
-      } catch (error: any) {
-        console.error(error?.response);
-        if (error?.response?.status === 401) {
-          navigate("/login");
-        } else {
-          navigate("/404");
-        }
-      }
-    };
-
     if (!trees) {
-      getForestTrees();
+      getTrees();
     }
-  }, []);
+  }, [forest, trees]);
 
   const daysCount = getDaysInMonth(date.getMonth(), date.getFullYear());
   // eslint-disable-next-line no-restricted-properties
   const days = Array.from({ length: daysCount }, (_, i) => i + 1);
-
-  let treesList;
-  if (trees && forest) {
-    treesList = trees.map((tree, index) => (
-      <TreeItem
-        key={index}
-        treeId={tree.id}
-        forestId={forest.id}
-        today={today}
-        month={date.getMonth()}
-        year={date.getFullYear()}
-        days={days}
-      />
-    ));
-  }
 
   const [open, setOpen] = useState(false);
 
@@ -138,6 +124,18 @@ const Forest = () => {
   if (!forest || !trees) {
     return <Loader />;
   }
+
+  const treesList = trees.map((tree) => (
+    <TreeItem
+      key={tree.id}
+      treeId={tree.id}
+      forestId={forest.id}
+      today={today}
+      month={date.getMonth()}
+      year={date.getFullYear()}
+      days={days}
+    />
+  ));
 
   return (
     <PageLayout>
