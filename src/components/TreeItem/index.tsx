@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import OurLink from "components/Link";
-import { ITree, TreeItemProps } from "types";
+import { ITree, TreeItemProps, ITreeIncrementsDates } from "types";
 import { axiosInstance } from "utils/api";
 
 const TreeItem: React.FC<TreeItemProps> = ({
@@ -14,26 +14,29 @@ const TreeItem: React.FC<TreeItemProps> = ({
 }) => {
   const [tree, setTree] = useState<ITree | null>(null);
 
-  useEffect(() => {
-    const getTree = async () => {
-      try {
-        const { data } = await axiosInstance.get(`tree/${treeId}`);
-        setTree(data);
-      } catch (error: any) {
-        setTree(null);
-        console.error(error?.response);
-      }
-    };
+  const getTree = async () => {
+    try {
+      const { data } = await axiosInstance.get(`tree/${treeId}`);
+      setTree(data);
+    } catch (error: any) {
+      setTree(null);
+      console.error(error?.response);
+    }
+  };
 
+  useEffect(() => {
     if (!tree) {
       getTree();
     }
   }, []);
 
+  if (!tree) {
+    return "";
+  }
+
   console.debug(tree);
 
-  // todo: убрать any
-  const incrementsDates: any = [];
+  const incrementsDates: ITreeIncrementsDates = {};
   let monthIncrements = 0;
   let totalIncrements = 0;
 
@@ -52,58 +55,56 @@ const TreeItem: React.FC<TreeItemProps> = ({
   }
 
   return (
-    tree && (
-      <tr>
-        <th className="text-left align-middle font-normal border border-gray py-1 px-3">
-          <OurLink
-            href={`/forest/${forestId}/tree/${tree.id}`}
-            title={tree.description}
-          >
-            {tree.name}
-          </OurLink>
-        </th>
-        {days.map((day) => {
-          const dateString =
-            `${year}-` +
-            `${month < 10 ? `0${month}` : month}-` +
-            `${day < 10 ? `0${day}` : day}`;
-
-          const incrementsCount = incrementsDates[dateString] || 0;
-          if (incrementsCount) monthIncrements += incrementsCount;
-
-          const date = new Date(year, month, day);
-
-          const cellClasses = classNames(
-            "min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray p-1",
-            {
-              "bg-main text-background font-semibold": incrementsCount > 0,
-              "bg-cross bg-no-repeat bg-center opacity-75":
-                date < today && !incrementsCount,
-            }
-          );
-
-          return (
-            <td key={day} className={cellClasses}>
-              {incrementsCount || ""}
-            </td>
-          );
-        })}
-        <td className="text-center align-middle border border-gray p-1">
-          {monthIncrements}
-        </td>
-        <td
-          className={classNames(
-            "text-center align-middle border border-gray p-1",
-            {
-              "bg-main text-background font-semibold":
-                tree?.limit === totalIncrements,
-            }
-          )}
+    <tr>
+      <th className="text-left align-middle font-normal border border-gray py-1 px-3">
+        <OurLink
+          href={`/forest/${forestId}/tree/${tree.id}`}
+          title={tree.description}
         >
-          {tree?.limit ? `${totalIncrements} / ${tree.limit}` : totalIncrements}
-        </td>
-      </tr>
-    )
+          {tree.name}
+        </OurLink>
+      </th>
+      {days.map((day) => {
+        const dateString =
+          `${year}-` +
+          `${month < 10 ? `0${month}` : month}-` +
+          `${day < 10 ? `0${day}` : day}`;
+
+        const incrementsCount = incrementsDates[dateString] || 0;
+        if (incrementsCount) monthIncrements += incrementsCount;
+
+        const date = new Date(year, month, day);
+
+        const cellClasses = classNames(
+          "min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray p-1",
+          {
+            "bg-main text-background font-semibold": incrementsCount > 0,
+            "bg-cross bg-no-repeat bg-center opacity-75":
+              date < today && !incrementsCount,
+          }
+        );
+
+        return (
+          <td key={day} className={cellClasses}>
+            {incrementsCount || ""}
+          </td>
+        );
+      })}
+      <td className="text-center align-middle border border-gray p-1">
+        {monthIncrements}
+      </td>
+      <td
+        className={classNames(
+          "text-center align-middle border border-gray p-1",
+          {
+            "bg-main text-background font-semibold":
+              tree?.limit && tree?.limit <= totalIncrements,
+          }
+        )}
+      >
+        {tree?.limit ? `${totalIncrements} / ${tree.limit}` : totalIncrements}
+      </td>
+    </tr>
   );
 };
 

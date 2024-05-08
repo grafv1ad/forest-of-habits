@@ -16,6 +16,10 @@ export interface ITree {
   increments: ITreeIncrement[];
 }
 
+export interface ITreeIncrementsDates {
+  [key: string]: number;
+}
+
 export interface TreeItemProps {
   treeId: number;
   forestId: number;
