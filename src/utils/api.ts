@@ -7,17 +7,14 @@ const API = axios.create({
   timeout: 3000,
 });
 
-API.interceptors.request.use(
-  (config) => {
-    const token = getCookie("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    } else {
-      delete API.defaults.headers.common.Authorization;
-    }
-    return config;
-  },
-  (error: any) => Promise.reject(error)
-);
+API.interceptors.request.use((config) => {
+  const token = getCookie("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    delete API.defaults.headers.common.Authorization;
+  }
+  return config;
+});
 
 export const axiosInstance = API;

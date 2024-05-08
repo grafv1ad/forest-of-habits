@@ -1,10 +1,10 @@
 import OurLink from "components/Link";
-import logo from "images/logo.svg";
+import { ReactComponent as LogoSVG } from "images/logo.svg";
 
 const Logo = () => {
   return (
-    <OurLink href="/">
-      <img src={logo} alt="Forest of habits" title="Forest of habits" />
+    <OurLink href="/" title="Forest of habits" extraClass="w-72 svg-wrapper">
+      <LogoSVG />
     </OurLink>
   );
 };

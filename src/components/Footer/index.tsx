@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <>
-      <footer className="flex justify-center p-3">
+      <footer className="flex justify-center p-3 md:p-6">
         <div className="container">
           <div className="text-gray font-stick">
             <a
@@ -15,7 +15,7 @@ const Footer = () => {
           </div>
         </div>
       </footer>
-      <div className="bg-footer bg-contain bg-no-repeat bg-bottom absolute left-0 bottom-0 w-full h-full -z-10 pointer-events-none"></div>
+      <div className="bg-footer bg-100%-auto bg-no-repeat bg-bottom absolute left-0 bottom-0 w-full h-full -z-10 pointer-events-none"></div>
     </>
   );
 };

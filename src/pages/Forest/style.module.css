@@ -1,0 +1,26 @@
+.calendar tbody:empty {
+  display: none;
+}
+
+.calendar th,
+.calendar td {
+  position: relative;
+}
+
+.calendar th::before,
+.calendar td::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.calendar tr:nth-child(even) th::before,
+.calendar tr:nth-child(even) td::before {
+  opacity: 0.15;
+  background-color: #050505;
+}

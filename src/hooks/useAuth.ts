@@ -1,10 +1,11 @@
 import { useAppSelector } from "store";
 
 export const useAuth = () => {
-  const { username } = useAppSelector((state) => state.user);
+  const { isLoaded, username } = useAppSelector((state) => state.user);
 
   return {
-    isAuth: !!username,
+    isLoaded,
     username,
+    isAuth: !!username,
   };
 };

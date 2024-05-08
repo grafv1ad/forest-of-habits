@@ -8,13 +8,15 @@ const NotFound = () => (
     <Title level="1" color="light">
       Страница не найдена
     </Title>
-    <div className="text-center font-stick my-10 text-9xl leading-none">
-      404
+    <div className="h-full flex flex-col justify-center items-center">
+      <div className="text-center font-stick my-10 text-9xl leading-none">
+        404
+      </div>
+      <Paragraph align="center" color="light" extraClass="flex flex-col gap-2">
+        <div>Кажется вы забрели не&nbsp;в&nbsp;тот лес…</div>
+        <Link href="/">Вернуться на&nbsp;главную</Link>
+      </Paragraph>
     </div>
-    <Paragraph align="center" color="light">
-      Кажется вы забрели не&nbsp;в&nbsp;тот лес.{" "}
-      <Link href="/">Вернуться на&nbsp;главную</Link>
-    </Paragraph>
   </PageLayout>
 );
 

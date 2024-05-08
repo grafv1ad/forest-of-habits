@@ -6,13 +6,13 @@ const Content: React.FC<ContentProps> = ({
   verticalCentered = false,
   children,
 }) => {
-  const containerClasses = classNames("container", {
-    "flex flex-col justify-center": verticalCentered,
+  const mainClasses = classNames("grow flex justify-center p-3 md:px-6", {
+    "flex flex-col items-center": verticalCentered,
   });
   return (
-    <main className="grow flex justify-center p-3">
-      <div className={containerClasses}>
-        <div className="text-beige-600">{children}</div>
+    <main className={mainClasses}>
+      <div className="container">
+        <div className="text-beige-600 h-full flex flex-col">{children}</div>
       </div>
     </main>
   );

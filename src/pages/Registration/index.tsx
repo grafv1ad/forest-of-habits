@@ -32,7 +32,7 @@ const Registration = () => {
           setCookie("token", response.data.token);
           dispatch(
             setUser({
-              username: values.username,
+              username: response.data?.userName || values.username,
             })
           );
           navigate("/account");
