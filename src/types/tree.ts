@@ -20,6 +20,12 @@ export interface ITreeIncrementsDates {
   [key: string]: number;
 }
 
+export interface ITreeIncrementsState {
+  incrementsDates: ITreeIncrementsDates;
+  monthIncrements: number;
+  totalIncrements: number;
+}
+
 export interface TreeItemProps {
   treeId: number;
   forestId: number;
