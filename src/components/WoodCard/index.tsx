@@ -11,7 +11,7 @@ const listClasses = "hidden group-hover:block";
 
 const itemClasses = "flex items-center before:content-marker before:pr-3";
 
-const WoodCard: React.FC<Wood> = ({ name }) => {
+const WoodCard: React.FC<Wood> = ({ name, trees }) => {
   return (
     <li>
       <Link to="/" className={linkClasses}>
@@ -19,15 +19,17 @@ const WoodCard: React.FC<Wood> = ({ name }) => {
           {name}
         </Title>
         <ul className={listClasses}>
-          <li className={itemClasses}>
-            <Paragraph color="black">Закрыть задачу</Paragraph>
-          </li>
-          <li className={itemClasses}>
-            <Paragraph color="black">Подготовить совместный доклад</Paragraph>
-          </li>
-          <li className={itemClasses}>
-            <Paragraph color="black">Нарисовать 3 картины</Paragraph>
-          </li>
+          {trees.length !== 0 ? (
+            trees.map(({ name }) => (
+              <li className={itemClasses}>
+                <Paragraph color="black">{name}</Paragraph>
+              </li>
+            ))
+          ) : (
+            <li className={itemClasses}>
+              <Paragraph color="black">Здесь будут ваши деревья</Paragraph>
+            </li>
+          )}
         </ul>
       </Link>
     </li>
