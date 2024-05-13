@@ -17,6 +17,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
   year,
   days,
 }) => {
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [tree, setTree] = useState<ITree | null>(null);
   const [{ incrementsDates, monthIncrements, totalIncrements }, setIncrements] =
     useState<ITreeIncrementsState>({
@@ -28,7 +29,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
   const getIncrementsFromTree = (tree: ITree, days: number[]) => {
     const dates: ITreeIncrementsDates = {};
     let total = 0;
-    let month = 0;
+    let monthTotal = 0;
 
     if (tree?.increments.length) {
       tree.increments.forEach((increment) => {
@@ -51,12 +52,12 @@ const TreeItem: React.FC<TreeItemProps> = ({
         `${day < 10 ? `0${day}` : day}`;
 
       const incrementsCount = dates[dateString] || 0;
-      if (incrementsCount) month += incrementsCount;
+      if (incrementsCount) monthTotal += incrementsCount;
     });
 
     return {
       incrementsDates: dates,
-      monthIncrements: month,
+      monthIncrements: monthTotal,
       totalIncrements: total,
     };
   };
@@ -70,13 +71,30 @@ const TreeItem: React.FC<TreeItemProps> = ({
       setTree(null);
       console.error(error?.response);
     }
+    setLoaded(true);
+  };
+
+  const incrementTree = async (value: number, date: string) => {
+    try {
+      await axiosInstance.post(`tree/${treeId}`, {
+        value,
+        date: `${date}T00:00:00`,
+      });
+      setLoaded(false);
+    } catch (error: any) {
+      console.error(error?.response);
+    }
   };
 
   useEffect(() => {
-    if (!tree) {
+    if (!loaded) {
       getTree();
     }
-  }, []);
+  }, [loaded]);
+
+  useEffect(() => {
+    getTree();
+  }, [days]);
 
   if (!tree) {
     return "";
@@ -101,20 +119,104 @@ const TreeItem: React.FC<TreeItemProps> = ({
           `${month < 10 ? `0${month}` : month}-` +
           `${day < 10 ? `0${day}` : day}`;
 
+        const createdDate = tree.createdAt ? new Date(tree.createdAt) : today;
+        createdDate.setHours(0, 0, 0, 0);
+
         const incrementsCount = incrementsDates[dateString] || 0;
 
+        let isRelevant = false;
+
+        if (tree.type === "PERIODIC_TREE") {
+          const tempDate = new Date(createdDate.getTime());
+
+          while (!isRelevant && tempDate.getTime() < date.getTime()) {
+            switch (tree.period) {
+              case "DAY":
+                isRelevant = true;
+                break;
+              case "WEEK":
+                tempDate.setDate(tempDate.getDate() + 7);
+                break;
+              case "MONTH":
+                tempDate.setMonth(tempDate.getMonth() + 1);
+                break;
+              case "QUARTER":
+                tempDate.setMonth(tempDate.getMonth() + 4);
+                break;
+              case "YEAR":
+                tempDate.setFullYear(tempDate.getFullYear() + 1);
+                break;
+              default:
+                isRelevant = true;
+                break;
+            }
+          }
+
+          if (!isRelevant) {
+            isRelevant = tempDate.getTime() === date.getTime();
+          }
+        } else {
+          isRelevant = true;
+        }
+
         const cellClasses = classNames(
-          "min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray p-1",
+          "group relative min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray p-0",
           {
+            "bg-dot bg-no-repeat bg-center":
+              !incrementsCount &&
+              isRelevant &&
+              date >= today &&
+              !["LIMITED_TREE", "UNLIMITED_TREE"].includes(tree.type),
+            "bg-cross bg-no-repeat bg-center":
+              !incrementsCount &&
+              isRelevant &&
+              date < today &&
+              date >= createdDate,
             "bg-main text-background font-semibold": incrementsCount > 0,
-            "bg-cross bg-no-repeat bg-center opacity-75":
-              date < today && !incrementsCount,
+            "bg-gray opacity-15 cursor-not-allowed":
+              date < createdDate || !isRelevant,
           }
         );
 
+        const buttonClasses =
+          "w-full h-[calc(1.125rem-0.75px)] flex justify-center items-center text-center font-normal border border-gray box-content";
+
         return (
           <td key={day} className={cellClasses}>
-            {incrementsCount || ""}
+            <div className="relative w-full h-full p-1 flex justify-center items-center text-center">
+              {incrementsCount || ""}
+              {isRelevant && date >= createdDate && (
+                <div className="scale-y-0 group-hover:scale-y-100 origin-top transition-transform absolute left-0 top-full flex flex-col items-center w-full box-content z-10">
+                  <button
+                    className={classNames(
+                      buttonClasses,
+                      "bg-green text-beige-600"
+                    )}
+                    onClick={() => {
+                      incrementTree(1, dateString);
+                    }}
+                  >
+                    +
+                  </button>
+                  <button
+                    className={classNames(
+                      buttonClasses,
+                      "bg-red text-beige-600 border-t-0",
+                      {
+                        hidden: incrementsCount < 1,
+                      }
+                    )}
+                    onClick={() => {
+                      if (incrementsCount > 0) {
+                        incrementTree(-1, dateString);
+                      }
+                    }}
+                  >
+                    -
+                  </button>
+                </div>
+              )}
+            </div>
           </td>
         );
       })}

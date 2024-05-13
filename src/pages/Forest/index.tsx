@@ -255,6 +255,26 @@ const Forest = () => {
                 />
 
                 <Field
+                  name="description"
+                  type="text"
+                  render={({ input, meta }) => (
+                    <Input
+                      placeholder="Краткое описание"
+                      {...input}
+                      {...meta}
+                    />
+                  )}
+                />
+
+                <Field
+                  name="limit"
+                  type="number"
+                  render={({ input, meta }) => (
+                    <Input placeholder="Лимит" {...input} {...meta} />
+                  )}
+                />
+
+                {/* <Field
                   name="forest_id"
                   value={forest.id}
                   render={({ input, meta }) => (
@@ -265,7 +285,7 @@ const Forest = () => {
                       type="hidden"
                     />
                   )}
-                />
+                /> */}
 
                 <Button type="submit" disabled={submitting || validating}>
                   Создать
