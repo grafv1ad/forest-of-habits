@@ -6,6 +6,7 @@ import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
+import Title from "components/Title";
 import WoodsList from "components/WoodsList";
 import { useAppDispatch } from "store";
 import { addWood, getWoods } from "store/slices/woods";
@@ -48,6 +49,9 @@ const Woods = () => {
 
   return (
     <PageLayout>
+      <Title level="1" color="light">
+        Мои леса
+      </Title>
       <div className="mb-12 flex justify-end">
         <Button onClick={onHangleModal}>+ Добавить новый лес</Button>
       </div>
