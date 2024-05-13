@@ -93,7 +93,11 @@ const TreeItem: React.FC<TreeItemProps> = ({
   }, [loaded]);
 
   useEffect(() => {
-    getTree();
+    if (loaded && tree) {
+      setIncrements(getIncrementsFromTree(tree, days));
+    } else {
+      getTree();
+    }
   }, [days]);
 
   if (!tree) {
@@ -160,7 +164,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
         }
 
         const cellClasses = classNames(
-          "group relative min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray p-0",
+          "relative min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray p-0",
           {
             "bg-dot bg-no-repeat bg-center":
               !incrementsCount &&
@@ -183,7 +187,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
 
         return (
           <td key={day} className={cellClasses}>
-            <div className="relative w-full h-full p-1 flex justify-center items-center text-center">
+            <div className="group absolute left-0 top-0 w-full h-full p-1 flex justify-center items-center text-center">
               {incrementsCount || ""}
               {isRelevant && date >= createdDate && (
                 <div className="scale-y-0 group-hover:scale-y-100 origin-top transition-transform absolute left-0 top-full flex flex-col items-center w-full box-content z-10">
