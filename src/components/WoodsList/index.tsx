@@ -10,7 +10,7 @@ const WoodsList = () => {
   const woods = useAppSelector((state) => state.woods.woods);
   return (
     <ul className={classes}>
-      {woods.length !== 0 ? (
+      {woods?.length > 0 ? (
         woods.map((wood: Wood) => <WoodCard key={wood.id} {...wood} />)
       ) : (
         <Paragraph color="light" align="center">

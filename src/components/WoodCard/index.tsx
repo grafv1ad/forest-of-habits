@@ -19,7 +19,7 @@ const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
           {name}
         </Title>
         <ul className={listClasses}>
-          {trees.length !== 0 ? (
+          {trees?.length > 0 ? (
             trees.map(({ name, id }) => (
               <li className={itemClasses} key={id}>
                 <Paragraph color="black">{name}</Paragraph>
