@@ -193,9 +193,9 @@ const TreeItem: React.FC<TreeItemProps> = ({
               {isRelevant && date >= createdDate && (
                 <div
                   className={classNames(
-                    "scale-y-0 group-hover:scale-y-100 transition-transform origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
+                    "scale-y-0 group-hover:scale-y-100 origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
                     {
-                      "top-full": incrementsCount > 0,
+                      "top-full transition-transform": incrementsCount > 0,
                       "top-0 transition-none h-full": incrementsCount < 1,
                     }
                   )}
