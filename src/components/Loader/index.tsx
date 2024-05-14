@@ -1,6 +1,8 @@
+import React from "react";
 import classNames from "classnames";
 import PageLayout from "components/PageLayout";
 import { ReactComponent as LoaderIcon } from "images/loader.svg";
+import { LoaderProps } from "types";
 
 import styles from "./style.module.css";
 
@@ -10,16 +12,27 @@ const iconClasses = classNames(
   styles.loader
 );
 
-const Loader = () => {
-  return (
-    <PageLayout>
-      <div className="fixed left-0 top-0 w-full h-full bg-background z-30 flex flex-col justify-center items-center gap-4">
-        <div className={iconClasses}>
-          <LoaderIcon />
+const Loader: React.FC<LoaderProps> = ({ fullPage = false }) => {
+  if (fullPage) {
+    return (
+      <PageLayout>
+        <div className="fixed left-0 top-0 w-full h-full bg-background z-30 flex flex-col justify-center items-center gap-4">
+          <div className={iconClasses}>
+            <LoaderIcon />
+          </div>
+          <div className="text-beige-600 opacity-75">Loading…</div>
         </div>
-        <div className="text-beige-600 opacity-75">Loading…</div>
+      </PageLayout>
+    );
+  }
+
+  return (
+    <div className="fixed left-0 top-0 w-full h-full bg-background z-30 flex flex-col justify-center items-center gap-4">
+      <div className={iconClasses}>
+        <LoaderIcon />
       </div>
-    </PageLayout>
+      <div className="text-beige-600 opacity-75">Loading…</div>
+    </div>
   );
 };
 

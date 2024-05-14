@@ -127,8 +127,6 @@ const Forest = () => {
       request.limit = +values.limit;
     }
 
-    console.debug(request);
-
     axiosInstance
       .post("/tree", request)
       .then((response) => {
@@ -138,7 +136,7 @@ const Forest = () => {
         onHangleModal();
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error?.response);
         toast.error(error?.response?.data?.message || "Что-то пошло не так");
       });
   };
