@@ -171,6 +171,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
               isRelevant &&
               date >= today &&
               !["LIMITED_TREE", "UNLIMITED_TREE"].includes(tree.type),
+            "bg-check bg-no-repeat bg-center": incrementsCount === 1,
             "bg-cross bg-no-repeat bg-center":
               !incrementsCount &&
               isRelevant &&
@@ -188,7 +189,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
         return (
           <td key={day} className={cellClasses}>
             <div className="group absolute left-0 top-0 w-full h-full p-1 flex justify-center items-center text-center">
-              {incrementsCount || ""}
+              {incrementsCount > 1 ? incrementsCount : ""}
               {isRelevant && date >= createdDate && (
                 <div className="scale-y-0 group-hover:scale-y-100 origin-top transition-transform absolute left-0 top-full flex flex-col items-center w-full box-content z-10">
                   <button

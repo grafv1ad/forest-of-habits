@@ -30,6 +30,7 @@ module.exports = {
         user: "url('/src/images/user.svg')",
         cross: "url('/src/images/cross.svg')",
         dot: "url('/src/images/dot.svg')",
+        check: "url('/src/images/check.svg')",
       },
       content: {
         cone: "url('/src/images/pine_cone.svg')",
