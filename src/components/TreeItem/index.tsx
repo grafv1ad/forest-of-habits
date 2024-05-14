@@ -184,18 +184,30 @@ const TreeItem: React.FC<TreeItemProps> = ({
         );
 
         const buttonClasses =
-          "w-full h-[calc(1.125rem-0.75px)] flex justify-center items-center text-center font-normal border border-gray box-content";
+          "w-full flex justify-center items-center text-center font-normal border border-gray box-content";
 
         return (
           <td key={day} className={cellClasses}>
             <div className="group absolute left-0 top-0 w-full h-full p-1 flex justify-center items-center text-center">
               {incrementsCount > 1 ? incrementsCount : ""}
               {isRelevant && date >= createdDate && (
-                <div className="scale-y-0 group-hover:scale-y-100 origin-top transition-transform absolute left-0 top-full flex flex-col items-center w-full box-content z-10">
+                <div
+                  className={classNames(
+                    "scale-y-0 group-hover:scale-y-100 transition-transform origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
+                    {
+                      "top-full": incrementsCount > 0,
+                      "top-0 transition-none h-full": incrementsCount < 1,
+                    }
+                  )}
+                >
                   <button
                     className={classNames(
                       buttonClasses,
-                      "bg-green text-beige-600"
+                      "bg-green text-beige-600",
+                      {
+                        "h-[calc(1.125rem-0.75px)]": incrementsCount > 0,
+                        "h-full": incrementsCount < 1,
+                      }
                     )}
                     onClick={() => {
                       incrementTree(1, dateString);
@@ -207,6 +219,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                     className={classNames(
                       buttonClasses,
                       "bg-red text-beige-600 border-t-0",
+                      "h-[calc(1.125rem-0.75px)]",
                       {
                         hidden: incrementsCount < 1,
                       }
