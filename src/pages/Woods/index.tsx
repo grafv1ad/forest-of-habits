@@ -30,11 +30,11 @@ const Woods = () => {
       .then((response) => {
         console.debug(response.data);
         dispatch(addWood(response.data));
-        toast.success("Лес добавлен");
+        toast.success("Лес успешно добавлен");
         onHangleModal();
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error?.response);
         toast.error(error?.response?.data?.message || "Что-то пошло не так");
       });
   };

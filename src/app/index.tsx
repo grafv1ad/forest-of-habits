@@ -9,6 +9,7 @@ import Index from "pages/Index";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import Registration from "pages/Registration";
+import Sitemap from "pages/Sitemap";
 import Woods from "pages/Woods";
 import { useAppDispatch } from "store";
 import { getUserInfo } from "store/slices/user";
@@ -27,20 +28,24 @@ function App() {
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Index />} />
+
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/agreement" element={<Agreement />} />
-        <Route path="/woods" element={<Woods />} />
+
+        <Route path="/forests" element={<Woods />} />
         <Route path="/forest/:forestid" element={<Forest />} />
+
+        <Route path="/agreement" element={<Agreement />} />
+        <Route path="/sitemap" element={<Sitemap />} />
         <Route path="/components" element={<Components />} />
       </Routes>
 
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={3500}
         closeOnClick={false}
-        pauseOnFocusLoss
+        pauseOnFocusLoss={false}
         draggable
         pauseOnHover
         theme="light"

@@ -1,4 +1,5 @@
 export interface WoodsState {
+  isLoaded: boolean;
   woods: Wood[];
 }
 export interface Tree {

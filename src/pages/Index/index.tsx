@@ -1,32 +1,34 @@
-import Link from "components/Link";
-import PageLayout from "components/PageLayout";
-import Title from "components/Title";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Loader from "components/Loader";
+// import PageLayout from "components/PageLayout";
+// import Title from "components/Title";
+import { useAuth } from "hooks/useAuth";
 
-const Index = () => (
-  <PageLayout>
-    <Title level="1" color="light">
-      Главная страница
-    </Title>
+const Index = () => {
+  const navigate = useNavigate();
+  const { isAuth } = useAuth();
 
-    <Title level="3" color="light" align="left">
-      Основные страницы
-    </Title>
-    <div className="flex flex-col align gap-3 mb-10">
-      <Link href="/registration">Регистрация</Link>
-      <Link href="/login">Авторизация</Link>
-      <Link href="/account">Личный кабинет</Link>
-      <Link href="/agreement">Соглашение</Link>
-      <Link href="/woods">Леса</Link>
-    </div>
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/forests");
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
-    <Title level="3" color="light" align="left">
-      Технические страницы
-    </Title>
-    <div className="flex flex-col align gap-3 mb-10">
-      <Link href="/components">Компоненты</Link>
-      <Link href="/404">404</Link>
-    </div>
-  </PageLayout>
-);
+  return <Loader />;
+
+  // return (
+  //   <PageLayout>
+  //     <Title level="1" color="light">
+  //       Главная страница
+  //     </Title>
+
+  //     <Loader />
+  //     {/* Тут будет лендинг, а пока редиректы */}
+  //   </PageLayout>
+  // );
+};
 
 export default Index;
