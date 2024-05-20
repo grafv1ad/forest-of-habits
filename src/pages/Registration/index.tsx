@@ -33,6 +33,7 @@ const Registration = () => {
           dispatch(
             setUser({
               username: response.data?.userName || values.username,
+              email: response.data?.email || values.email,
             })
           );
           navigate("/forests");

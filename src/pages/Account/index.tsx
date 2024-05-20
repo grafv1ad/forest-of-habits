@@ -10,7 +10,7 @@ import { removeCookie } from "utils/cookies";
 
 const Account = () => {
   const dispatch = useDispatch();
-  const { isAuth, username } = useAuth();
+  const { isAuth, username, emailHash } = useAuth();
 
   return isAuth ? (
     <PageLayout>
@@ -28,6 +28,16 @@ const Account = () => {
         }}
       >
         Выйти
+      </OurLink>
+      <img
+        src={`https://gravatar.com/avatar/${emailHash}?d=robohash&s=150`}
+        alt=""
+        width={100}
+        height={100}
+        className="border border-main my-3"
+      />
+      <OurLink href="https://gravatar.com/profile" target="_blank">
+        Изменить аватарку
       </OurLink>
     </PageLayout>
   ) : (
