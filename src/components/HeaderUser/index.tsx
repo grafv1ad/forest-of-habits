@@ -1,3 +1,4 @@
+import React from "react";
 import OurLink from "components/Link";
 import { useAuth } from "hooks/useAuth";
 import { ReactComponent as UserSVG } from "images/user.svg";
@@ -12,10 +13,11 @@ const HeaderUser = () => {
         {emailHash && (
           <div
             className="w-full h-full bg-beige-600 bg-[image:var(--avatar-url)] bg-no-repeat bg-center bg-contain z-[2]"
-            style={{
-              // @ts-ignore
-              "--avatar-url": `url('https://gravatar.com/avatar/${emailHash}?d=robohash&s=100')`,
-            }}
+            style={
+              {
+                "--avatar-url": `url('https://gravatar.com/avatar/${emailHash}?d=robohash&s=100')`,
+              } as React.CSSProperties
+            }
           ></div>
         )}
         <div className="svg-wrapper w-8/12 aspect-square absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
