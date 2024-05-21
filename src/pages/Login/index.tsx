@@ -34,7 +34,7 @@ const Login = () => {
               username: response.data?.userName || values.username,
             })
           );
-          navigate("/account");
+          navigate("/forests");
           toast.success("Вы успешно авторизировались");
         } else {
           toast.error("Ошибка при получении токена");
@@ -58,7 +58,7 @@ const Login = () => {
   };
 
   return isAuth ? (
-    <Navigate replace to="/account" />
+    <Navigate replace to="/forests" />
   ) : (
     <PageLayout verticalCentered>
       <Title level="1" color="light">

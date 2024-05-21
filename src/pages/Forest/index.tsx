@@ -100,15 +100,43 @@ const Forest = () => {
 
   const onSubmit = (values: FormValues) => {
     console.debug(values);
+
+    interface IRequest {
+      // eslint-disable-next-line camelcase
+      forest_id: number;
+      name: string;
+      description?: string;
+      type: string;
+      period?: string;
+      limit?: number;
+    }
+
+    const request: IRequest = {
+      // eslint-disable-next-line camelcase
+      forest_id: forest!.id,
+      name: values.name as string,
+      description: (values.description as string) || "",
+      type: values.type as string,
+    };
+
+    if (values.type === "PERIODIC_TREE") {
+      request.period = values.period as string;
+    }
+
+    if (values.type === "LIMITED_TREE") {
+      request.limit = +values.limit;
+    }
+
     axiosInstance
-      .post("/forest", values)
+      .post("/tree", request)
       .then((response) => {
         console.debug(response.data);
-        toast.success("Дерево добавлено");
+        setTrees(null);
+        toast.success("Дерево успешно добавлено");
         onHangleModal();
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error?.response);
         toast.error(error?.response?.data?.message || "Что-то пошло не так");
       });
   };
@@ -117,6 +145,20 @@ const Forest = () => {
     const errors: FormErrors = {};
     if (!value.name) {
       errors.name = "Введите название дерева";
+    }
+    if (!value.type) {
+      errors.type = "Выберите тип дерева";
+    }
+    if (value.type === "PERIODIC_TREE" && !value.period) {
+      errors.period = "Выберите период";
+    }
+    if (value.type === "LIMITED_TREE") {
+      if (!value.limit) {
+        errors.limit = "Укажите лимит";
+      }
+      if (+value.limit < 1) {
+        errors.limit = "Лимит должен быть больше нуля";
+      }
     }
     return errors;
   };
@@ -238,7 +280,7 @@ const Forest = () => {
         <Form
           onSubmit={onSubmit}
           validate={validate}
-          render={({ handleSubmit, submitting, validating }) => (
+          render={({ handleSubmit, submitting, validating, values }) => (
             <form onSubmit={handleSubmit}>
               <FormWrapper>
                 <Field
@@ -255,17 +297,47 @@ const Forest = () => {
                 />
 
                 <Field
-                  name="forest_id"
-                  value={forest.id}
+                  name="description"
+                  type="text"
                   render={({ input, meta }) => (
                     <Input
+                      placeholder="Краткое описание"
                       {...input}
                       {...meta}
-                      value={forest.id}
-                      type="hidden"
                     />
                   )}
                 />
+
+                <Field
+                  name="type"
+                  component="select"
+                  defaultValue="PERIODIC_TREE"
+                >
+                  {/* <option value="BOOLEAN_TREE">Булевое дерево</option> */}
+                  <option value="PERIODIC_TREE">Периодическое дерево</option>
+                  <option value="UNLIMITED_TREE">Безлимитное дерево</option>
+                  <option value="LIMITED_TREE">Лимитное дерево</option>
+                </Field>
+
+                {values.type === "PERIODIC_TREE" && (
+                  <Field name="period" component="select" defaultValue="DAY">
+                    <option value="DAY">Каждый день</option>
+                    <option value="WEEK">Каждую неделю</option>
+                    <option value="MONTH">Каждый месяц</option>
+                    <option value="QUARTER">Каждый квартал</option>
+                    <option value="YEAR">Каждый год</option>
+                  </Field>
+                )}
+
+                {values.type === "LIMITED_TREE" && (
+                  <Field
+                    name="limit"
+                    type="number"
+                    render={({ input, meta }) => (
+                      <Input placeholder="Лимит" {...input} {...meta} />
+                    )}
+                  />
+                )}
 
                 <Button type="submit" disabled={submitting || validating}>
                   Создать

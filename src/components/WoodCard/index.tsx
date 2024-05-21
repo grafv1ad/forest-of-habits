@@ -20,14 +20,16 @@ const itemClasses = "flex items-center before:content-marker before:pr-3";
 const buttonClasses =
   "absolute right-0 top-0 z-10 lg:hidden lg:group-hover:block";
 
-const WoodCard: React.FC<Wood> = ({ name, id }) => {
+const WoodCard: React.FC<Wood> = ({ name, trees, id  }) => {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
   const onHangleModal = () => setOpen(!open);
+  
   const handleClick = () => {
     dispatch(deleteWoodById(id));
   };
+  
   return (
     <>
       <li className={linkClasses}>
@@ -39,20 +41,22 @@ const WoodCard: React.FC<Wood> = ({ name, id }) => {
             <img src={closeIcon} />
           </Button>
         </div>
-        <Link to="/">
+        <Link to={`/forest/${id}`}>
           <Title level="3" color="black" align="center" extraClass="mb-0">
             {name}
           </Title>
           <ul className={listClasses}>
-            <li className={itemClasses}>
-              <Paragraph color="black">Закрыть задачу</Paragraph>
-            </li>
-            <li className={itemClasses}>
-              <Paragraph color="black">Подготовить совместный доклад</Paragraph>
-            </li>
-            <li className={itemClasses}>
-              <Paragraph color="black">Нарисовать 3 картины</Paragraph>
-            </li>
+            {trees?.length > 0 ? (
+              trees.map(({ name, id }) => (
+                <li className={itemClasses} key={id}>
+                  <Paragraph color="black">{name}</Paragraph>
+                </li>
+              ))
+            ) : (
+              <li className={itemClasses}>
+                <Paragraph color="black">Здесь будут ваши деревья</Paragraph>
+              </li>
+            )}
           </ul>
         </Link>
       </li>

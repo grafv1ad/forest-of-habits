@@ -17,9 +17,3 @@ yarn start
 ```bash
 yarn build
 ```
-
-Запустить линтеры вручную:
-
-```bash
-yarn lint
-```

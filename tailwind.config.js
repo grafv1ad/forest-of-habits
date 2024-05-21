@@ -15,6 +15,7 @@ module.exports = {
       black: "#050505",
       gray: "#605954",
       red: "#d14f50",
+      green: "#597C63",
       background: "#172e26",
       transparent: "transparent",
     },
@@ -28,6 +29,8 @@ module.exports = {
         checkbox: "url('/src/images/checkbox.svg')",
         user: "url('/src/images/user.svg')",
         cross: "url('/src/images/cross.svg')",
+        dot: "url('/src/images/dot.svg')",
+        check: "url('/src/images/check.svg')",
       },
       content: {
         cone: "url('/src/images/pine_cone.svg')",
