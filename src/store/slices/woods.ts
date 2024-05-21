@@ -21,11 +21,11 @@ export const getWoods = createAsyncThunk("woods/getWood", async () => {
 
 export const deleteWoodById = createAsyncThunk(
   "woods/deleteWoodById",
-  async (id: number) => {
+  async (id: number, { dispatch }) => {
     try {
-      const { data } = await axiosInstance.delete(`/forest/${id}`);
+      await axiosInstance.delete(`/forest/${id}`);
       toast.success("Лес удален");
-      return data;
+      dispatch(deleteWood(id));
     } catch (error: any) {
       console.error(error?.response);
       toast.error(error?.response?.data?.message || "Что-то пошло не так");

@@ -5,7 +5,7 @@ import Modal from "components/Modal";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
 import { useAppDispatch } from "store";
-import { deleteWood, deleteWoodById } from "store/slices/woods";
+import { deleteWoodById } from "store/slices/woods";
 import { Wood } from "types";
 
 import closeIcon from "../../images/close.svg";
@@ -27,7 +27,6 @@ const WoodCard: React.FC<Wood> = ({ name, id }) => {
   const onHangleModal = () => setOpen(!open);
   const handleClick = () => {
     dispatch(deleteWoodById(id));
-    dispatch(deleteWood(id));
   };
   return (
     <>
