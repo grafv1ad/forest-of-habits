@@ -20,16 +20,16 @@ const itemClasses = "flex items-center before:content-marker before:pr-3";
 const buttonClasses =
   "absolute right-0 top-0 z-10 lg:hidden lg:group-hover:block";
 
-const WoodCard: React.FC<Wood> = ({ name, trees, id  }) => {
+const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
   const onHangleModal = () => setOpen(!open);
-  
+
   const handleClick = () => {
     dispatch(deleteWoodById(id));
   };
-  
+
   return (
     <>
       <li className={linkClasses}>
