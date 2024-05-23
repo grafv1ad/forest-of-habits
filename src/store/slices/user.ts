@@ -6,6 +6,7 @@ import { getCookie, removeCookie } from "utils/cookies";
 const initialState: UserState = {
   isLoaded: false,
   username: null,
+  email: null,
 };
 
 export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
@@ -31,15 +32,18 @@ const userSlice = createSlice({
   reducers: {
     setUser(state: UserState, action) {
       state.username = action.payload.username;
+      state.email = action.payload.email;
     },
     removeUser(state: UserState) {
       state.username = null;
+      state.email = null;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.fulfilled, (state: UserState, action) => {
       state.isLoaded = true;
       state.username = action.payload?.username;
+      state.email = action.payload?.email;
     });
   },
 });
