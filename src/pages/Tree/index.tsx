@@ -272,7 +272,7 @@ const Tree = () => {
             Отмена
           </Button>
           <Button onClick={deleteTree} style="danger" extraClass="w-1/4">
-            Да
+            Удалить
           </Button>
         </div>
       </Modal>

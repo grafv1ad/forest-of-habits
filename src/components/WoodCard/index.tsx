@@ -70,7 +70,7 @@ const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
             Отмена
           </Button>
           <Button onClick={handleClick} style="danger" extraClass="w-1/4">
-            Да
+            Удалить
           </Button>
         </div>
       </Modal>
