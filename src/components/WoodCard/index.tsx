@@ -63,14 +63,14 @@ const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
       <Modal
         open={open}
         onHangleModal={onHangleModal}
-        title={`Удалить лес ${name}?`}
+        title={`Удалить лес «${name}» ?`}
       >
-        <div className="flex justify-between">
-          <Button onClick={handleClick} extraClass="w-1/4">
-            Да
-          </Button>
+        <div className="flex justify-center gap-5">
           <Button onClick={onHangleModal} extraClass="w-1/4">
-            Нет
+            Отмена
+          </Button>
+          <Button onClick={handleClick} style="danger" extraClass="w-1/4">
+            Удалить
           </Button>
         </div>
       </Modal>

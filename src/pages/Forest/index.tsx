@@ -141,22 +141,23 @@ const Forest = () => {
       });
   };
 
-  const validate = (value: FormValues) => {
+  const validate = (values: FormValues) => {
     const errors: FormErrors = {};
-    if (!value.name) {
+    if (!values.name) {
       errors.name = "Введите название дерева";
     }
-    if (!value.type) {
+    if (!values.type) {
       errors.type = "Выберите тип дерева";
     }
-    if (value.type === "PERIODIC_TREE" && !value.period) {
+    if (values.type === "PERIODIC_TREE" && !values.period) {
       errors.period = "Выберите период";
     }
-    if (value.type === "LIMITED_TREE") {
-      if (!value.limit) {
+    if (values.type === "LIMITED_TREE") {
+      if (!values.limit) {
         errors.limit = "Укажите лимит";
-      }
-      if (+value.limit < 1) {
+      } else if (isNaN(+values.limit) || +values.limit % 1 !== 0) {
+        errors.limit = "Лимит должен быть целым числом";
+      } else if (+values.limit < 1) {
         errors.limit = "Лимит должен быть больше нуля";
       }
     }
@@ -164,7 +165,7 @@ const Forest = () => {
   };
 
   if (!forest || !trees) {
-    return <Loader />;
+    return <Loader fullPage={true} />;
   }
 
   const treesList = trees.map((tree) => (
@@ -192,7 +193,7 @@ const Forest = () => {
         >
           <Arrow />
         </div>
-        {getMonthName(date.getMonth())} {date.getFullYear()}
+        {getMonthName(date.getMonth())[0]} {date.getFullYear()}
         <div
           onClick={() => setNextMonth(date)}
           className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main -scale-x-100"
@@ -212,6 +213,7 @@ const Forest = () => {
             <tr>
               <th
                 rowSpan={2}
+                colSpan={2}
                 className="text-left align-middle border border-gray py-1 px-3"
               >
                 Дерево
@@ -238,13 +240,13 @@ const Forest = () => {
               })}
               <th
                 rowSpan={2}
-                className="min-w-28 w-28 text-center align-middle border border-gray p-1"
+                className="min-w-[6.5rem] w-[6.5rem] text-center align-middle border border-gray p-1"
               >
                 За месяц
               </th>
               <th
                 rowSpan={2}
-                className="min-w-28 w-28 text-center align-middle border border-gray p-1"
+                className="min-w-[6.5rem] w-[6.5rem] text-center align-middle border border-gray p-1"
               >
                 Итого
               </th>
@@ -311,7 +313,7 @@ const Forest = () => {
                 <Field
                   name="type"
                   component="select"
-                  defaultValue="PERIODIC_TREE"
+                  initialValue="PERIODIC_TREE"
                 >
                   {/* <option value="BOOLEAN_TREE">Булевое дерево</option> */}
                   <option value="PERIODIC_TREE">Периодическое дерево</option>
@@ -320,7 +322,7 @@ const Forest = () => {
                 </Field>
 
                 {values.type === "PERIODIC_TREE" && (
-                  <Field name="period" component="select" defaultValue="DAY">
+                  <Field name="period" component="select" initialValue="DAY">
                     <option value="DAY">Каждый день</option>
                     <option value="WEEK">Каждую неделю</option>
                     <option value="MONTH">Каждый месяц</option>

@@ -43,6 +43,10 @@
   overflow: hidden;
 }
 
+.ReactModal__Content {
+  outline: none;
+}
+
 /* Временное решение для демки */
 select {
   @apply bg-beige-600 rounded-lg border-2 border-transparent hover:border-main focus:!border-beige-900 outline-none;

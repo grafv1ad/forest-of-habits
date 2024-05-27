@@ -67,6 +67,9 @@ const Components = () => {
               Выключенный модный чекбокс
             </Checkbox>
             <Button type="submit">Cтильная кнопка</Button>
+            <Button type="submit" style="outline">
+              Ещё одна стильная кнопка
+            </Button>
             <Button type="submit" disabled>
               Выключенная стильная кнопка
             </Button>
