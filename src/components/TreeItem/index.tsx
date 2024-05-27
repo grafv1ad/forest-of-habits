@@ -184,10 +184,12 @@ const TreeItem: React.FC<TreeItemProps> = ({
     <>
       <tr>
         <td
-          className="min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray py-0 cursor-pointer text-gray opacity-75 transition hover:text-main"
+          className="group min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray py-0 cursor-pointer text-gray opacity-75 transition hover:text-main"
           onClick={() => setEditModalOpened(true)}
         >
-          <SettingsSVG />
+          <div className="group-hover:rotate-[30deg] transition-transform">
+            <SettingsSVG />
+          </div>
         </td>
         <th className="text-left align-middle font-normal border border-gray py-1 px-3">
           <OurLink
