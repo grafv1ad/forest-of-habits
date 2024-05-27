@@ -4,6 +4,7 @@ export interface InputProps {
   name: string;
   type?: string;
   placeholder?: string;
+  label?: string;
   value?: string | number;
   autocomplete?: string;
   extraClass?: string;

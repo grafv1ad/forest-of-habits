@@ -6,6 +6,7 @@ const Input: React.FC<InputProps> = ({
   name,
   type = "text",
   placeholder,
+  label,
   value,
   autocomplete,
   extraClass,
@@ -22,7 +23,8 @@ const Input: React.FC<InputProps> = ({
     extraClass
   );
   return (
-    <div className="flex flex-col gap-y-1">
+    <label className="flex flex-col gap-y-1">
+      {label && <span className="text-beige-300">{label}</span>}
       <input
         name={name}
         type={type}
@@ -34,7 +36,7 @@ const Input: React.FC<InputProps> = ({
         onChange={onChange}
       />
       {error && touched && <span className="text-red">{error}</span>}
-    </div>
+    </label>
   );
 };
 

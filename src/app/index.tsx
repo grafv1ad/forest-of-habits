@@ -10,6 +10,7 @@ import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import Registration from "pages/Registration";
 import Sitemap from "pages/Sitemap";
+import Tree from "pages/Tree";
 import Woods from "pages/Woods";
 import { useAppDispatch } from "store";
 import { getUserInfo } from "store/slices/user";
@@ -35,6 +36,7 @@ function App() {
 
         <Route path="/forests" element={<Woods />} />
         <Route path="/forest/:forestid" element={<Forest />} />
+        <Route path="/forest/:forestid/tree/:treeid" element={<Tree />} />
 
         <Route path="/agreement" element={<Agreement />} />
         <Route path="/sitemap" element={<Sitemap />} />
@@ -42,7 +44,7 @@ function App() {
       </Routes>
 
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={3500}
         closeOnClick={false}
         pauseOnFocusLoss={false}

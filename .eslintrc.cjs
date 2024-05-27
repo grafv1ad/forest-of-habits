@@ -24,12 +24,13 @@ module.exports = {
     "no-use-before-define": "off",
     "import/extensions": "off",
     "import/no-unresolved": "off",
-    'no-console': [
-      'error',
+    "no-console": [
+      "error",
       {
-          allow: ['warn', 'error', 'debug'],
+          allow: ["warn", "error", "debug"],
       },
     ],
     "react-hooks/exhaustive-deps": 0,
+    "no-nested-ternary": "off",
   },
 };

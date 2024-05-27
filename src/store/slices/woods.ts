@@ -24,7 +24,7 @@ export const deleteWoodById = createAsyncThunk(
   async (id: number, { dispatch }) => {
     try {
       await axiosInstance.delete(`/forest/${id}`);
-      toast.success("Лес удален");
+      toast.success("Лес успешно удален");
       dispatch(deleteWood(id));
     } catch (error: any) {
       console.error(error?.response);
