@@ -368,10 +368,10 @@ const Forest = () => {
                   component="select"
                   initialValue="PERIODIC_TREE"
                 >
-                  {/* <option value="BOOLEAN_TREE">Булевое дерево</option> */}
                   <option value="PERIODIC_TREE">Периодическое дерево</option>
                   <option value="UNLIMITED_TREE">Безлимитное дерево</option>
-                  <option value="LIMITED_TREE">Лимитное дерево</option>
+                  <option value="LIMITED_TREE">Лимитированное дерево</option>
+                  <option value="BOOLEAN_TREE">Булевое дерево</option>
                 </Field>
 
                 {values.type === "PERIODIC_TREE" && (

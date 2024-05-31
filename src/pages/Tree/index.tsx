@@ -67,9 +67,9 @@ const Tree = () => {
   };
 
   const treeTypes: ITreeTypes = {
-    LIMITED_TREE: "Лимитированное",
     PERIODIC_TREE: "Периодическое",
     UNLIMITED_TREE: "Безлимитное",
+    LIMITED_TREE: "Лимитированное",
     BOOLEAN_TREE: "Булевое",
   };
 

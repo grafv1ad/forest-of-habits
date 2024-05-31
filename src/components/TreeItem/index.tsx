@@ -267,7 +267,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 !incrementsCount &&
                 isRelevant &&
                 date >= today &&
-                !["LIMITED_TREE", "UNLIMITED_TREE"].includes(tree.type),
+                tree.type === "PERIODIC_TREE",
               "bg-check bg-no-repeat bg-center": incrementsCount === 1,
               "bg-cross bg-no-repeat bg-center":
                 !incrementsCount &&
@@ -276,7 +276,11 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 date >= createdDate,
               "bg-main text-background font-semibold": incrementsCount > 0,
               "bg-gray opacity-15 cursor-not-allowed":
-                date < createdDate || !isRelevant,
+                date < createdDate ||
+                !isRelevant ||
+                (tree.type === "BOOLEAN_TREE" &&
+                  totalIncrements > 0 &&
+                  !incrementsCount),
             }
           );
 
@@ -291,68 +295,92 @@ const TreeItem: React.FC<TreeItemProps> = ({
                     ? incrementsCount
                     : "99+"
                   : ""}
-                {isRelevant && date >= createdDate && (
-                  <div
-                    className={classNames(
-                      "scale-y-0 group-hover:scale-y-100 origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
-                      {
-                        "top-full transition-transform": incrementsCount > 0,
-                        "top-0 transition-none h-full": incrementsCount < 1,
-                      }
-                    )}
-                  >
-                    <button
+                {isRelevant &&
+                  date >= createdDate &&
+                  !(
+                    tree.type === "BOOLEAN_TREE" &&
+                    totalIncrements > 0 &&
+                    !incrementsCount
+                  ) && (
+                    <div
                       className={classNames(
-                        buttonClasses,
-                        "bg-green text-beige-600",
+                        "scale-y-0 group-hover:scale-y-100 origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
                         {
-                          "h-[calc(1.125rem-0.75px)]": incrementsCount > 0,
-                          "h-full": incrementsCount < 1,
+                          "top-full transition-transform": incrementsCount > 0,
+                          "top-0 transition-none h-full": incrementsCount < 1,
                         }
                       )}
-                      onClick={() => {
-                        incrementTree(1, dateString);
-                      }}
                     >
-                      +
-                    </button>
-                    <button
-                      className={classNames(
-                        buttonClasses,
-                        "bg-red text-beige-600 border-t-0",
-                        "h-[calc(1.125rem-0.75px)]",
-                        {
-                          hidden: incrementsCount < 1,
-                        }
-                      )}
-                      onClick={() => {
-                        if (incrementsCount > 0) {
-                          incrementTree(-1, dateString);
-                        }
-                      }}
-                    >
-                      -
-                    </button>
-                  </div>
-                )}
+                      <button
+                        className={classNames(
+                          buttonClasses,
+                          "bg-green text-beige-600",
+                          {
+                            "h-[calc(1.125rem-0.75px)]": incrementsCount > 0,
+                            "h-full": incrementsCount < 1,
+                          }
+                        )}
+                        onClick={() => {
+                          incrementTree(1, dateString);
+                        }}
+                      >
+                        +
+                      </button>
+                      <button
+                        className={classNames(
+                          buttonClasses,
+                          "bg-red text-beige-600 border-t-0",
+                          "h-[calc(1.125rem-0.75px)]",
+                          {
+                            hidden: incrementsCount < 1,
+                          }
+                        )}
+                        onClick={() => {
+                          if (incrementsCount > 0) {
+                            incrementTree(-1, dateString);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                    </div>
+                  )}
               </div>
             </td>
           );
         })}
-        <td className="text-center align-middle border border-gray p-1">
-          {monthIncrements}
-        </td>
-        <td
-          className={classNames(
-            "text-center align-middle border border-gray p-1",
-            {
-              "bg-main text-background font-semibold":
-                tree?.limit && tree?.limit <= totalIncrements,
-            }
-          )}
-        >
-          {tree?.limit ? `${totalIncrements} / ${tree.limit}` : totalIncrements}
-        </td>
+        {tree.type === "BOOLEAN_TREE" ? (
+          <td
+            colSpan={2}
+            className={classNames(
+              "text-center align-middle border border-gray p-1",
+              {
+                "bg-main text-background font-semibold": totalIncrements > 0,
+              }
+            )}
+          >
+            {totalIncrements > 0 ? "Выполнено" : "Не выполнено"}
+          </td>
+        ) : (
+          <>
+            <td className="text-center align-middle border border-gray p-1">
+              {monthIncrements}
+            </td>
+            <td
+              className={classNames(
+                "text-center align-middle border border-gray p-1",
+                {
+                  "bg-main text-background font-semibold":
+                    tree?.limit && tree?.limit <= totalIncrements,
+                }
+              )}
+            >
+              {tree?.limit
+                ? `${totalIncrements} / ${tree.limit}`
+                : totalIncrements}
+            </td>
+          </>
+        )}
       </tr>
 
       <Modal
