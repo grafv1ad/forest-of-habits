@@ -77,7 +77,7 @@ const Woods = () => {
                 />
 
                 <Button type="submit" disabled={submitting || validating}>
-                  Создать
+                  Добавить
                 </Button>
               </FormWrapper>
             </form>

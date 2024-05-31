@@ -95,6 +95,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
       setLoaded(false);
     } catch (error: any) {
       console.error(error?.response);
+      toast.error("Что-то пошло не так");
     }
   };
 
@@ -140,11 +141,17 @@ const TreeItem: React.FC<TreeItemProps> = ({
       name: string;
       description?: string;
       limit?: number;
+      type: string;
+      // eslint-disable-next-line camelcase
+      forest_id: number;
     }
 
     const request: IRequest = {
       name: values.name as string,
       description: (values.description as string) || "",
+      type: tree.type,
+      // eslint-disable-next-line camelcase
+      forest_id: forestId,
     };
 
     if (tree.type === "LIMITED_TREE") {
@@ -155,7 +162,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
       .patch(`/tree/${tree.id}`, request)
       .then((response) => {
         console.debug(response.data);
-        setTree(null);
+        setTree(response.data);
         toast.success("Дерево успешно изменено");
       })
       .catch((error) => {
@@ -191,13 +198,16 @@ const TreeItem: React.FC<TreeItemProps> = ({
             <SettingsSVG />
           </div>
         </td>
-        <th className="text-left align-middle font-normal border border-gray py-1 px-3">
-          <OurLink
-            href={`/forest/${forestId}/tree/${tree.id}`}
-            title={tree.description}
-          >
-            {tree.name}
-          </OurLink>
+        <th className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]">
+          <div className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main">
+            <OurLink
+              href={`/forest/${forestId}/tree/${tree.id}`}
+              title={tree.description}
+              extraClass="block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold"
+            >
+              {tree.name}
+            </OurLink>
+          </div>
         </th>
         {days.map((day) => {
           const date = new Date(year, month, day);
