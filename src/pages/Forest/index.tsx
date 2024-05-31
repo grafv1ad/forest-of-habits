@@ -137,10 +137,7 @@ const Forest = () => {
       .then((response) => {
         console.debug(response.data);
         if (trees?.length) {
-          setTrees((trees) => {
-            trees?.push(response.data);
-            return trees;
-          });
+          setTrees([...trees, response.data]);
         } else {
           setTrees([response.data]);
         }
