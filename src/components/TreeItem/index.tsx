@@ -7,6 +7,7 @@ import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
 import OurLink from "components/Link";
 import Modal from "components/Modal";
+import Textarea from "components/Textarea";
 import { ReactComponent as SettingsSVG } from "images/settings.svg";
 import {
   ITree,
@@ -26,6 +27,9 @@ const TreeItem: React.FC<TreeItemProps> = ({
   year,
   days,
 }) => {
+  // Реальный номер месяца (в js месяца нумеруются с 0)
+  const realMonth = month + 1;
+
   const [loaded, setLoaded] = useState<boolean>(false);
   const [tree, setTree] = useState<ITree | null>(null);
   const [{ incrementsDates, monthIncrements, totalIncrements }, setIncrements] =
@@ -60,7 +64,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
     days.forEach((day) => {
       const dateString =
         `${year}-` +
-        `${month < 10 ? `0${month}` : month}-` +
+        `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
         `${day < 10 ? `0${day}` : day}`;
 
       const incrementsCount = dates[dateString] || 0;
@@ -95,6 +99,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
       setLoaded(false);
     } catch (error: any) {
       console.error(error?.response);
+      toast.error("Что-то пошло не так");
     }
   };
 
@@ -140,11 +145,17 @@ const TreeItem: React.FC<TreeItemProps> = ({
       name: string;
       description?: string;
       limit?: number;
+      type: string;
+      // eslint-disable-next-line camelcase
+      forest_id: number;
     }
 
     const request: IRequest = {
       name: values.name as string,
       description: (values.description as string) || "",
+      type: tree.type,
+      // eslint-disable-next-line camelcase
+      forest_id: forestId,
     };
 
     if (tree.type === "LIMITED_TREE") {
@@ -155,7 +166,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
       .patch(`/tree/${tree.id}`, request)
       .then((response) => {
         console.debug(response.data);
-        setTree(null);
+        setTree(response.data);
         toast.success("Дерево успешно изменено");
       })
       .catch((error) => {
@@ -191,19 +202,22 @@ const TreeItem: React.FC<TreeItemProps> = ({
             <SettingsSVG />
           </div>
         </td>
-        <th className="text-left align-middle font-normal border border-gray py-1 px-3">
-          <OurLink
-            href={`/forest/${forestId}/tree/${tree.id}`}
-            title={tree.description}
-          >
-            {tree.name}
-          </OurLink>
+        <th className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]">
+          <div className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main">
+            <OurLink
+              href={`/forest/${forestId}/tree/${tree.id}`}
+              title={tree.description}
+              extraClass="block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold"
+            >
+              {tree.name}
+            </OurLink>
+          </div>
         </th>
         {days.map((day) => {
           const date = new Date(year, month, day);
           const dateString =
             `${year}-` +
-            `${month < 10 ? `0${month}` : month}-` +
+            `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
             `${day < 10 ? `0${day}` : day}`;
 
           const createdDate = tree.createdAt ? new Date(tree.createdAt) : today;
@@ -253,7 +267,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 !incrementsCount &&
                 isRelevant &&
                 date >= today &&
-                !["LIMITED_TREE", "UNLIMITED_TREE"].includes(tree.type),
+                tree.type === "PERIODIC_TREE",
               "bg-check bg-no-repeat bg-center": incrementsCount === 1,
               "bg-cross bg-no-repeat bg-center":
                 !incrementsCount &&
@@ -262,7 +276,11 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 date >= createdDate,
               "bg-main text-background font-semibold": incrementsCount > 0,
               "bg-gray opacity-15 cursor-not-allowed":
-                date < createdDate || !isRelevant,
+                date < createdDate ||
+                !isRelevant ||
+                (tree.type === "BOOLEAN_TREE" &&
+                  totalIncrements > 0 &&
+                  !incrementsCount),
             }
           );
 
@@ -277,68 +295,92 @@ const TreeItem: React.FC<TreeItemProps> = ({
                     ? incrementsCount
                     : "99+"
                   : ""}
-                {isRelevant && date >= createdDate && (
-                  <div
-                    className={classNames(
-                      "scale-y-0 group-hover:scale-y-100 origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
-                      {
-                        "top-full transition-transform": incrementsCount > 0,
-                        "top-0 transition-none h-full": incrementsCount < 1,
-                      }
-                    )}
-                  >
-                    <button
+                {isRelevant &&
+                  date >= createdDate &&
+                  !(
+                    tree.type === "BOOLEAN_TREE" &&
+                    totalIncrements > 0 &&
+                    !incrementsCount
+                  ) && (
+                    <div
                       className={classNames(
-                        buttonClasses,
-                        "bg-green text-beige-600",
+                        "scale-y-0 group-hover:scale-y-100 origin-top absolute left-0 flex flex-col items-center w-full box-content z-10",
                         {
-                          "h-[calc(1.125rem-0.75px)]": incrementsCount > 0,
-                          "h-full": incrementsCount < 1,
+                          "top-full transition-transform": incrementsCount > 0,
+                          "top-0 transition-none h-full": incrementsCount < 1,
                         }
                       )}
-                      onClick={() => {
-                        incrementTree(1, dateString);
-                      }}
                     >
-                      +
-                    </button>
-                    <button
-                      className={classNames(
-                        buttonClasses,
-                        "bg-red text-beige-600 border-t-0",
-                        "h-[calc(1.125rem-0.75px)]",
-                        {
-                          hidden: incrementsCount < 1,
-                        }
-                      )}
-                      onClick={() => {
-                        if (incrementsCount > 0) {
-                          incrementTree(-1, dateString);
-                        }
-                      }}
-                    >
-                      -
-                    </button>
-                  </div>
-                )}
+                      <button
+                        className={classNames(
+                          buttonClasses,
+                          "bg-green text-beige-600",
+                          {
+                            "h-[calc(1.125rem-0.75px)]": incrementsCount > 0,
+                            "h-full": incrementsCount < 1,
+                          }
+                        )}
+                        onClick={() => {
+                          incrementTree(1, dateString);
+                        }}
+                      >
+                        +
+                      </button>
+                      <button
+                        className={classNames(
+                          buttonClasses,
+                          "bg-red text-beige-600 border-t-0",
+                          "h-[calc(1.125rem-0.75px)]",
+                          {
+                            hidden: incrementsCount < 1,
+                          }
+                        )}
+                        onClick={() => {
+                          if (incrementsCount > 0) {
+                            incrementTree(-1, dateString);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                    </div>
+                  )}
               </div>
             </td>
           );
         })}
-        <td className="text-center align-middle border border-gray p-1">
-          {monthIncrements}
-        </td>
-        <td
-          className={classNames(
-            "text-center align-middle border border-gray p-1",
-            {
-              "bg-main text-background font-semibold":
-                tree?.limit && tree?.limit <= totalIncrements,
-            }
-          )}
-        >
-          {tree?.limit ? `${totalIncrements} / ${tree.limit}` : totalIncrements}
-        </td>
+        {tree.type === "BOOLEAN_TREE" ? (
+          <td
+            colSpan={2}
+            className={classNames(
+              "text-center align-middle border border-gray p-1",
+              {
+                "bg-main text-background font-semibold": totalIncrements > 0,
+              }
+            )}
+          >
+            {totalIncrements > 0 ? "Выполнено" : "Не выполнено"}
+          </td>
+        ) : (
+          <>
+            <td className="text-center align-middle border border-gray p-1">
+              {monthIncrements}
+            </td>
+            <td
+              className={classNames(
+                "text-center align-middle border border-gray p-1",
+                {
+                  "bg-main text-background font-semibold":
+                    tree?.limit && tree?.limit <= totalIncrements,
+                }
+              )}
+            >
+              {tree?.limit
+                ? `${totalIncrements} / ${tree.limit}`
+                : totalIncrements}
+            </td>
+          </>
+        )}
       </tr>
 
       <Modal
@@ -372,7 +414,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                   type="text"
                   initialValue={tree.description}
                   render={({ input, meta }) => (
-                    <Input
+                    <Textarea
                       placeholder="Краткое описание"
                       label="Краткое описание"
                       {...input}

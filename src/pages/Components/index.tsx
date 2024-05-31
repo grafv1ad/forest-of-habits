@@ -6,6 +6,7 @@ import Input from "components/Input";
 import Link from "components/Link";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
+import Textarea from "components/Textarea";
 import Title from "components/Title";
 
 const Components = () => {
@@ -43,11 +44,16 @@ const Components = () => {
 
         <div className="py-5">
           <Title level="2" color="light">
-            Форма
+            Элементы форм
           </Title>
 
           <FormWrapper>
             <Input name="test-input" placeholder="Красивый инпут"></Input>
+            <Input
+              name="test-input"
+              label="Красивый инпут с лейблом"
+              placeholder="Очень красивый"
+            ></Input>
             <Input
               name="test-input"
               placeholder="Красивый инпут с ошибкой"
@@ -59,6 +65,11 @@ const Components = () => {
               placeholder="Выключенный красивый инпут"
               disabled
             ></Input>
+            <Textarea
+              name="test-textarea"
+              placeholder="Симпатичная область текста"
+              touched
+            ></Textarea>
             <Checkbox name="test-checkbox">Модный чекбокс</Checkbox>
             <Checkbox name="test-checkbox" touched error="Что-то пошло не так">
               Модный чекбокс с ошибкой
@@ -67,11 +78,17 @@ const Components = () => {
               Выключенный модный чекбокс
             </Checkbox>
             <Button type="submit">Cтильная кнопка</Button>
-            <Button type="submit" style="outline">
-              Ещё одна стильная кнопка
-            </Button>
             <Button type="submit" disabled>
               Выключенная стильная кнопка
+            </Button>
+            <Button type="submit" style="outline">
+              Cтильная кнопка без заливки
+            </Button>
+            <Button type="submit" style="danger">
+              Опасная кнопка
+            </Button>
+            <Button type="submit" style="success">
+              Не опасная кнопка
             </Button>
           </FormWrapper>
         </div>
@@ -99,10 +116,18 @@ const Components = () => {
           </Title>
 
           <div className="flex justify-center gap-5">
-            <Button onClick={() => toast.info("Info")}>Info</Button>
-            <Button onClick={() => toast.success("Success")}>Success</Button>
-            <Button onClick={() => toast.warning("Warning")}>Warning</Button>
-            <Button onClick={() => toast.error("Error")}>Error</Button>
+            <Button onClick={() => toast.info("Info")} style="default">
+              Info
+            </Button>
+            <Button onClick={() => toast.warning("Warning")} style="outline">
+              Warning
+            </Button>
+            <Button onClick={() => toast.error("Error")} style="danger">
+              Error
+            </Button>
+            <Button onClick={() => toast.success("Success")} style="success">
+              Success
+            </Button>
           </div>
         </div>
       </div>

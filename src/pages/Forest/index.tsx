@@ -9,6 +9,7 @@ import Input from "components/Input";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
+import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeItem from "components/TreeItem";
 import { ReactComponent as Arrow } from "images/arrow.svg";
@@ -36,6 +37,8 @@ const Forest = () => {
     date.setDate(1);
     return date;
   });
+
+  const [filter, setFilter] = useState<string>("ALL");
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -68,7 +71,9 @@ const Forest = () => {
 
   const getTrees = async () => {
     try {
-      const { data } = await axiosInstance.get(`tree/by_forest/${forestid}`);
+      const { data } = await axiosInstance.get(
+        `tree/by_forest/${forestid}?status=${filter}`
+      );
       setTrees(data);
     } catch (error: any) {
       console.error(error?.response);
@@ -131,7 +136,11 @@ const Forest = () => {
       .post("/tree", request)
       .then((response) => {
         console.debug(response.data);
-        setTrees(null);
+        if (trees?.length) {
+          setTrees([...trees, response.data]);
+        } else {
+          setTrees([response.data]);
+        }
         toast.success("Дерево успешно добавлено");
         onHangleModal();
       })
@@ -180,27 +189,68 @@ const Forest = () => {
     />
   ));
 
+  const filters = [
+    {
+      name: "Все деревья",
+      value: "ALL",
+    },
+    {
+      name: "Открытые",
+      value: "OPEN",
+    },
+    {
+      name: "Закрытые",
+      value: "CLOSE",
+    },
+  ];
+
   return (
     <PageLayout>
       <Title level="1" color="light">
         {forest.name}
       </Title>
 
-      <Title level="2" color="light" extraClass="flex gap-3 justify-center">
-        <div
-          onClick={() => setPrevMonth(date)}
-          className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main"
-        >
-          <Arrow />
+      <div className="w-full flex justify-between mb-4">
+        <div className="flex items-center gap-2">
+          {filters.map((item) => {
+            const classes = classNames("cursor-pointer transition-colors", {
+              "text-main": item.value === filter,
+              "text-gray hover:text-beige-600": item.value !== filter,
+            });
+            return (
+              <div
+                className={classes}
+                key={item.value}
+                onClick={() => {
+                  setFilter(item.value);
+                  setTrees(null);
+                }}
+              >
+                {item.name}
+              </div>
+            );
+          })}
         </div>
-        {getMonthName(date.getMonth())[0]} {date.getFullYear()}
-        <div
-          onClick={() => setNextMonth(date)}
-          className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main -scale-x-100"
-        >
-          <Arrow />
+        <div className="flex items-center gap-4">
+          <div className="text-lg">
+            {getMonthName(date.getMonth())[0]} {date.getFullYear()}
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <div
+              onClick={() => setPrevMonth(date)}
+              className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main"
+            >
+              <Arrow />
+            </div>
+            <div
+              onClick={() => setNextMonth(date)}
+              className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main -scale-x-100"
+            >
+              <Arrow />
+            </div>
+          </div>
         </div>
-      </Title>
+      </div>
 
       <div className="w-full overflow-x-auto pb-5">
         <table
@@ -302,7 +352,7 @@ const Forest = () => {
                   name="description"
                   type="text"
                   render={({ input, meta }) => (
-                    <Input
+                    <Textarea
                       placeholder="Краткое описание"
                       {...input}
                       {...meta}
@@ -315,10 +365,10 @@ const Forest = () => {
                   component="select"
                   initialValue="PERIODIC_TREE"
                 >
-                  {/* <option value="BOOLEAN_TREE">Булевое дерево</option> */}
                   <option value="PERIODIC_TREE">Периодическое дерево</option>
                   <option value="UNLIMITED_TREE">Безлимитное дерево</option>
-                  <option value="LIMITED_TREE">Лимитное дерево</option>
+                  <option value="LIMITED_TREE">Лимитированное дерево</option>
+                  <option value="BOOLEAN_TREE">Булевое дерево</option>
                 </Field>
 
                 {values.type === "PERIODIC_TREE" && (
@@ -342,7 +392,7 @@ const Forest = () => {
                 )}
 
                 <Button type="submit" disabled={submitting || validating}>
-                  Создать
+                  Добавить
                 </Button>
               </FormWrapper>
             </form>

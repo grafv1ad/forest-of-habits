@@ -43,6 +43,10 @@
   overflow: hidden;
 }
 
+.ReactModalPortal {
+  z-index: 100;
+}
+
 .ReactModal__Content {
   outline: none;
 }

@@ -8,6 +8,7 @@ import Input from "components/Input";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
+import Textarea from "components/Textarea";
 import Title from "components/Title";
 import { FormErrors, FormValues, ITree } from "types";
 import { axiosInstance } from "utils/api";
@@ -66,9 +67,9 @@ const Tree = () => {
   };
 
   const treeTypes: ITreeTypes = {
-    LIMITED_TREE: "Лимитированное",
     PERIODIC_TREE: "Периодическое",
     UNLIMITED_TREE: "Безлимитное",
+    LIMITED_TREE: "Лимитированное",
     BOOLEAN_TREE: "Булевое",
   };
 
@@ -113,7 +114,7 @@ const Tree = () => {
       .patch(`/tree/${tree.id}`, request)
       .then((response) => {
         console.debug(response.data);
-        setTree(null);
+        setTree(response.data);
         toast.success("Дерево успешно изменено");
       })
       .catch((error) => {
@@ -225,7 +226,7 @@ const Tree = () => {
                   type="text"
                   initialValue={tree.description}
                   render={({ input, meta }) => (
-                    <Input
+                    <Textarea
                       placeholder="Краткое описание"
                       label="Краткое описание"
                       {...input}
