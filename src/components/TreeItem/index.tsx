@@ -26,6 +26,9 @@ const TreeItem: React.FC<TreeItemProps> = ({
   year,
   days,
 }) => {
+  // Реальный номер месяца (в js месяца нумеруются с 0)
+  const realMonth = month + 1;
+
   const [loaded, setLoaded] = useState<boolean>(false);
   const [tree, setTree] = useState<ITree | null>(null);
   const [{ incrementsDates, monthIncrements, totalIncrements }, setIncrements] =
@@ -60,7 +63,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
     days.forEach((day) => {
       const dateString =
         `${year}-` +
-        `${month < 10 ? `0${month}` : month}-` +
+        `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
         `${day < 10 ? `0${day}` : day}`;
 
       const incrementsCount = dates[dateString] || 0;
@@ -213,7 +216,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
           const date = new Date(year, month, day);
           const dateString =
             `${year}-` +
-            `${month < 10 ? `0${month}` : month}-` +
+            `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
             `${day < 10 ? `0${day}` : day}`;
 
           const createdDate = tree.createdAt ? new Date(tree.createdAt) : today;
