@@ -7,6 +7,7 @@ import FormWrapper from "components/FormWrapper";
 import Input from "components/Input";
 import OurLink from "components/Link";
 import Modal from "components/Modal";
+import Textarea from "components/Textarea";
 import { ReactComponent as SettingsSVG } from "images/settings.svg";
 import {
   ITree,
@@ -385,7 +386,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                   type="text"
                   initialValue={tree.description}
                   render={({ input, meta }) => (
-                    <Input
+                    <Textarea
                       placeholder="Краткое описание"
                       label="Краткое описание"
                       {...input}

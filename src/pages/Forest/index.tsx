@@ -9,6 +9,7 @@ import Input from "components/Input";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
+import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeItem from "components/TreeItem";
 import { ReactComponent as Arrow } from "images/arrow.svg";
@@ -354,7 +355,7 @@ const Forest = () => {
                   name="description"
                   type="text"
                   render={({ input, meta }) => (
-                    <Input
+                    <Textarea
                       placeholder="Краткое описание"
                       {...input}
                       {...meta}

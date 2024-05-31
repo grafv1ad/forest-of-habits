@@ -8,6 +8,7 @@ import Input from "components/Input";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
+import Textarea from "components/Textarea";
 import Title from "components/Title";
 import { FormErrors, FormValues, ITree } from "types";
 import { axiosInstance } from "utils/api";
@@ -225,7 +226,7 @@ const Tree = () => {
                   type="text"
                   initialValue={tree.description}
                   render={({ input, meta }) => (
-                    <Input
+                    <Textarea
                       placeholder="Краткое описание"
                       label="Краткое описание"
                       {...input}
