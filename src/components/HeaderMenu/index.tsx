@@ -6,8 +6,9 @@ const HeaderMenu = () => {
   const [opened, setOpened] = useState(false);
 
   const menuItems = [
-    { name: "Личный кабинет", link: "/account" },
+    { name: "Мой аккаунт", link: "/account" },
     { name: "Мои леса", link: "/forests" },
+    { name: "Авторы проекта", link: "/authors" },
     { name: "Соглашение", link: "/agreement" },
   ];
 
