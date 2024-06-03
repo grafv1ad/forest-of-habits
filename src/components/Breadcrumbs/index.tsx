@@ -6,7 +6,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   if (!items) return "";
 
   return (
-    <div className="flex justify-center pb-3 md:pb-6">
+    <div className="flex justify-center px-3 pb-3 md:px-3 md:pb-6">
       <div className="container">
         <div className="flex gap-x-1 gap-y-1 items-center flex-wrap">
           <OurLink href="/" extraClass="no-underline hover:!underline">
