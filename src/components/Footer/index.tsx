@@ -5,7 +5,7 @@ const Footer = () => {
     <>
       <footer className="flex justify-center p-3 md:p-6">
         <div className="container">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-end">
             <div className="text-gray font-stick">
               <a
                 href="https://school.hh.ru/"

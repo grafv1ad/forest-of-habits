@@ -25,8 +25,8 @@ const Attribution = () => {
         Attribution
       </Title>
       <Paragraph color="light" align="center">
-        {attributionList.map((attribution) => (
-          <div className="mb-2">
+        {attributionList.map((attribution, i) => (
+          <div key={i} className="mb-2">
             <OurLink
               href={attribution.link}
               target="_blank"
@@ -44,6 +44,9 @@ const Attribution = () => {
             </OurLink>
           </div>
         ))}
+        <div className="mt-6">
+          Thank you! <span className="text-red font-semibold">{"<3"}</span>
+        </div>
       </Paragraph>
     </PageLayout>
   );
