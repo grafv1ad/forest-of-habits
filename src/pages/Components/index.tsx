@@ -11,7 +11,7 @@ import Title from "components/Title";
 
 const Components = () => {
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={[{ name: "Компоненты" }]}>
       <div className="flex flex-col">
         <Title level="1" color="light">
           Компоненты

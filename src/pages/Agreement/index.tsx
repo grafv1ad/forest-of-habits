@@ -4,7 +4,7 @@ import Paragraph from "components/Paragraph";
 import Title from "components/Title";
 
 const Agreement = () => (
-  <PageLayout>
+  <PageLayout breadcrumbs={[{ name: "Соглашение" }]}>
     <Title level="1" color="light">
       Соглашение
     </Title>
