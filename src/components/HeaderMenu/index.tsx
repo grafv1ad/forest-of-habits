@@ -56,7 +56,7 @@ const HeaderMenu = () => {
           <OurLink
             key={i}
             href={item.link}
-            extraClass="no-underline font-semibold !text-black hover:!text-background"
+            extraClass="no-underline font-semibold !text-black hover:!text-background transition-colors"
           >
             {item.name}
           </OurLink>

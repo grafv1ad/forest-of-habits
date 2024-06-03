@@ -13,7 +13,7 @@ const OurLink: React.FC<LinkProps> = ({
   title,
 }) => {
   const classes = classNames(
-    "text-main underline hover:no-underline active:text-beige-900 group transition-colors",
+    "text-main underline hover:no-underline active:text-beige-900 group",
     extraClass
   );
 

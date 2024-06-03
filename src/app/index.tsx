@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Account from "pages/Account";
 import Agreement from "pages/Agreement";
+import Attribution from "pages/Attribution";
 import Components from "pages/Components";
 import Forest from "pages/Forest";
 import Index from "pages/Index";
@@ -39,6 +40,7 @@ function App() {
         <Route path="/forest/:forestid/tree/:treeid" element={<Tree />} />
 
         <Route path="/agreement" element={<Agreement />} />
+        <Route path="/Attribution" element={<Attribution />} />
         <Route path="/sitemap" element={<Sitemap />} />
         <Route path="/components" element={<Components />} />
       </Routes>
