@@ -3,7 +3,7 @@ import OurLink from "components/Link";
 import { BreadcrumbsProps } from "types";
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
-  if (!items) return "";
+  if (!items) return null;
 
   return (
     <div className="flex justify-center px-3 pb-3 md:px-3 md:pb-6">
@@ -13,10 +13,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
             Главная
           </OurLink>
 
-          {items.map((item, i) => {
+          {items.map((item) => {
             return (
               <div
-                key={i}
+                key={item.name}
                 className="flex gap-x-1 gap-y-1 items-center flex-wrap"
               >
                 <div className="w-4 h-4 bg-center bg-no-repeat bg-contain bg-breadcrumbsSeparator"></div>

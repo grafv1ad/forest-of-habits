@@ -53,9 +53,9 @@ const HeaderMenu = () => {
           }
         )}
       >
-        {menuItems.map((item, i) => (
+        {menuItems.map((item) => (
           <OurLink
-            key={i}
+            key={item.name}
             href={item.link}
             extraClass="no-underline font-semibold !text-black hover:!text-background transition-colors"
           >

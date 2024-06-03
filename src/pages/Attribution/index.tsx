@@ -3,22 +3,22 @@ import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
 
-const Attribution = () => {
-  const attributionList = [
-    {
-      name: "Vintage trees and forest silhouettes set",
-      author: "dgim-studio on Freepik",
-      link: "https://www.freepik.com/free-vector/vintage-trees-forest-silhouettes-set_7997410.htm",
-      authorLink: "https://www.freepik.com/author/dgim-studio",
-    },
-    {
-      name: "Christmas trees sketches collection",
-      author: "Freepik",
-      link: "https://www.freepik.com/free-vector/christmas-trees-sketches-collection_749737.htm",
-      authorLink: "https://www.freepik.com/author/freepik",
-    },
-  ];
+const attributionList = [
+  {
+    name: "Vintage trees and forest silhouettes set",
+    author: "dgim-studio on Freepik",
+    link: "https://www.freepik.com/free-vector/vintage-trees-forest-silhouettes-set_7997410.htm",
+    authorLink: "https://www.freepik.com/author/dgim-studio",
+  },
+  {
+    name: "Christmas trees sketches collection",
+    author: "Freepik",
+    link: "https://www.freepik.com/free-vector/christmas-trees-sketches-collection_749737.htm",
+    authorLink: "https://www.freepik.com/author/freepik",
+  },
+];
 
+const Attribution = () => {
   return (
     <PageLayout breadcrumbs={[{ name: "Attribution" }]}>
       <Title level="1" color="light">
