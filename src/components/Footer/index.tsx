@@ -1,17 +1,27 @@
+import OurLink from "components/Link";
+
 const Footer = () => {
   return (
     <>
       <footer className="flex justify-center p-3 md:p-6">
         <div className="container">
-          <div className="text-gray font-stick">
-            <a
-              href="https://school.hh.ru/"
-              target="_blank"
-              className="hover:underline"
+          <div className="flex justify-between items-end">
+            <div className="text-gray font-stick">
+              <a
+                href="https://school.hh.ru/"
+                target="_blank"
+                className="hover:underline"
+              >
+                school.hh.ru
+              </a>
+              &nbsp;©&nbsp;2024
+            </div>
+            <OurLink
+              href="/attribution"
+              extraClass="!text-gray !no-underline hover:!underline text-sm"
             >
-              school.hh.ru
-            </a>
-            &nbsp;©&nbsp;2024
+              Attribution
+            </OurLink>
           </div>
         </div>
       </footer>

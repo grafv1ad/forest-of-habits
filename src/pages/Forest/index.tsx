@@ -205,7 +205,12 @@ const Forest = () => {
   ];
 
   return (
-    <PageLayout>
+    <PageLayout
+      breadcrumbs={[
+        { name: "Мои леса", link: "/forests" },
+        { name: forest.name },
+      ]}
+    >
       <Title level="1" color="light">
         {forest.name}
       </Title>

@@ -10,7 +10,7 @@ import Modal from "components/Modal";
 import PageLayout from "components/PageLayout";
 import Textarea from "components/Textarea";
 import Title from "components/Title";
-import { FormErrors, FormValues, ITree } from "types";
+import { FormErrors, FormValues, IForest, ITree } from "types";
 import { axiosInstance } from "utils/api";
 import { getMonthName } from "utils/date";
 
@@ -19,10 +19,25 @@ const Tree = () => {
 
   const { forestid, treeid } = useParams();
 
+  const [forest, setForest] = useState<IForest | null>(null);
   const [tree, setTree] = useState<ITree | null>(null);
 
   const [editModalOpened, setEditModalOpened] = useState(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState(false);
+
+  const getForest = async () => {
+    try {
+      const { data } = await axiosInstance.get(`forest/${forestid}`);
+      setForest(data);
+    } catch (error: any) {
+      console.error(error?.response);
+      if (error?.response?.status === 401) {
+        navigate("/login");
+      } else {
+        navigate("/404");
+      }
+    }
+  };
 
   const getTree = async () => {
     try {
@@ -39,12 +54,16 @@ const Tree = () => {
   };
 
   useEffect(() => {
+    if (!forest) {
+      getForest();
+    }
+
     if (!tree) {
       getTree();
     }
-  }, [tree]);
+  }, [forest, tree]);
 
-  if (!tree) {
+  if (!forest || !tree) {
     return <Loader fullPage={true} />;
   }
 
@@ -140,7 +159,13 @@ const Tree = () => {
   };
 
   return (
-    <PageLayout>
+    <PageLayout
+      breadcrumbs={[
+        { name: "Мои леса", link: "/forests" },
+        { name: forest.name, link: `/forest/${forestid}` },
+        { name: tree.name },
+      ]}
+    >
       <Title level="1" color="light" extraClass="!mb-7">
         {tree.name}
       </Title>

@@ -31,6 +31,7 @@ module.exports = {
         cross: "url('/src/images/cross.svg')",
         dot: "url('/src/images/dot.svg')",
         check: "url('/src/images/check.svg')",
+        breadcrumbsSeparator: "url('/src/images/breadcrumbs-separator.svg')",
       },
       content: {
         cone: "url('/src/images/pine_cone.svg')",

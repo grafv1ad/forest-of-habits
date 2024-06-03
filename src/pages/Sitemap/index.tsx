@@ -3,7 +3,7 @@ import PageLayout from "components/PageLayout";
 import Title from "components/Title";
 
 const Sitemap = () => (
-  <PageLayout>
+  <PageLayout breadcrumbs={[{ name: "Карта сайта" }]}>
     <Title level="1" color="light">
       Карта сайта
     </Title>

@@ -61,7 +61,7 @@ const Login = () => {
   return isAuth ? (
     <Navigate replace to="/forests" />
   ) : (
-    <PageLayout verticalCentered>
+    <PageLayout verticalCentered breadcrumbs={[{ name: "Авторизация" }]}>
       <Title level="1" color="light">
         Добро пожаловать
       </Title>

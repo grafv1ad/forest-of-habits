@@ -4,7 +4,7 @@ import Paragraph from "components/Paragraph";
 import Title from "components/Title";
 
 const NotFound = () => (
-  <PageLayout>
+  <PageLayout breadcrumbs={[{ name: "Страница не найдена" }]}>
     <Title level="1" color="light">
       Страница не найдена
     </Title>

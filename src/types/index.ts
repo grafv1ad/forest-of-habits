@@ -14,3 +14,4 @@ export * from "./forest";
 export * from "./tree";
 export * from "./woods";
 export * from "./loader";
+export * from "./breadcrumbs";

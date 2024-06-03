@@ -48,7 +48,7 @@ const Woods = () => {
   };
 
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={[{ name: "Мои леса" }]}>
       <Title level="1" color="light">
         Мои леса
       </Title>

@@ -13,7 +13,7 @@ const Account = () => {
   const { isAuth, username, emailHash } = useAuth();
 
   return isAuth ? (
-    <PageLayout>
+    <PageLayout breadcrumbs={[{ name: "Личный кабинет" }]}>
       <Title level="1" color="light">
         Личный кабинет
       </Title>

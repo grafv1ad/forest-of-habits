@@ -75,7 +75,7 @@ const Registration = () => {
   return isAuth ? (
     <Navigate replace to="/forests" />
   ) : (
-    <PageLayout verticalCentered>
+    <PageLayout verticalCentered breadcrumbs={[{ name: "Регистрация" }]}>
       <Title level="1" color="light">
         Регистрация
       </Title>
