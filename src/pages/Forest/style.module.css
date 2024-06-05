@@ -1,3 +1,7 @@
+.calendar {
+  user-select: none;
+}
+
 .calendar tbody:empty {
   display: none;
 }

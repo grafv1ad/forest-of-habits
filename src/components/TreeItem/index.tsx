@@ -84,17 +84,22 @@ const TreeItem: React.FC<TreeItemProps> = ({
       setIncrements(getIncrementsFromTree(data, days));
       setTree(data);
     } catch (error: any) {
-      setTree(null);
       console.error(error?.response);
     }
     setLoaded(true);
   };
 
   const incrementTree = async (value: number, date: string) => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
     try {
       await axiosInstance.post(`tree/${treeId}`, {
         value,
-        date: `${date}T00:00:00`,
+        date: `${date}T${hours < 10 ? `0${hours}` : hours}:${
+          minutes < 10 ? `0${minutes}` : minutes
+        }:00`,
       });
       setLoaded(false);
     } catch (error: any) {
@@ -273,7 +278,8 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 !incrementsCount &&
                 isRelevant &&
                 date < today &&
-                date >= createdDate,
+                date >= createdDate &&
+                tree.type !== "BOOLEAN_TREE",
               "bg-main text-background font-semibold": incrementsCount > 0,
               "bg-gray opacity-15 cursor-not-allowed":
                 date < createdDate ||

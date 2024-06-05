@@ -20,6 +20,15 @@ export interface ITreeIncrementsDates {
   [key: string]: number;
 }
 
+export interface ITreeIncrementValues {
+  value: number;
+  hours: number[];
+}
+
+export interface ITreeIncrementsWithValues {
+  [key: string]: ITreeIncrementValues;
+}
+
 export interface ITreeIncrementsState {
   incrementsDates: ITreeIncrementsDates;
   monthIncrements: number;
@@ -33,4 +42,10 @@ export interface TreeItemProps {
   month: number;
   year: number;
   days: number[];
+}
+
+export interface IHourIncrement {
+  y: number;
+  r: number;
+  x: number;
 }
