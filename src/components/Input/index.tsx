@@ -13,6 +13,7 @@ const Input: React.FC<InputProps> = ({
   disabled = false,
   error,
   touched,
+  readOnly,
   onChange,
 }) => {
   const classes = classNames(
@@ -35,6 +36,7 @@ const Input: React.FC<InputProps> = ({
         className={classes}
         disabled={disabled}
         onChange={onChange}
+        readOnly={readOnly}
       />
       {error && touched && <span className="text-red">{error}</span>}
     </label>

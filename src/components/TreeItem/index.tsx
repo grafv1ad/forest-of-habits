@@ -473,7 +473,10 @@ const TreeItem: React.FC<TreeItemProps> = ({
       >
         <div className="flex justify-center gap-5">
           <Button
-            onClick={() => setDeleteModalOpened(false)}
+            onClick={() => {
+              setDeleteModalOpened(false);
+              setEditModalOpened(true);
+            }}
             extraClass="w-1/4"
           >
             Отмена
