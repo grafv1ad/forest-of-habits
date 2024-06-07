@@ -16,6 +16,14 @@ export interface ITree {
   increments: ITreeIncrement[];
 }
 
+export interface ITreePeriods {
+  [key: string]: string;
+}
+
+export interface ITreeTypes {
+  [key: string]: string;
+}
+
 export interface ITreeIncrementsDates {
   [key: string]: number;
 }
