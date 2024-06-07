@@ -29,7 +29,9 @@ import styles from "./style.module.css";
 const Forest = () => {
   const navigate = useNavigate();
 
-  const { forestid } = useParams();
+  const { forestid, forestuuid } = useParams();
+
+  const isShared = /\/shared\//.test(window.location.pathname);
 
   const [notFoundError, setNotFoundError] = useState<boolean>(false);
 
@@ -68,9 +70,14 @@ const Forest = () => {
 
   const getForest = async () => {
     try {
-      const { data } = await axiosInstance.get(`forest/${forestid}`);
-      setForest(data);
-      setForestSharedUuid(data?.sharedId || null);
+      if (isShared) {
+        const { data } = await axiosInstance.get(`shared/${forestuuid}`);
+        setForest(data);
+      } else {
+        const { data } = await axiosInstance.get(`forest/${forestid}`);
+        setForest(data);
+        setForestSharedUuid(data?.sharedId || null);
+      }
     } catch (error: any) {
       console.error(error?.response);
       if (error?.response?.status === 401) {
@@ -83,10 +90,17 @@ const Forest = () => {
 
   const getTrees = async () => {
     try {
-      const { data } = await axiosInstance.get(
-        `tree/by_forest/${forestid}?status=${filter}`
-      );
-      setTrees(data);
+      if (isShared) {
+        const { data } = await axiosInstance.get(
+          `shared/by_forest/${forestuuid}?status=${filter}`
+        );
+        setTrees(data);
+      } else {
+        const { data } = await axiosInstance.get(
+          `tree/by_forest/${forestid}?status=${filter}`
+        );
+        setTrees(data);
+      }
     } catch (error: any) {
       console.error(error?.response);
       if (error?.response?.status === 401) {
@@ -235,6 +249,7 @@ const Forest = () => {
       month={date.getMonth()}
       year={date.getFullYear()}
       days={days}
+      isShared={isShared}
     />
   ));
 
@@ -259,13 +274,17 @@ const Forest = () => {
       }/forest/shared/${forestShareUuid}`
     : null;
 
+  let breadcrumbs = [
+    { name: "Мои леса", link: "/forests" },
+    { name: forest.name },
+  ];
+
+  if (isShared) {
+    breadcrumbs = [{ name: forest.name }];
+  }
+
   return (
-    <PageLayout
-      breadcrumbs={[
-        { name: "Мои леса", link: "/forests" },
-        { name: forest.name },
-      ]}
-    >
+    <PageLayout breadcrumbs={breadcrumbs}>
       <Title level="1" color="light">
         {forest.name}
       </Title>
@@ -373,45 +392,47 @@ const Forest = () => {
             </tr>
           </thead>
           <tbody>{treesList}</tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={4} className="min-h-9 h-9 align-top">
-                <div
-                  className="cursor-pointer pt-2 pl-3 w-fit transition-colors duration-150 hover:text-main"
-                  onClick={() => setAddTreeModalOpen(true)}
-                >
-                  + Добавить новое дерево
-                </div>
-              </td>
-              <td colSpan={daysCount}>
-                {forestShareUuid ? (
-                  <div className="flex items-start justify-end mt-3">
-                    <div
-                      className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-blue hover:bg-green text-white gap-1.5 cursor-pointer"
-                      onClick={() => {
-                        setShareModalOpen(true);
-                      }}
-                    >
-                      <span>Доступно по ссылке</span>
-                      <div className="w-5 h-5 bg-globe bg-contain bg-center bg-no-repeat"></div>
-                    </div>
+          {!isShared && (
+            <tfoot>
+              <tr>
+                <td colSpan={4} className="min-h-9 h-9 align-top">
+                  <div
+                    className="cursor-pointer pt-2 pl-3 w-fit transition-colors duration-150 hover:text-main"
+                    onClick={() => setAddTreeModalOpen(true)}
+                  >
+                    + Добавить новое дерево
                   </div>
-                ) : (
-                  <div className="flex items-start justify-end mt-3">
-                    <div
-                      className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-gray hover:bg-blue text-white gap-1.5 cursor-pointer"
-                      onClick={() => {
-                        setAddShareModalOpen(true);
-                      }}
-                    >
-                      <span>Поделиться</span>
-                      <div className="w-5 h-5 bg-share bg-contain bg-center bg-no-repeat"></div>
+                </td>
+                <td colSpan={daysCount}>
+                  {forestShareUuid ? (
+                    <div className="flex items-start justify-end mt-3">
+                      <div
+                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-blue hover:bg-green text-white gap-1.5 cursor-pointer"
+                        onClick={() => {
+                          setShareModalOpen(true);
+                        }}
+                      >
+                        <span>Доступно по ссылке</span>
+                        <div className="w-5 h-5 bg-globe bg-contain bg-center bg-no-repeat"></div>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </td>
-            </tr>
-          </tfoot>
+                  ) : (
+                    <div className="flex items-start justify-end mt-3">
+                      <div
+                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-gray hover:bg-blue text-white gap-1.5 cursor-pointer"
+                        onClick={() => {
+                          setAddShareModalOpen(true);
+                        }}
+                      >
+                        <span>Поделиться</span>
+                        <div className="w-5 h-5 bg-share bg-contain bg-center bg-no-repeat"></div>
+                      </div>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
 

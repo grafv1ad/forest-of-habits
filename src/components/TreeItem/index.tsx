@@ -26,6 +26,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
   month,
   year,
   days,
+  isShared,
 }) => {
   // Реальный номер месяца (в js месяца нумеруются с 0)
   const realMonth = month + 1;
@@ -80,9 +81,15 @@ const TreeItem: React.FC<TreeItemProps> = ({
 
   const getTree = async () => {
     try {
-      const { data } = await axiosInstance.get(`tree/${treeId}`);
-      setIncrements(getIncrementsFromTree(data, days));
-      setTree(data);
+      if (isShared) {
+        const { data } = await axiosInstance.get(`shared/tree/${treeId}`);
+        setIncrements(getIncrementsFromTree(data, days));
+        setTree(data);
+      } else {
+        const { data } = await axiosInstance.get(`tree/${treeId}`);
+        setIncrements(getIncrementsFromTree(data, days));
+        setTree(data);
+      }
     } catch (error: any) {
       console.error(error?.response);
     }
@@ -208,14 +215,22 @@ const TreeItem: React.FC<TreeItemProps> = ({
           </div>
         </td>
         <th className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]">
-          <div className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main">
-            <OurLink
-              href={`/forest/${forestId}/tree/${tree.id}`}
-              title={tree.description}
-              extraClass="block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold"
-            >
-              {tree.name}
-            </OurLink>
+          <div
+            className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main"
+            title={tree.description}
+          >
+            {isShared ? (
+              <div className="text-main block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold">
+                {tree.name}
+              </div>
+            ) : (
+              <OurLink
+                href={`/forest/${forestId}/tree/${tree.id}`}
+                extraClass="block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold"
+              >
+                {tree.name}
+              </OurLink>
+            )}
           </div>
         </th>
         {days.map((day) => {
@@ -301,7 +316,8 @@ const TreeItem: React.FC<TreeItemProps> = ({
                     ? incrementsCount
                     : "99+"
                   : ""}
-                {isRelevant &&
+                {!isShared &&
+                  isRelevant &&
                   date >= createdDate &&
                   !(
                     tree.type === "BOOLEAN_TREE" &&

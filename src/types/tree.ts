@@ -42,6 +42,7 @@ export interface TreeItemProps {
   month: number;
   year: number;
   days: number[];
+  isShared: boolean;
 }
 
 export interface IHourIncrement {
