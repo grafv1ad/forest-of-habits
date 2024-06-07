@@ -206,15 +206,20 @@ const TreeItem: React.FC<TreeItemProps> = ({
   return (
     <>
       <tr>
-        <td
-          className="group min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray py-0 cursor-pointer text-gray opacity-75 transition hover:text-main"
-          onClick={() => setEditModalOpened(true)}
+        {!isShared && (
+          <td
+            className="group min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray py-0 cursor-pointer text-gray opacity-75 transition hover:text-main"
+            onClick={() => setEditModalOpened(true)}
+          >
+            <div className="group-hover:rotate-[30deg] transition-transform">
+              <SettingsSVG />
+            </div>
+          </td>
+        )}
+        <th
+          colSpan={isShared ? 2 : 1}
+          className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]"
         >
-          <div className="group-hover:rotate-[30deg] transition-transform">
-            <SettingsSVG />
-          </div>
-        </td>
-        <th className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]">
           <div
             className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main"
             title={tree.description}
