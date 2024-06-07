@@ -13,6 +13,7 @@ import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeItem from "components/TreeItem";
 import { ReactComponent as Arrow } from "images/arrow.svg";
+import NotFound from "pages/NotFound";
 import { IForest, ITree, FormValues, FormErrors } from "types";
 import { axiosInstance } from "utils/api";
 import {
@@ -27,10 +28,16 @@ import styles from "./style.module.css";
 const Forest = () => {
   const navigate = useNavigate();
 
-  const { forestid } = useParams();
+  const { forestid, forestuuid } = useParams();
+
+  const isShared = /\/shared\//.test(window.location.pathname);
+
+  const [notFoundError, setNotFoundError] = useState<boolean>(false);
 
   const [forest, setForest] = useState<IForest | null>(null);
   const [trees, setTrees] = useState<ITree[] | null>(null);
+
+  const [forestShareUuid, setForestSharedUuid] = useState<string | null>(null);
 
   const [date, setDate] = useState<Date>(() => {
     const date = new Date();
@@ -39,6 +46,11 @@ const Forest = () => {
   });
 
   const [filter, setFilter] = useState<string>("ALL");
+
+  const [addTreeModalOpen, setAddTreeModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [addShareModalOpen, setAddShareModalOpen] = useState(false);
+  const [removeShareModalOpen, setRemoveShareModalOpen] = useState(false);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -57,30 +69,43 @@ const Forest = () => {
 
   const getForest = async () => {
     try {
-      const { data } = await axiosInstance.get(`forest/${forestid}`);
-      setForest(data);
+      if (isShared) {
+        const { data } = await axiosInstance.get(`shared/${forestuuid}`);
+        setForest(data);
+      } else {
+        const { data } = await axiosInstance.get(`forest/${forestid}`);
+        setForest(data);
+        setForestSharedUuid(data?.sharedId || null);
+      }
     } catch (error: any) {
       console.error(error?.response);
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        setNotFoundError(true);
       }
     }
   };
 
   const getTrees = async () => {
     try {
-      const { data } = await axiosInstance.get(
-        `tree/by_forest/${forestid}?status=${filter}`
-      );
-      setTrees(data);
+      if (isShared) {
+        const { data } = await axiosInstance.get(
+          `shared/by_forest/${forestuuid}?status=${filter}`
+        );
+        setTrees(data);
+      } else {
+        const { data } = await axiosInstance.get(
+          `tree/by_forest/${forestid}?status=${filter}`
+        );
+        setTrees(data);
+      }
     } catch (error: any) {
       console.error(error?.response);
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        setNotFoundError(true);
       }
     }
   };
@@ -99,13 +124,7 @@ const Forest = () => {
   // eslint-disable-next-line no-restricted-properties
   const days = Array.from({ length: daysCount }, (_, i) => i + 1);
 
-  const [open, setOpen] = useState(false);
-
-  const onHangleModal = () => setOpen(!open);
-
   const onSubmit = (values: FormValues) => {
-    console.debug(values);
-
     interface IRequest {
       // eslint-disable-next-line camelcase
       forest_id: number;
@@ -135,14 +154,13 @@ const Forest = () => {
     axiosInstance
       .post("/tree", request)
       .then((response) => {
-        console.debug(response.data);
         if (trees?.length) {
           setTrees([...trees, response.data]);
         } else {
           setTrees([response.data]);
         }
         toast.success("Дерево успешно добавлено");
-        onHangleModal();
+        setAddTreeModalOpen(false);
       })
       .catch((error) => {
         console.error(error?.response);
@@ -173,6 +191,50 @@ const Forest = () => {
     return errors;
   };
 
+  const addShare = async () => {
+    try {
+      const { data } = await axiosInstance.put(`/forest/share/${forestid}`);
+      setForestSharedUuid(data);
+      setAddShareModalOpen(false);
+      setShareModalOpen(true);
+
+      if (data) {
+        toast.success("Теперь лес доступен по ссылке");
+      } else {
+        toast.error("Что-то пошло не так");
+      }
+    } catch (error: any) {
+      console.error(error?.response);
+      if (error?.response?.status === 401) {
+        navigate("/login");
+      } else {
+        toast.error("Что-то пошло не так");
+      }
+    }
+  };
+
+  const removeShare = async () => {
+    try {
+      await axiosInstance.delete(`/forest/share/${forestid}`);
+      setForestSharedUuid(null);
+      setRemoveShareModalOpen(false);
+
+      toast.success("Доступ по ссылке удален");
+    } catch (error: any) {
+      console.error(error?.response);
+      if (error?.response?.status === 401) {
+        navigate("/login");
+      } else {
+        toast.error("Что-то пошло не так");
+      }
+    }
+    return null;
+  };
+
+  if (notFoundError) {
+    return <NotFound />;
+  }
+
   if (!forest || !trees) {
     return <Loader fullPage={true} />;
   }
@@ -186,6 +248,7 @@ const Forest = () => {
       month={date.getMonth()}
       year={date.getFullYear()}
       days={days}
+      isShared={isShared}
     />
   ));
 
@@ -204,13 +267,23 @@ const Forest = () => {
     },
   ];
 
+  const shareLink = forestShareUuid
+    ? `${window.location.protocol}//${window.location.hostname}${
+        window.location.port ? `:${window.location.port}` : ""
+      }/forest/shared/${forestShareUuid}`
+    : null;
+
+  let breadcrumbs = [
+    { name: "Мои леса", link: "/forests" },
+    { name: forest.name },
+  ];
+
+  if (isShared) {
+    breadcrumbs = [{ name: forest.name }];
+  }
+
   return (
-    <PageLayout
-      breadcrumbs={[
-        { name: "Мои леса", link: "/forests" },
-        { name: forest.name },
-      ]}
-    >
+    <PageLayout breadcrumbs={breadcrumbs}>
       <Title level="1" color="light">
         {forest.name}
       </Title>
@@ -269,7 +342,7 @@ const Forest = () => {
               <th
                 rowSpan={2}
                 colSpan={2}
-                className="text-left align-middle border border-gray py-1 px-3"
+                className="text-left align-middle border border-gray py-1 px-3 min-w-64 w-64 2xl:min-w-0 2xl:w-auto"
               >
                 Дерево
               </th>
@@ -318,22 +391,55 @@ const Forest = () => {
             </tr>
           </thead>
           <tbody>{treesList}</tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={2 + days.length + 2} className="min-h-9 h-9">
-                <div
-                  className="cursor-pointer py-1 px-3 w-fit transition-colors duration-150 hover:text-main"
-                  onClick={onHangleModal}
-                >
-                  + Добавить новое дерево
-                </div>
-              </td>
-            </tr>
-          </tfoot>
+          {!isShared && (
+            <tfoot>
+              <tr>
+                <td colSpan={4} className="min-h-9 h-9 align-top">
+                  <div
+                    className="cursor-pointer pt-2 pl-3 w-fit transition-colors duration-150 hover:text-main"
+                    onClick={() => setAddTreeModalOpen(true)}
+                  >
+                    + Добавить новое дерево
+                  </div>
+                </td>
+                <td colSpan={daysCount}>
+                  {forestShareUuid ? (
+                    <div className="flex items-start justify-end mt-3">
+                      <div
+                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-blue hover:bg-green text-white gap-1.5 cursor-pointer"
+                        onClick={() => {
+                          setShareModalOpen(true);
+                        }}
+                      >
+                        <span>Доступно по ссылке</span>
+                        <div className="w-5 h-5 bg-globe bg-contain bg-center bg-no-repeat"></div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-start justify-end mt-3">
+                      <div
+                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-gray hover:bg-blue text-white gap-1.5 cursor-pointer"
+                        onClick={() => {
+                          setAddShareModalOpen(true);
+                        }}
+                      >
+                        <span>Поделиться</span>
+                        <div className="w-5 h-5 bg-share bg-contain bg-center bg-no-repeat"></div>
+                      </div>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
 
-      <Modal open={open} onHangleModal={onHangleModal} title="Новое дерево">
+      <Modal
+        open={addTreeModalOpen}
+        onHangleModal={() => setAddTreeModalOpen(false)}
+        title="Новое дерево"
+      >
         <Form
           onSubmit={onSubmit}
           validate={validate}
@@ -404,6 +510,100 @@ const Forest = () => {
           )}
         />
       </Modal>
+
+      <Modal
+        open={addShareModalOpen}
+        onHangleModal={() => setAddShareModalOpen(false)}
+        title="Сделать лес доступным по ссылке?"
+      >
+        <div className="flex justify-center gap-5">
+          <Button
+            onClick={() => setAddShareModalOpen(false)}
+            extraClass="w-1/4"
+          >
+            Отмена
+          </Button>
+          <Button onClick={addShare} style="success" extraClass="w-1/4">
+            Да
+          </Button>
+        </div>
+      </Modal>
+
+      {shareLink && (
+        <>
+          <Modal
+            open={shareModalOpen}
+            onHangleModal={() => setShareModalOpen(false)}
+            title="Лес доступен по ссылке"
+          >
+            <FormWrapper>
+              <Input
+                name="shareLink"
+                label="Ссылка"
+                value={shareLink}
+                readOnly
+              />
+              <Button
+                onClick={() => {
+                  navigator.clipboard
+                    .writeText(shareLink)
+                    .then(() => {
+                      toast.success("Ссылка успешно скопирована");
+                      setShareModalOpen(false);
+                    })
+                    .catch((error) => {
+                      toast.error("Произошла ошибка");
+                      console.error(error);
+                    });
+                }}
+              >
+                Скопировать
+              </Button>
+              <a
+                href={shareLink}
+                target="_blank"
+                className="flex"
+                onClick={() => setShareModalOpen(false)}
+              >
+                <Button style="outline" extraClass="grow">
+                  Открыть в новой вкладке
+                </Button>
+              </a>
+              <div className="text-center">
+                <div
+                  className="text-red hover:underline cursor-pointer"
+                  onClick={() => {
+                    setShareModalOpen(false);
+                    setRemoveShareModalOpen(true);
+                  }}
+                >
+                  Закрыть доступ
+                </div>
+              </div>
+            </FormWrapper>
+          </Modal>
+          <Modal
+            open={removeShareModalOpen}
+            onHangleModal={() => setRemoveShareModalOpen(false)}
+            title="Закрыть доступ по ссылке?"
+          >
+            <div className="flex justify-center gap-5">
+              <Button
+                onClick={() => {
+                  setRemoveShareModalOpen(false);
+                  setShareModalOpen(true);
+                }}
+                extraClass="w-1/4"
+              >
+                Отмена
+              </Button>
+              <Button onClick={removeShare} style="danger" extraClass="w-1/4">
+                Закрыть
+              </Button>
+            </div>
+          </Modal>
+        </>
+      )}
     </PageLayout>
   );
 };
