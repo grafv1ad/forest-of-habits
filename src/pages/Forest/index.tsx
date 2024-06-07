@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { Form, Field } from "react-final-form";
 import { useParams, useNavigate } from "react-router-dom";
