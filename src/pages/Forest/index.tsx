@@ -14,6 +14,7 @@ import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeItem from "components/TreeItem";
 import { ReactComponent as Arrow } from "images/arrow.svg";
+import NotFound from "pages/NotFound";
 import { IForest, ITree, FormValues, FormErrors } from "types";
 import { axiosInstance } from "utils/api";
 import {
@@ -29,6 +30,8 @@ const Forest = () => {
   const navigate = useNavigate();
 
   const { forestid } = useParams();
+
+  const [notFoundError, setNotFoundError] = useState<boolean>(false);
 
   const [forest, setForest] = useState<IForest | null>(null);
   const [trees, setTrees] = useState<ITree[] | null>(null);
@@ -73,7 +76,7 @@ const Forest = () => {
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        setNotFoundError(true);
       }
     }
   };
@@ -89,7 +92,7 @@ const Forest = () => {
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        setNotFoundError(true);
       }
     }
   };
@@ -109,8 +112,6 @@ const Forest = () => {
   const days = Array.from({ length: daysCount }, (_, i) => i + 1);
 
   const onSubmit = (values: FormValues) => {
-    console.debug(values);
-
     interface IRequest {
       // eslint-disable-next-line camelcase
       forest_id: number;
@@ -140,7 +141,6 @@ const Forest = () => {
     axiosInstance
       .post("/tree", request)
       .then((response) => {
-        console.debug(response.data);
         if (trees?.length) {
           setTrees([...trees, response.data]);
         } else {
@@ -181,7 +181,6 @@ const Forest = () => {
   const addShare = async () => {
     try {
       const { data } = await axiosInstance.put(`/forest/share/${forestid}`);
-      console.debug(data);
       setForestSharedUuid(data);
       setAddShareModalOpen(false);
       setShareModalOpen(true);
@@ -196,7 +195,7 @@ const Forest = () => {
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        toast.error("Что-то пошло не так");
       }
     }
   };
@@ -213,10 +212,15 @@ const Forest = () => {
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        toast.error("Что-то пошло не так");
       }
     }
+    return null;
   };
+
+  if (notFoundError) {
+    return <NotFound />;
+  }
 
   if (!forest || !trees) {
     return <Loader fullPage={true} />;
@@ -248,8 +252,6 @@ const Forest = () => {
       value: "CLOSE",
     },
   ];
-
-  console.debug(forestShareUuid);
 
   const shareLink = forestShareUuid
     ? `${window.location.protocol}//${window.location.hostname}${
@@ -537,7 +539,12 @@ const Forest = () => {
               >
                 Скопировать
               </Button>
-              <a href={shareLink} target="_blank" className="flex">
+              <a
+                href={shareLink}
+                target="_blank"
+                className="flex"
+                onClick={() => setShareModalOpen(false)}
+              >
                 <Button style="outline" extraClass="grow">
                   Открыть в новой вкладке
                 </Button>

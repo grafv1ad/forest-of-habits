@@ -38,6 +38,7 @@ function App() {
 
         <Route path="/forests" element={<Woods />} />
         <Route path="/forest/:forestid" element={<Forest />} />
+        <Route path="/forest/shared/:forestid" element={<Forest />} />
         <Route path="/forest/:forestid/tree/:treeid" element={<Tree />} />
 
         <Route path="/authors" element={<Authors />} />
