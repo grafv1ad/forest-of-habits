@@ -72,7 +72,7 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
   let weekdaysIncremets = [0, 0, 0, 0, 0, 0, 0];
   const hoursIncrements: IHourIncrement[] = [];
 
-  if (tree?.increments.length) {
+  if (tree?.increments?.length) {
     tree.increments.forEach((increment: ITreeIncrement) => {
       const incrementSplit = increment.date.split("T");
       const date = incrementSplit[0];

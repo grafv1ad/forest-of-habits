@@ -131,7 +131,7 @@ const Tree = () => {
       .patch(`/tree/${tree.id}`, request)
       .then((response) => {
         console.debug(response.data);
-        setTree(response.data);
+        setTree(null);
         toast.success("Дерево успешно изменено");
       })
       .catch((error) => {
