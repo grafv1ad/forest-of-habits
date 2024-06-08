@@ -26,6 +26,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
   month,
   year,
   days,
+  isShared,
 }) => {
   // Реальный номер месяца (в js месяца нумеруются с 0)
   const realMonth = month + 1;
@@ -80,21 +81,32 @@ const TreeItem: React.FC<TreeItemProps> = ({
 
   const getTree = async () => {
     try {
-      const { data } = await axiosInstance.get(`tree/${treeId}`);
-      setIncrements(getIncrementsFromTree(data, days));
-      setTree(data);
+      if (isShared) {
+        const { data } = await axiosInstance.get(`shared/tree/${treeId}`);
+        setIncrements(getIncrementsFromTree(data, days));
+        setTree(data);
+      } else {
+        const { data } = await axiosInstance.get(`tree/${treeId}`);
+        setIncrements(getIncrementsFromTree(data, days));
+        setTree(data);
+      }
     } catch (error: any) {
-      setTree(null);
       console.error(error?.response);
     }
     setLoaded(true);
   };
 
   const incrementTree = async (value: number, date: string) => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
     try {
       await axiosInstance.post(`tree/${treeId}`, {
         value,
-        date: `${date}T00:00:00`,
+        date: `${date}T${hours < 10 ? `0${hours}` : hours}:${
+          minutes < 10 ? `0${minutes}` : minutes
+        }:00`,
       });
       setLoaded(false);
     } catch (error: any) {
@@ -194,23 +206,36 @@ const TreeItem: React.FC<TreeItemProps> = ({
   return (
     <>
       <tr>
-        <td
-          className="group min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray py-0 cursor-pointer text-gray opacity-75 transition hover:text-main"
-          onClick={() => setEditModalOpened(true)}
+        {!isShared && (
+          <td
+            className="group min-w-9 w-9 min-h-9 h-9 text-center align-middle border border-gray py-0 cursor-pointer text-gray opacity-75 transition hover:text-main"
+            onClick={() => setEditModalOpened(true)}
+          >
+            <div className="group-hover:rotate-[30deg] transition-transform">
+              <SettingsSVG />
+            </div>
+          </td>
+        )}
+        <th
+          colSpan={isShared ? 2 : 1}
+          className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]"
         >
-          <div className="group-hover:rotate-[30deg] transition-transform">
-            <SettingsSVG />
-          </div>
-        </td>
-        <th className="text-left align-middle font-normal border border-gray p-0 w-min min-w-[6.5rem] z-[5]">
-          <div className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main">
-            <OurLink
-              href={`/forest/${forestId}/tree/${tree.id}`}
-              title={tree.description}
-              extraClass="block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold"
-            >
-              {tree.name}
-            </OurLink>
+          <div
+            className="group absolute left-0 top-0 min-w-full w-full h-full flex items-center hover:w-auto hover:bg-main"
+            title={tree.description}
+          >
+            {isShared ? (
+              <div className="text-main block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold">
+                {tree.name}
+              </div>
+            ) : (
+              <OurLink
+                href={`/forest/${forestId}/tree/${tree.id}`}
+                extraClass="block w-full py-1 px-3 whitespace-nowrap overflow-hidden text-ellipsis no-underline group-hover:text-background group-hover:font-semibold"
+              >
+                {tree.name}
+              </OurLink>
+            )}
           </div>
         </th>
         {days.map((day) => {
@@ -273,7 +298,8 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 !incrementsCount &&
                 isRelevant &&
                 date < today &&
-                date >= createdDate,
+                date >= createdDate &&
+                tree.type !== "BOOLEAN_TREE",
               "bg-main text-background font-semibold": incrementsCount > 0,
               "bg-gray opacity-15 cursor-not-allowed":
                 date < createdDate ||
@@ -295,7 +321,8 @@ const TreeItem: React.FC<TreeItemProps> = ({
                     ? incrementsCount
                     : "99+"
                   : ""}
-                {isRelevant &&
+                {!isShared &&
+                  isRelevant &&
                   date >= createdDate &&
                   !(
                     tree.type === "BOOLEAN_TREE" &&
@@ -467,7 +494,10 @@ const TreeItem: React.FC<TreeItemProps> = ({
       >
         <div className="flex justify-center gap-5">
           <Button
-            onClick={() => setDeleteModalOpened(false)}
+            onClick={() => {
+              setDeleteModalOpened(false);
+              setEditModalOpened(true);
+            }}
             extraClass="w-1/4"
           >
             Отмена

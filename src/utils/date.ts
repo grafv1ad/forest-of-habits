@@ -20,9 +20,17 @@ export const getMonthName = (month: number) => {
 export const getDaysInMonth = (month: number, year: number) =>
   new Date(year, month + 1, 0).getDate();
 
+export const getWeekdayName = (number: number, shift = false) => {
+  if (shift) {
+    number += 1;
+    if (number > 6) number = 0;
+  }
+  return ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"][number];
+};
+
 export const getWeekday = (day: number, month: number, year: number) => {
   const dayNumber = new Date(year, month, day).getDay();
-  const dayName = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"][dayNumber];
+  const dayName = getWeekdayName(dayNumber);
 
   return {
     number: dayNumber,

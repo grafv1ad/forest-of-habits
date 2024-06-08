@@ -10,6 +10,7 @@ export interface InputProps {
   extraClass?: string;
   disabled?: boolean;
   touched?: boolean;
+  readOnly?: boolean;
   error?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (event: ChangeEvent) => void;
