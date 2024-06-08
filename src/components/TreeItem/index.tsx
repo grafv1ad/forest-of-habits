@@ -18,6 +18,7 @@ import {
   FormValues,
 } from "types";
 import { axiosInstance } from "utils/api";
+import { getStringDate } from "utils/date";
 
 const TreeItem: React.FC<TreeItemProps> = ({
   treeId,
@@ -62,10 +63,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
     }
 
     days.forEach((day) => {
-      const dateString =
-        `${year}-` +
-        `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
-        `${day < 10 ? `0${day}` : day}`;
+      const dateString = getStringDate(day, realMonth, year);
 
       const incrementsCount = dates[dateString] || 0;
       if (incrementsCount) monthTotal += incrementsCount;
@@ -220,10 +218,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
         </th>
         {days.map((day) => {
           const date = new Date(year, month, day);
-          const dateString =
-            `${year}-` +
-            `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
-            `${day < 10 ? `0${day}` : day}`;
+          const dateString = getStringDate(day, realMonth, year);
 
           const createdDate = tree.createdAt ? new Date(tree.createdAt) : today;
           createdDate.setHours(0, 0, 0, 0);

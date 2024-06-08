@@ -14,19 +14,13 @@ import {
   BarElement,
 } from "chart.js";
 import TitleComponent from "components/Title";
+import { useTreeIncrements } from "hooks/useTreeIncrements";
 import { ReactComponent as Arrow } from "images/arrow.svg";
-import {
-  IHourIncrement,
-  ITreeIncrement,
-  ITreeIncrementsDates,
-  ITreeIncrementsWithValues,
-} from "types";
 import { TreeStatisticsProps } from "types/treeStatistics";
 import {
   getCopiedDate,
   getDaysInMonth,
   getMonthName,
-  getWeekday,
   getWeekdayName,
 } from "utils/date";
 
@@ -63,71 +57,8 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
   };
 
   const daysCount = getDaysInMonth(date.getMonth(), date.getFullYear());
-  const realMonth = date.getMonth() + 1;
 
-  const incrementsList: ITreeIncrementsWithValues = {};
-  const incrementsResult: ITreeIncrementsDates = {};
-
-  let daysWithIncremets = 0;
-  let weekdaysIncremets = [0, 0, 0, 0, 0, 0, 0];
-  const hoursIncrements: IHourIncrement[] = [];
-
-  if (tree?.increments?.length) {
-    tree.increments.forEach((increment: ITreeIncrement) => {
-      const incrementSplit = increment.date.split("T");
-      const date = incrementSplit[0];
-      const time = incrementSplit[1];
-      const hour = time.split(":")[0];
-
-      if (incrementsList[date]?.value) {
-        incrementsList[date].value += increment.value;
-        incrementsList[date].hours[+hour] += increment.value;
-      } else {
-        // eslint-disable-next-line no-restricted-properties
-        const hoursArray = Array.from({ length: 24 }, () => 0);
-        hoursArray[+hour] = increment.value;
-
-        incrementsList[date] = {
-          value: increment.value,
-          hours: hoursArray,
-        };
-      }
-    });
-  }
-
-  for (let i = 1; i <= daysCount; i++) {
-    const dateString =
-      `${date.getFullYear()}-` +
-      `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
-      `${i < 10 ? `0${i}` : i}`;
-
-    if (incrementsList[dateString]?.value) {
-      incrementsResult[i] = incrementsList[dateString].value;
-
-      daysWithIncremets += 1;
-
-      weekdaysIncremets[
-        getWeekday(i, date.getMonth(), date.getFullYear()).number
-      ] += 1;
-
-      incrementsList[dateString].hours.forEach((value, hour) => {
-        value *= 5;
-        if (value > 25) value = 25;
-
-        hoursIncrements.push({
-          x: i,
-          y: hour,
-          r: value,
-        });
-      });
-    } else {
-      incrementsResult[i] = 0;
-    }
-  }
-
-  // Переносим воскресенье в конец (в js он первый день недели)
-  const [firstWeekday, ...restWeekdays] = weekdaysIncremets;
-  weekdaysIncremets = [...restWeekdays, firstWeekday];
+  const increments = useTreeIncrements(tree?.increments, date);
 
   const lineChartOptions = {
     aspectRatio: 2.25,
@@ -155,12 +86,12 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
   };
 
   const lineChartData = {
-    labels: Object.keys(incrementsResult),
+    labels: Object.keys(increments.all),
     datasets: [
       {
         backgroundColor: "rgba(111, 163, 194, 0.25)",
         borderColor: "rgba(111, 163, 194, 1)",
-        data: Object.values(incrementsResult),
+        data: Object.values(increments.all),
         fill: true,
         label: "Инкрементации",
         lineTension: 0.4,
@@ -187,7 +118,7 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
   };
 
   const barChartData = {
-    labels: Object.keys(weekdaysIncremets).map((_value, i) =>
+    labels: Object.keys(increments.weekdays).map((_value, i) =>
       getWeekdayName(i, true)
     ),
     datasets: [
@@ -220,7 +151,7 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
           "rgba(209, 79, 80, 1)",
           "rgba(209, 79, 80, 1)",
         ],
-        data: Object.values(weekdaysIncremets),
+        data: Object.values(increments.weekdays),
         fill: true,
         label: "Инкрементации",
         lineTension: 0.4,
@@ -241,7 +172,7 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
     labels: ["Без инкрементации", "С инкрементацией"],
     datasets: [
       {
-        data: [daysCount - daysWithIncremets, daysWithIncremets],
+        data: [daysCount - increments.daysCount, increments.daysCount],
         label: "Дни",
         backgroundColor: ["rgba(209, 79, 80, 0.75)", "rgba(89, 124, 99, 0.75)"],
         hoverBackgroundColor: ["rgba(209, 79, 80, 1)", "rgba(89, 124, 99, 1)"],
@@ -279,12 +210,12 @@ const TreeStatistics: React.FC<TreeStatisticsProps> = ({ tree }) => {
   };
 
   const bubbleChartData = {
-    labels: Object.keys(incrementsResult),
+    labels: Object.keys(increments.all),
     datasets: [
       {
         backgroundColor: "rgba(111, 163, 194, 0.25)",
         borderColor: "rgba(111, 163, 194, 1)",
-        data: hoursIncrements,
+        data: increments.hours,
         label: "",
       },
     ],
