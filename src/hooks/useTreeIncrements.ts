@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   IHourIncrement,
   ITreeIncrement,
@@ -6,7 +7,7 @@ import {
 } from "types";
 import { getDaysInMonth, getStringDate, getWeekday } from "utils/date";
 
-export const useTreeIncrements = (increments: ITreeIncrement[], date: Date) => {
+const calculateIncrements = (increments: ITreeIncrement[], date: Date) => {
   const incrementsList: ITreeIncrementsWithValues = {};
   const incrementsResult: ITreeIncrementsDates = {};
 
@@ -77,4 +78,11 @@ export const useTreeIncrements = (increments: ITreeIncrement[], date: Date) => {
     hours: hoursIncrements,
     daysCount: daysWithIncremets,
   };
+};
+
+export const useTreeIncrements = (increments: ITreeIncrement[], date: Date) => {
+  return useMemo(
+    () => calculateIncrements(increments, date),
+    [increments, date]
+  );
 };
