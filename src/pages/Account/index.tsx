@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import OurLink from "components/Link";
+import Loader from "components/Loader";
 import PageLayout from "components/PageLayout";
 import Paragraph from "components/Paragraph";
 import Title from "components/Title";
@@ -10,7 +11,11 @@ import { removeCookie } from "utils/cookies";
 
 const Account = () => {
   const dispatch = useDispatch();
-  const { isAuth, username, emailHash } = useAuth();
+  const { isLoaded, isAuth, username, emailHash } = useAuth();
+
+  if (!isLoaded) {
+    return <Loader />;
+  }
 
   return isAuth ? (
     <PageLayout breadcrumbs={[{ name: "Личный кабинет" }]}>

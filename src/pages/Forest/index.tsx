@@ -406,7 +406,7 @@ const Forest = () => {
                   {forestShareUuid ? (
                     <div className="flex items-start justify-end mt-3">
                       <div
-                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-blue hover:bg-green text-white gap-1.5 cursor-pointer"
+                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-green hover:bg-blue text-white gap-1.5 cursor-pointer"
                         onClick={() => {
                           setShareModalOpen(true);
                         }}
@@ -418,7 +418,7 @@ const Forest = () => {
                   ) : (
                     <div className="flex items-start justify-end mt-3">
                       <div
-                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-gray hover:bg-blue text-white gap-1.5 cursor-pointer"
+                        className="flex justify-center items-center h-9 text-center px-3 rounded-md transition-colors bg-gray hover:bg-green text-white gap-1.5 cursor-pointer"
                         onClick={() => {
                           setAddShareModalOpen(true);
                         }}
