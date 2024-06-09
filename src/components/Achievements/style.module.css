@@ -1,0 +1,4 @@
+.achievement:hover img {
+  transition: transform 1s;
+  transform: rotateY(360deg);
+}
