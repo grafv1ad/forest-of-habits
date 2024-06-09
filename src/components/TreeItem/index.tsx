@@ -382,7 +382,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
             className={classNames(
               "text-center align-middle border border-gray p-1",
               {
-                "bg-main text-background font-semibold": totalIncrements > 0,
+                "bg-green text-beige-600 font-semibold": totalIncrements > 0,
               }
             )}
           >
@@ -397,7 +397,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
               className={classNames(
                 "text-center align-middle border border-gray p-1",
                 {
-                  "bg-main text-background font-semibold":
+                  "bg-green text-beige-600 font-semibold":
                     tree?.limit && tree?.limit <= totalIncrements,
                 }
               )}
