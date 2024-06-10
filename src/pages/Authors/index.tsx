@@ -77,7 +77,7 @@ const getAuthorsBlock = (authors: IAuthorsList[]) => {
             className={classNames(
               "flex flex-col gap-2 items-center w-44 text-center",
               {
-                "opacity-60 transition-opacity hover:opacity-100":
+                "opacity-45 transition-opacity hover:opacity-100":
                   !author.active,
               },
               styles.author
@@ -105,7 +105,7 @@ const getAuthorsBlock = (authors: IAuthorsList[]) => {
             <a
               href={`https://github.com/${author.githubUsername}`}
               target="_blank"
-              className="text-sm text-beige-600 transition-colors -hover:text-main flex items-center justify-center gap-2"
+              className="text-sm text-beige-600 transition-colors hover:text-main flex items-center justify-center gap-2"
             >
               <div className="svg-wrapper w-6 h-6">
                 <GithubSVG />

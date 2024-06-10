@@ -108,8 +108,6 @@ const Achievements: React.FC<AchievementsProps> = ({ statistics }) => {
         Достижения
       </Title>
 
-      <style></style>
-
       <div className="flex justify-center">
         <div className="flex justify-around flex-wrap gap-5 max-w-4xl">
           {achievementsList.map((achievement) => {
