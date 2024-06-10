@@ -111,7 +111,7 @@ const Achievements: React.FC<AchievementsProps> = ({ statistics }) => {
       <style></style>
 
       <div className="flex justify-center">
-        <div className="flex justify-around flex-wrap gap-4 max-w-4xl">
+        <div className="flex justify-around flex-wrap gap-5 max-w-4xl">
           {achievementsList.map((achievement) => {
             // eslint-disable-next-line import/no-dynamic-require
             const icon = require(`images/achievements/${achievement.iconName}.svg`);
@@ -120,7 +120,7 @@ const Achievements: React.FC<AchievementsProps> = ({ statistics }) => {
               <div
                 key={achievement.iconName}
                 className={classNames(
-                  "flex flex-col gap-2 items-center w-36 text-center p-2 ",
+                  "flex flex-col gap-2 items-center w-36 text-center",
                   {
                     "grayscale opacity-70": !achievement.completed,
                     // "-order-1": achievement.completed,
@@ -132,9 +132,12 @@ const Achievements: React.FC<AchievementsProps> = ({ statistics }) => {
                   src={icon}
                   alt=""
                   title={achievement.name}
-                  className={classNames("achievement-icon w-36 h-36", {
-                    "transform-gpu": !achievement.completed,
-                  })}
+                  className={classNames(
+                    "achievement-icon w-36 h-36 aspect-square object-contain",
+                    {
+                      "transform-gpu": !achievement.completed,
+                    }
+                  )}
                 />
                 <div className="text-main font-semibold">
                   {achievement.name}

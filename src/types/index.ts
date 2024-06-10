@@ -17,3 +17,4 @@ export * from "./loader";
 export * from "./breadcrumbs";
 export * from "./account";
 export * from "./achievements";
+export * from "./authors";
