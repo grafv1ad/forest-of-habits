@@ -16,6 +16,14 @@ export interface ITree {
   increments: ITreeIncrement[];
 }
 
+export interface ITreePeriods {
+  [key: string]: string;
+}
+
+export interface ITreeTypes {
+  [key: string]: string;
+}
+
 export interface ITreeIncrementsDates {
   [key: string]: number;
 }
@@ -49,4 +57,13 @@ export interface IHourIncrement {
   y: number;
   r: number;
   x: number;
+}
+
+export interface ITreeEditRequest {
+  name: string;
+  description?: string;
+  limit?: number;
+  type: string;
+  // eslint-disable-next-line camelcase
+  forest_id: number;
 }
