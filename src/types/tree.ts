@@ -57,3 +57,12 @@ export interface IHourIncrement {
   r: number;
   x: number;
 }
+
+export interface ITreeEditRequest {
+  name: string;
+  description?: string;
+  limit?: number;
+  type: string;
+  // eslint-disable-next-line camelcase
+  forest_id: number;
+}

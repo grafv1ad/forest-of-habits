@@ -16,6 +16,7 @@ import {
   ITreeIncrementsState,
   FormErrors,
   FormValues,
+  ITreeEditRequest,
 } from "types";
 import { axiosInstance } from "utils/api";
 
@@ -142,16 +143,7 @@ const TreeItem = memo(
     };
 
     const submitEditForm = (values: FormValues) => {
-      interface IRequest {
-        name: string;
-        description?: string;
-        limit?: number;
-        type: string;
-        // eslint-disable-next-line camelcase
-        forest_id: number;
-      }
-
-      const request: IRequest = {
+      const request: ITreeEditRequest = {
         name: values.name as string,
         description: (values.description as string) || "",
         type: tree.type,
