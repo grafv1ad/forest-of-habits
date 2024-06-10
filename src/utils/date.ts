@@ -37,3 +37,23 @@ export const getWeekday = (day: number, month: number, year: number) => {
     name: dayName,
   };
 };
+
+export const getStringDate = (
+  day: number,
+  month: number,
+  year: number,
+  hours?: number,
+  minutes?: number
+) => {
+  return `${
+    `${year}-` +
+    `${month < 10 ? `0${month}` : month}-` +
+    `${day < 10 ? `0${day}` : day}`
+  }${
+    hours && minutes
+      ? `T${hours < 10 ? `0${hours}` : hours}:${
+          minutes < 10 ? `0${minutes}` : minutes
+        }:00`
+      : ""
+  }`;
+};

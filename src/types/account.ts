@@ -1,8 +1,8 @@
 export interface IAccountStatistics {
   allForests: number;
+  openForests: number;
   closeForests: number;
-  openForrests: number;
   allTrees: number;
-  closeTrees: number;
   openTrees: number;
+  closeTrees: number;
 }
