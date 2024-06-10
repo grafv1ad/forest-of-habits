@@ -3,7 +3,7 @@ import axios from "axios";
 import { getCookie } from "./cookies";
 
 const API = axios.create({
-  baseURL: "https://forestofhabits.ru",
+  baseURL: "https://forestofhabits.ru:8097",
   timeout: 3000,
 });
 
