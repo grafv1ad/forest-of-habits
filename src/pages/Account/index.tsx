@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import Achievements from "components/Achievements";
 import Button from "components/Button";
 import Loader from "components/Loader";
@@ -30,8 +29,6 @@ const Account = () => {
       console.error(error?.response);
       if (error?.response?.status === 401) {
         navigate("/login");
-      } else {
-        toast("Что-то пошло не так");
       }
     }
   };
@@ -42,13 +39,17 @@ const Account = () => {
     }
   }, [accountStatistics]);
 
+  console.debug(isAuth);
+
+  if (isLoaded && !isAuth) {
+    return <Navigate replace to="/login" />;
+  }
+
   if (!isLoaded || !accountStatistics) {
     return <Loader />;
   }
 
-  console.debug(accountStatistics);
-
-  return isAuth ? (
+  return (
     <PageLayout breadcrumbs={[{ name: "Личный кабинет" }]}>
       <Title level="1" color="light">
         Личный кабинет
@@ -96,8 +97,6 @@ const Account = () => {
         </Button>
       </div>
     </PageLayout>
-  ) : (
-    <Navigate replace to="/login" />
   );
 };
 
