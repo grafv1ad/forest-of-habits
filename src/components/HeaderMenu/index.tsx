@@ -1,13 +1,20 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import OurLink from "components/Link";
+import { useAuth } from "hooks/useAuth";
+import { removeUser } from "store/slices/user";
+import { removeCookie } from "utils/cookies";
 
 const HeaderMenu = () => {
+  const dispatch = useDispatch();
+  const { isAuth } = useAuth();
+
   const [opened, setOpened] = useState(false);
 
   const menuItems = [
     { name: "Мой аккаунт", link: "/account" },
-    { name: "Мои леса", link: "/forests" },
+    { name: "Мои леса", link: "/forests", hidden: !isAuth },
     { name: "Авторы проекта", link: "/authors" },
     { name: "Соглашение", link: "/agreement" },
   ];
@@ -53,15 +60,40 @@ const HeaderMenu = () => {
           }
         )}
       >
-        {menuItems.map((item) => (
-          <OurLink
-            key={item.name}
-            href={item.link}
-            extraClass="no-underline font-semibold !text-black hover:!text-background transition-colors"
-          >
-            {item.name}
-          </OurLink>
-        ))}
+        {menuItems.map((item) => {
+          if (item?.hidden) return null;
+
+          return (
+            <OurLink
+              key={item.name}
+              href={item.link}
+              extraClass="no-underline font-semibold !text-black hover:!text-green transition-colors"
+            >
+              {item.name}
+            </OurLink>
+          );
+        })}
+        <div className="mt-3">
+          {isAuth ? (
+            <OurLink
+              href="/login"
+              onClick={() => {
+                dispatch(removeUser());
+                removeCookie("token");
+              }}
+              extraClass="no-underline font-semibold !text-red hover:!text-black transition-colors"
+            >
+              Выйти
+            </OurLink>
+          ) : (
+            <OurLink
+              href="/login"
+              extraClass="no-underline font-semibold !text-black hover:!text-green transition-colors"
+            >
+              Войти
+            </OurLink>
+          )}
+        </div>
       </div>
     </div>
   );

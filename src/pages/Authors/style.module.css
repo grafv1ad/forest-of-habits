@@ -1,0 +1,22 @@
+/* stylelint-disable number-leading-zero */
+/* stylelint-disable function-comma-space-after */
+.author img {
+  animation-name: rotate;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(.38,.8,.84,.19);
+}
+
+.author:nth-child(even) img {
+  animation-direction: reverse;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
