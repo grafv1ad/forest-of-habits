@@ -11,6 +11,7 @@ import PageLayout from "components/PageLayout";
 import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeStatistics from "components/TreeStatistics";
+import NotFound from "pages/NotFound";
 import {
   FormErrors,
   FormValues,
@@ -27,6 +28,8 @@ const Tree = () => {
 
   const { forestid, treeid } = useParams();
 
+  const [notFoundError, setNotFoundError] = useState<boolean>(false);
+
   const [forest, setForest] = useState<IForest | null>(null);
   const [tree, setTree] = useState<ITree | null>(null);
 
@@ -42,7 +45,7 @@ const Tree = () => {
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        setNotFoundError(true);
       }
     }
   };
@@ -56,7 +59,7 @@ const Tree = () => {
       if (error?.response?.status === 401) {
         navigate("/login");
       } else {
-        navigate("/404");
+        setNotFoundError(true);
       }
     }
   };
@@ -70,6 +73,10 @@ const Tree = () => {
       getTree();
     }
   }, [forest, tree]);
+
+  if (notFoundError) {
+    return <NotFound />;
+  }
 
   if (!forest || !tree) {
     return <Loader fullPage={true} />;
