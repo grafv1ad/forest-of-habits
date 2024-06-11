@@ -50,7 +50,7 @@ export const getStringDate = (
     `${month < 10 ? `0${month}` : month}-` +
     `${day < 10 ? `0${day}` : day}`
   }${
-    hours && minutes
+    hours !== undefined && minutes !== undefined
       ? `T${hours < 10 ? `0${hours}` : hours}:${
           minutes < 10 ? `0${minutes}` : minutes
         }:00`

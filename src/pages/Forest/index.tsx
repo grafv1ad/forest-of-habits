@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Form, Field } from "react-final-form";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,18 +14,28 @@ import PageLayout from "components/PageLayout";
 import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeItem from "components/TreeItem";
+import { ru } from "date-fns/locale/ru";
 import { ReactComponent as Arrow } from "images/arrow.svg";
 import NotFound from "pages/NotFound";
-import { IForest, ITree, FormValues, FormErrors } from "types";
+import {
+  IForest,
+  ITree,
+  FormValues,
+  FormErrors,
+  ITreeCreateRequest,
+} from "types";
 import { axiosInstance } from "utils/api";
 import {
   getCopiedDate,
   getMonthName,
   getDaysInMonth,
   getWeekday,
+  getStringDate,
 } from "utils/date";
 
 import styles from "./style.module.css";
+
+registerLocale("ru", ru);
 
 const Forest = () => {
   const navigate = useNavigate();
@@ -125,22 +137,22 @@ const Forest = () => {
   const days = Array.from({ length: daysCount }, (_, i) => i + 1);
 
   const onSubmit = (values: FormValues) => {
-    interface IRequest {
-      // eslint-disable-next-line camelcase
-      forest_id: number;
-      name: string;
-      description?: string;
-      type: string;
-      period?: string;
-      limit?: number;
-    }
+    const date = (values?.date as Date) || today;
 
-    const request: IRequest = {
+    const request: ITreeCreateRequest = {
       // eslint-disable-next-line camelcase
       forest_id: forest!.id,
       name: values.name as string,
       description: (values.description as string) || "",
       type: values.type as string,
+      // eslint-disable-next-line camelcase
+      created_at: getStringDate(
+        date.getDate(),
+        date.getMonth() + 1,
+        date.getFullYear(),
+        0,
+        0
+      ),
     };
 
     if (values.type === "PERIODIC_TREE") {
@@ -150,6 +162,8 @@ const Forest = () => {
     if (values.type === "LIMITED_TREE") {
       request.limit = +values.limit;
     }
+
+    console.debug(request);
 
     axiosInstance
       .post("/tree", request)
@@ -501,6 +515,29 @@ const Forest = () => {
                     )}
                   />
                 )}
+
+                <Field
+                  name="date"
+                  type="text"
+                  render={({ input }) => {
+                    return (
+                      <div className="flex flex-col gap-1 text-center">
+                        <span className="text-beige-300">
+                          Дата начала отсчета
+                        </span>
+                        <div className="flex justify-center">
+                          <DatePicker
+                            selected={input.value || today}
+                            onChange={input.onChange}
+                            dateFormat="dd.MM.yyyy"
+                            locale={ru}
+                            inline
+                          />
+                        </div>
+                      </div>
+                    );
+                  }}
+                />
 
                 <Button type="submit" disabled={submitting || validating}>
                   Добавить

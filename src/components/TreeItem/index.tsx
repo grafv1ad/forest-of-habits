@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Field, Form } from "react-final-form";
 import { toast } from "react-toastify";
 import classNames from "classnames";
@@ -8,6 +10,7 @@ import Input from "components/Input";
 import OurLink from "components/Link";
 import Modal from "components/Modal";
 import Textarea from "components/Textarea";
+import { ru } from "date-fns/locale/ru";
 import { ReactComponent as SettingsSVG } from "images/settings.svg";
 import {
   ITree,
@@ -16,8 +19,12 @@ import {
   ITreeIncrementsState,
   FormErrors,
   FormValues,
+  ITreeEditRequest,
 } from "types";
 import { axiosInstance } from "utils/api";
+import { getStringDate } from "utils/date";
+
+registerLocale("ru", ru);
 
 const TreeItem: React.FC<TreeItemProps> = ({
   treeId,
@@ -130,8 +137,11 @@ const TreeItem: React.FC<TreeItemProps> = ({
   }, [days]);
 
   if (!tree) {
-    return "";
+    return null;
   }
+
+  const createdDate = tree.createdAt ? new Date(tree.createdAt) : today;
+  createdDate.setHours(0, 0, 0, 0);
 
   const validateEditForm = (values: FormValues) => {
     console.debug(values);
@@ -153,21 +163,22 @@ const TreeItem: React.FC<TreeItemProps> = ({
   };
 
   const submitEditForm = (values: FormValues) => {
-    interface IRequest {
-      name: string;
-      description?: string;
-      limit?: number;
-      type: string;
-      // eslint-disable-next-line camelcase
-      forest_id: number;
-    }
+    const date = (values?.date as Date) || createdDate;
 
-    const request: IRequest = {
+    const request: ITreeEditRequest = {
       name: values.name as string,
       description: (values.description as string) || "",
       type: tree.type,
       // eslint-disable-next-line camelcase
       forest_id: forestId,
+      // eslint-disable-next-line camelcase
+      created_at: getStringDate(
+        date.getDate(),
+        date.getMonth() + 1,
+        date.getFullYear(),
+        0,
+        0
+      ),
     };
 
     if (tree.type === "LIMITED_TREE") {
@@ -202,6 +213,8 @@ const TreeItem: React.FC<TreeItemProps> = ({
       });
     setDeleteModalOpened(false);
   };
+
+  console.debug(tree);
 
   return (
     <>
@@ -244,9 +257,6 @@ const TreeItem: React.FC<TreeItemProps> = ({
             `${year}-` +
             `${realMonth < 10 ? `0${realMonth}` : realMonth}-` +
             `${day < 10 ? `0${day}` : day}`;
-
-          const createdDate = tree.createdAt ? new Date(tree.createdAt) : today;
-          createdDate.setHours(0, 0, 0, 0);
 
           const incrementsCount = incrementsDates[dateString] || 0;
 
@@ -465,6 +475,29 @@ const TreeItem: React.FC<TreeItemProps> = ({
                     )}
                   />
                 )}
+
+                <Field
+                  name="date"
+                  type="text"
+                  render={({ input }) => {
+                    return (
+                      <div className="flex flex-col gap-1 text-center">
+                        <span className="text-beige-300">
+                          Дата начала отсчета
+                        </span>
+                        <div className="flex justify-center">
+                          <DatePicker
+                            selected={input.value || createdDate}
+                            onChange={input.onChange}
+                            dateFormat="dd.MM.yyyy"
+                            locale={ru}
+                            inline
+                          />
+                        </div>
+                      </div>
+                    );
+                  }}
+                />
 
                 <Button type="submit" disabled={submitting || validating}>
                   Сохранить
