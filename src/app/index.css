@@ -49,7 +49,60 @@
 
 .ReactModal__Content {
   outline: none;
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
+
+.ReactModal__Content::-webkit-scrollbar {
+  display: none;
+}
+
+.react-datepicker {
+  background-color: #fef2e8;
+}
+
+.react-datepicker__header {
+  background-color: #fee8d4;
+}
+
+.react-datepicker__current-month {
+  color: #172e26;
+}
+
+.react-datepicker__current-month::first-letter,
+.react-datepicker__day-name::first-letter {
+  text-transform: uppercase;
+}
+
+.react-datepicker__day-name:last-child,
+.react-datepicker__day-name:nth-last-child(2) {
+  color: #d14f50;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #172e26;
+  transition: border-color 0.15s;
+}
+
+.react-datepicker__navigation:hover ::before {
+  border-color: #597c63;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: rgba(96, 89, 84, 0.25);
+}
+
+.react-datepicker__day:hover {
+  background-color: #6fa3c2;
+  color: #fff;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--selected:hover {
+  background-color: #597c63;
+}
+
 
 /* Временное решение для демки */
 select {

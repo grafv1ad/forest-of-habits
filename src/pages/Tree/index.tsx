@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Field, Form } from "react-final-form";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,17 +13,21 @@ import PageLayout from "components/PageLayout";
 import Textarea from "components/Textarea";
 import Title from "components/Title";
 import TreeStatistics from "components/TreeStatistics";
+import { ru } from "date-fns/locale/ru";
 import NotFound from "pages/NotFound";
 import {
   FormErrors,
   FormValues,
   IForest,
   ITree,
+  ITreeEditRequest,
   ITreePeriods,
   ITreeTypes,
 } from "types";
 import { axiosInstance } from "utils/api";
-import { getMonthName } from "utils/date";
+import { getMonthName, getStringDate } from "utils/date";
+
+registerLocale("ru", ru);
 
 const Tree = () => {
   const navigate = useNavigate();
@@ -74,7 +80,7 @@ const Tree = () => {
     }
   }, [forest, tree]);
 
-  if (notFoundError) {
+  if (notFoundError || !forestid) {
     return <NotFound />;
   }
 
@@ -119,15 +125,22 @@ const Tree = () => {
   };
 
   const submitEditForm = (values: FormValues) => {
-    interface IRequest {
-      name: string;
-      description?: string;
-      limit?: number;
-    }
+    const date = (values?.date as Date) || createdDate;
 
-    const request: IRequest = {
+    const request: ITreeEditRequest = {
       name: values.name as string,
       description: (values.description as string) || "",
+      type: tree.type,
+      // eslint-disable-next-line camelcase
+      forest_id: +forestid,
+      // eslint-disable-next-line camelcase
+      created_at: getStringDate(
+        date.getDate(),
+        date.getMonth() + 1,
+        date.getFullYear(),
+        0,
+        0
+      ),
     };
 
     if (tree.type === "LIMITED_TREE") {
@@ -227,7 +240,7 @@ const Tree = () => {
         </table>
       </div>
 
-      <TreeStatistics tree={tree} />
+      {tree.type !== "BOOLEAN_TREE" && <TreeStatistics tree={tree} />}
 
       <Modal
         open={editModalOpened}
@@ -284,6 +297,29 @@ const Tree = () => {
                     )}
                   />
                 )}
+
+                <Field
+                  name="date"
+                  type="text"
+                  render={({ input }) => {
+                    return (
+                      <div className="flex flex-col gap-1 text-center">
+                        <span className="text-beige-300">
+                          Дата начала отсчета
+                        </span>
+                        <div className="flex justify-center">
+                          <DatePicker
+                            selected={input.value || createdDate}
+                            onChange={input.onChange}
+                            dateFormat="dd.MM.yyyy"
+                            locale={ru}
+                            inline
+                          />
+                        </div>
+                      </div>
+                    );
+                  }}
+                />
 
                 <Button type="submit" disabled={submitting || validating}>
                   Сохранить

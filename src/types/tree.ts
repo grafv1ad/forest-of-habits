@@ -59,6 +59,18 @@ export interface IHourIncrement {
   x: number;
 }
 
+export interface ITreeCreateRequest {
+  name: string;
+  description?: string;
+  type: string;
+  period?: string;
+  limit?: number;
+  // eslint-disable-next-line camelcase
+  forest_id: number;
+  // eslint-disable-next-line camelcase
+  created_at?: string;
+}
+
 export interface ITreeEditRequest {
   name: string;
   description?: string;
@@ -66,4 +78,6 @@ export interface ITreeEditRequest {
   type: string;
   // eslint-disable-next-line camelcase
   forest_id: number;
+  // eslint-disable-next-line camelcase
+  created_at?: string;
 }
