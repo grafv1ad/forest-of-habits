@@ -28,3 +28,25 @@
   opacity: 0.15;
   background-color: #050505;
 }
+
+.pashalka {
+  transform: translateY(100%);
+  position: fixed;
+  right: 15%;
+  bottom: 0;
+  animation-name: show-pashalka;
+  animation-duration: 2s;
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+  animation-delay: 30s;
+}
+
+@keyframes show-pashalka {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(20%);
+  }
+}

@@ -664,6 +664,13 @@ const Forest = () => {
           </Modal>
         </>
       )}
+
+      <div
+        className={classNames(
+          styles.pashalka,
+          "bg-pashalka bg-center bg-no-repeat bg-contain w-64 h-64"
+        )}
+      ></div>
     </PageLayout>
   );
 };

@@ -36,6 +36,7 @@ module.exports = {
         breadcrumbsSeparator: "url('/src/images/breadcrumbs-separator.svg')",
         share: "url('/src/images/share.svg')",
         globe: "url('/src/images/globe.svg')",
+        pashalka: "url('/src/images/pashalka.png')",
       },
       backgroundSize: {
         "100%": "100%",
