@@ -49,12 +49,27 @@
 
 .ReactModal__Content {
   outline: none;
-  max-height: 90vh;
-  overflow-y: auto;
-  scrollbar-width: none;
+  max-height: calc(80vh - 4rem);
 }
 
-.ReactModal__Content::-webkit-scrollbar {
+.ReactModal__Content > div {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  max-height: calc(80vh - 4rem - 4rem);
+}
+
+@media (min-width: 768px) {
+  .ReactModal__Content {
+    max-height: 95vh;
+  }
+
+  .ReactModal__Content > div {
+    max-height: calc(95vh - 10rem);
+  }
+}
+
+.ReactModal__Content > div::-webkit-scrollbar {
   display: none;
 }
 
