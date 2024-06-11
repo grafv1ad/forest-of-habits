@@ -55,7 +55,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
     let total = 0;
     let monthTotal = 0;
 
-    if (tree?.increments.length) {
+    if (tree?.increments?.length) {
       tree.increments.forEach((increment) => {
         const date = increment.date.split("T")[0];
 
@@ -214,8 +214,6 @@ const TreeItem: React.FC<TreeItemProps> = ({
     setDeleteModalOpened(false);
   };
 
-  console.debug(tree);
-
   return (
     <>
       <tr>
@@ -309,7 +307,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
                 isRelevant &&
                 date < today &&
                 date >= createdDate &&
-                tree.type !== "BOOLEAN_TREE",
+                tree.type === "PERIODIC_TREE",
               "bg-main text-background font-semibold": incrementsCount > 0,
               "bg-gray opacity-15 cursor-not-allowed":
                 date < createdDate ||
