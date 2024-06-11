@@ -52,10 +52,10 @@ const Woods = () => {
       <Title level="1" color="light">
         Мои леса
       </Title>
-      <div className="mb-12 flex justify-end">
+      <WoodsList />
+      <div className="mt-12 flex justify-center">
         <Button onClick={onHangleModal}>+ Добавить новый лес</Button>
       </div>
-      <WoodsList />
       <Modal open={open} onHangleModal={onHangleModal} title="Новый лес">
         <Form
           onSubmit={onSubmit}

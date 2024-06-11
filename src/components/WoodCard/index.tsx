@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 import Button from "components/Button";
 import Modal from "components/Modal";
 import Paragraph from "components/Paragraph";
@@ -7,20 +8,20 @@ import Title from "components/Title";
 import { useAppDispatch } from "store";
 import { deleteWoodById } from "store/slices/woods";
 import { Wood } from "types";
+import { getLineEndingByNumber } from "utils/text";
 
 import closeIcon from "../../images/close.svg";
 
 const linkClasses =
-  "flex flex-col justify-start lg:justify-end hover:lg:justify-start bg-main lg:bg-beige-600 hover:lg:bg-main aspect-[1.7/1] md:aspect-[1.6/1] lg:aspect-[1.5/1] p-3 md:p-4 lg:p-5 relative before:lg:absolute before:lg:-top-8 before:lg:w-1/3 before:lg:h-1/3 before:lg:left-[35%] before:lg:content-cone before:lg:block group before:lg:hover:hidden";
+  "flex flex-col justify-start bg-beige-600 p-5 relative group rounded-xl h-64";
 
-const listClasses = "lg:hidden lg:group-hover:block";
+const listClasses = "flex flex-col gap-2";
 
-const itemClasses = "flex items-center before:content-marker before:pr-3";
+const itemClasses = "flex items-center justify-center";
 
-const buttonClasses =
-  "absolute right-0 top-0 z-10 lg:hidden lg:group-hover:block";
+const buttonClasses = "absolute right-1 top-1 z-10";
 
-const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
+const WoodCard: React.FC<Wood> = ({ name, trees, id, totalNumberTrees }) => {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
@@ -32,16 +33,16 @@ const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
 
   return (
     <>
-      <li className={linkClasses}>
+      <li className="relative">
         <div className={buttonClasses}>
           <Button
             onClick={onHangleModal}
-            extraClass="flex justify-center items-center !p-3"
+            extraClass="flex justify-center items-center !p-3 !bg-transparent !rounded-full hover:!bg-main"
           >
             <img src={closeIcon} />
           </Button>
         </div>
-        <Link to={`/forest/${id}`}>
+        <Link to={`/forest/${id}`} className={linkClasses}>
           <Title level="3" color="black" align="center" extraClass="mb-0">
             {name}
           </Title>
@@ -54,12 +55,27 @@ const WoodCard: React.FC<Wood> = ({ name, trees, id }) => {
               ))
             ) : (
               <li className={itemClasses}>
-                <Paragraph color="black">Здесь будут ваши деревья</Paragraph>
+                <Paragraph color="black" align="center" extraClass="w-full">
+                  Здесь будут ваши деревья
+                </Paragraph>
+              </li>
+            )}
+            {totalNumberTrees > 3 && (
+              <li className={classNames(itemClasses, "mt-2 font-semibold")}>
+                <Paragraph color="black">
+                  И еще{` ${totalNumberTrees} `}
+                  {getLineEndingByNumber(totalNumberTrees, [
+                    "дерево",
+                    "дерева",
+                    "деревьев",
+                  ])}
+                </Paragraph>
               </li>
             )}
           </ul>
         </Link>
       </li>
+
       <Modal
         open={open}
         onHangleModal={onHangleModal}

@@ -14,6 +14,7 @@ export interface ITree {
   period: string;
   type: string;
   increments: ITreeIncrement[];
+  totalNumberTrees?: number;
 }
 
 export interface ITreePeriods {
