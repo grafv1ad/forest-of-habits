@@ -105,11 +105,13 @@ const Forest = () => {
         const { data } = await axiosInstance.get(
           `shared/by_forest/${forestuuid}?status=${filter}`
         );
+        data.sort((a: ITree, b: ITree) => a.id > b.id);
         setTrees(data);
       } else {
         const { data } = await axiosInstance.get(
           `tree/by_forest/${forestid}?status=${filter}`
         );
+        data.sort((a: ITree, b: ITree) => a.id > b.id);
         setTrees(data);
       }
     } catch (error: any) {
