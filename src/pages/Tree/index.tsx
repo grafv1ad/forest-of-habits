@@ -227,7 +227,7 @@ const Tree = () => {
         </table>
       </div>
 
-      <TreeStatistics tree={tree} />
+      {tree.type !== "BOOLEAN_TREE" && <TreeStatistics tree={tree} />}
 
       <Modal
         open={editModalOpened}
