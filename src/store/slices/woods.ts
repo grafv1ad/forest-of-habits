@@ -4,7 +4,7 @@ import { WoodsState } from "types";
 import { axiosInstance } from "utils/api";
 
 const initialState: WoodsState = {
-  isLoaded: false,
+  isWoodsLoaded: false,
   woods: [],
 };
 
@@ -48,7 +48,7 @@ const woodsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getWoods.fulfilled, (state: WoodsState, action) => {
-      state.isLoaded = true;
+      state.isWoodsLoaded = true;
       state.woods = action.payload;
     });
   },

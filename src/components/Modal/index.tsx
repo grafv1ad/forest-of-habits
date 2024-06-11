@@ -27,21 +27,23 @@ const Modal: React.FC<Modalrops> = ({
       className={modalClasses}
     >
       <div>
-        {title && (
-          <Title level="2" color="light">
-            {title}
-          </Title>
-        )}
-        <div className="absolute right-0 -top-5 -translate-y-full lg:top-0 lg:translate-y-0 lg:-right-5 lg:translate-x-full">
-          <Button
-            onClick={onHangleModal}
-            extraClass="flex justify-center items-center !p-3"
-          >
-            <img src={closeIcon} />
-          </Button>
+        <div>
+          {title && (
+            <Title level="2" color="light">
+              {title}
+            </Title>
+          )}
+          <div className="absolute right-0 -top-5 -translate-y-full lg:top-0 lg:translate-y-0 lg:-right-5 lg:translate-x-full">
+            <Button
+              onClick={onHangleModal}
+              extraClass="flex justify-center items-center !p-3"
+            >
+              <img src={closeIcon} />
+            </Button>
+          </div>
         </div>
+        {children}
       </div>
-      {children}
     </ReactModal>
   );
 };

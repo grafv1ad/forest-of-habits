@@ -295,7 +295,7 @@ const Forest = () => {
   ];
 
   if (isShared) {
-    breadcrumbs = [{ name: forest.name }];
+    breadcrumbs = [{ name: "Публичные леса" }, { name: forest.name }];
   }
 
   return (
@@ -303,48 +303,6 @@ const Forest = () => {
       <Title level="1" color="light">
         {forest.name}
       </Title>
-
-      <div className="w-full flex justify-between mb-4">
-        <div className="flex items-center gap-2">
-          {filters.map((item) => {
-            const classes = classNames("cursor-pointer transition-colors", {
-              "text-main": item.value === filter,
-              "text-gray hover:text-beige-600": item.value !== filter,
-            });
-            return (
-              <div
-                className={classes}
-                key={item.value}
-                onClick={() => {
-                  setFilter(item.value);
-                  setTrees(null);
-                }}
-              >
-                {item.name}
-              </div>
-            );
-          })}
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="text-lg">
-            {getMonthName(date.getMonth())[0]} {date.getFullYear()}
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <div
-              onClick={() => setPrevMonth(date)}
-              className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main"
-            >
-              <Arrow />
-            </div>
-            <div
-              onClick={() => setNextMonth(date)}
-              className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main -scale-x-100"
-            >
-              <Arrow />
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div className="w-full overflow-x-auto pb-5">
         <table
@@ -354,6 +312,61 @@ const Forest = () => {
           )}
         >
           <thead>
+            <tr>
+              <td
+                colSpan={2 + daysCount + 2}
+                className="border border-transparent border-b-gray p-1"
+              >
+                <div className="flex justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    {filters.map((item) => {
+                      const classes = classNames(
+                        "cursor-pointer transition-colors",
+                        {
+                          "text-main": item.value === filter,
+                          "text-gray hover:text-beige-600":
+                            item.value !== filter,
+                        }
+                      );
+                      return (
+                        <div
+                          className={classes}
+                          key={item.value}
+                          onClick={() => {
+                            setFilter(item.value);
+                            setTrees(null);
+                          }}
+                        >
+                          {item.name}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-lg">
+                      {getMonthName(date.getMonth())[0]} {date.getFullYear()}
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div
+                        onClick={() => setPrevMonth(date)}
+                        className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main"
+                      >
+                        <Arrow />
+                      </div>
+                      <div
+                        onClick={() => setNextMonth(date)}
+                        className="cursor-pointer flex items-center p-1 transition-colors duration-150 hover:text-main -scale-x-100"
+                      >
+                        <Arrow />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr className="hidden">
+              <td></td>
+            </tr>
             <tr>
               <th
                 rowSpan={2}
@@ -555,14 +568,18 @@ const Forest = () => {
         onHangleModal={() => setAddShareModalOpen(false)}
         title="Сделать лес доступным по ссылке?"
       >
-        <div className="flex justify-center gap-5">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-5">
           <Button
             onClick={() => setAddShareModalOpen(false)}
-            extraClass="w-1/4"
+            extraClass="w-full md:w-1/4"
           >
             Отмена
           </Button>
-          <Button onClick={addShare} style="success" extraClass="w-1/4">
+          <Button
+            onClick={addShare}
+            style="success"
+            extraClass="w-full md:w-1/4"
+          >
             Да
           </Button>
         </div>
@@ -626,17 +643,21 @@ const Forest = () => {
             onHangleModal={() => setRemoveShareModalOpen(false)}
             title="Закрыть доступ по ссылке?"
           >
-            <div className="flex justify-center gap-5">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-5">
               <Button
                 onClick={() => {
                   setRemoveShareModalOpen(false);
                   setShareModalOpen(true);
                 }}
-                extraClass="w-1/4"
+                extraClass="w-full md:w-1/4"
               >
                 Отмена
               </Button>
-              <Button onClick={removeShare} style="danger" extraClass="w-1/4">
+              <Button
+                onClick={removeShare}
+                style="danger"
+                extraClass="w-full md:w-1/4"
+              >
                 Закрыть
               </Button>
             </div>

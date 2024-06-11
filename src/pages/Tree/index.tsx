@@ -335,14 +335,18 @@ const Tree = () => {
         onHangleModal={() => setDeleteModalOpened(false)}
         title={`Удалить дерево «${tree.name}» ?`}
       >
-        <div className="flex justify-center gap-5">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-5">
           <Button
             onClick={() => setDeleteModalOpened(false)}
-            extraClass="w-1/4"
+            extraClass="w-full md:w-1/4"
           >
             Отмена
           </Button>
-          <Button onClick={deleteTree} style="danger" extraClass="w-1/4">
+          <Button
+            onClick={deleteTree}
+            style="danger"
+            extraClass="w-full md:w-1/4"
+          >
             Удалить
           </Button>
         </div>

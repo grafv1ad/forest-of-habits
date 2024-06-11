@@ -37,10 +37,6 @@ module.exports = {
         share: "url('/src/images/share.svg')",
         globe: "url('/src/images/globe.svg')",
       },
-      content: {
-        cone: "url('/src/images/pine_cone.svg')",
-        marker: "url('/src/images/marker-tree.svg')",
-      },
       backgroundSize: {
         "100%": "100%",
         "100%-auto": "100% auto",

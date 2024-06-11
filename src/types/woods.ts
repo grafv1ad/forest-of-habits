@@ -1,5 +1,5 @@
 export interface WoodsState {
-  isLoaded: boolean;
+  isWoodsLoaded: boolean;
   woods: Wood[];
 }
 export interface Tree {
@@ -19,4 +19,5 @@ export interface Wood {
   name: string;
   "created-at": string;
   trees: Tree[];
+  totalNumberTrees: number;
 }
