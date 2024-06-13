@@ -63,8 +63,8 @@ const WoodCard: React.FC<Wood> = ({ name, trees, id, totalNumberTrees }) => {
             {totalNumberTrees > 3 && (
               <li className={classNames(itemClasses, "mt-2 font-semibold")}>
                 <Paragraph color="black">
-                  И еще{` ${totalNumberTrees} `}
-                  {getLineEndingByNumber(totalNumberTrees, [
+                  И еще{` ${totalNumberTrees - 3} `}
+                  {getLineEndingByNumber(totalNumberTrees - 3, [
                     "дерево",
                     "дерева",
                     "деревьев",
